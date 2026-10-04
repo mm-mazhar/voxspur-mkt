@@ -1,0 +1,82 @@
+---
+import Container from "./Container.astro";
+import Wordmark from "./Wordmark.astro";
+import { loginUrl, signupUrl, site } from "~/config/site";
+
+/**
+ * The end of the line: a terminus marker where the vertical rule meets the
+ * footer, then a ruled index of links, then the legal line.
+ */
+const indexGroups = [
+  {
+    label: "Product",
+    links: [
+      { label: "Home", href: "/" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Agencies", href: "/agencies" },
+    ],
+  },
+  {
+    label: "Account",
+    links: [
+      { label: "Get started", href: signupUrl },
+      { label: "Sign in", href: loginUrl },
+    ],
+  },
+  {
+    label: "Legal",
+    links: site.footerLinks.map((link) => ({ ...link })),
+  },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="relative border-t border-border">
+  <Container>
+    {/* The terminus: the line arrives at the footer rule and stops here. */}
+    <div class="relative hidden lg:block" aria-hidden="true">
+      <span
+        class="stop-marker stop-marker-filled absolute -top-[8px] -left-[6px]"
+      ></span>
+    </div>
+
+    <div class="grid gap-section pt-section pb-gutter-lg md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-gutter-lg">
+      <div class="min-w-0">
+        <Wordmark class="h-[1.375rem]" />
+        <p class="type-body measure mt-4 text-muted-foreground">
+          {site.tagline}
+        </p>
+      </div>
+
+      <div class="grid min-w-0 gap-gutter-lg sm:grid-cols-3">
+        {
+          indexGroups.map((group) => (
+            <div class="min-w-0">
+              <p class="type-label text-muted-foreground">{group.label}</p>
+              <ul class="ruled mt-3">
+                {group.links.map((link) => (
+                  <li class="py-0">
+                    <a
+                      href={link.href}
+                      class="flex min-h-11 items-center text-[0.9375rem] text-muted-foreground transition-colors duration-150 ease-rail hover:text-foreground"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-gutter-sm border-t border-border py-gutter-lg">
+      <p class="type-label text-muted-foreground">
+        <span class="type-figure">{year}</span> {site.name}
+      </p>
+      <p class="type-label text-muted-foreground">All rights reserved</p>
+    </div>
+  </Container>
+</footer>

@@ -1,0 +1,58 @@
+---
+/**
+ * A section hanging off the line at a stop.
+ *
+ * On wide screens the stop marker leaves the flow and sits centred on the
+ * vertical rule; below 1024px it stays inline above the headline. A number is
+ * only given where the order is real.
+ */
+interface Props {
+  /** The stop name. Four words or fewer: it is set as a label. */
+  label: string;
+  /** Two-digit order, only where the sequence is real. */
+  order?: string;
+  /** Marks the end of a route, or the current step. */
+  filled?: boolean;
+  id?: string;
+  class?: string;
+  /** Vertical rhythm. "none" lets a page handle its own padding. */
+  pad?: "default" | "tight" | "none";
+}
+
+const {
+  label,
+  order,
+  filled = false,
+  id,
+  class: className,
+  pad = "default",
+} = Astro.props;
+
+const padClass = {
+  default: "py-section md:py-section-lg",
+  tight: "py-section",
+  none: "",
+}[pad];
+---
+
+<section id={id} class:list={["rail-section", padClass, className]}>
+  <div class="section-head">
+    <span
+      class:list={["stop-marker", filled && "stop-marker-filled"]}
+      aria-hidden="true"></span>
+    <p class="type-label text-muted-foreground">
+      {
+        order ? (
+          <>
+            <span class="text-signal-text">{order}</span>
+            <span aria-hidden="true"> · </span>
+            {label}
+          </>
+        ) : (
+          label
+        )
+      }
+    </p>
+  </div>
+  <slot />
+</section>

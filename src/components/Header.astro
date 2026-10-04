@@ -1,0 +1,161 @@
+---
+import Container from "./Container.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import Wordmark from "./Wordmark.astro";
+import { loginUrl, signupUrl } from "~/config/site";
+
+/**
+ * Fixed header. Transparent at the top of the page, gaining a surface and a
+ * bottom rule after 48px of scroll. "Sign in" is always a real link to the
+ * app's login, never a script.
+ */
+const navLinks = [
+  { label: "Pricing", href: "/pricing" },
+  { label: "Agencies", href: "/agencies" },
+];
+
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+---
+
+<header
+  id="site-header"
+  data-scrolled="false"
+  class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-150 ease-rail data-[scrolled=true]:border-border data-[scrolled=true]:bg-card/85 data-[scrolled=true]:backdrop-blur-md"
+>
+  <Container>
+    <div class="flex h-18 items-center justify-between gap-gutter-md">
+      <a
+        href="/"
+        class="inline-flex h-11 items-center rounded-md"
+        aria-label="Home"
+      >
+        <Wordmark class="h-[1.375rem]" />
+      </a>
+
+      <nav aria-label="Main" class="hidden lg:block">
+        <ul class="flex items-center gap-1">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  aria-current={path === link.href ? "page" : undefined}
+                  class="inline-flex h-11 items-center rounded-md px-3 text-[0.9375rem] text-muted-foreground transition-colors duration-150 ease-rail hover:text-foreground aria-[current=page]:text-foreground"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <ThemeToggle />
+        <a href={loginUrl} class="btn btn-outline hidden lg:inline-flex">
+          Sign in
+        </a>
+        <a href={signupUrl} class="btn btn-primary hidden lg:inline-flex">
+          Get started
+        </a>
+
+        <button
+          type="button"
+          id="nav-toggle"
+          class="inline-flex size-11 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors duration-150 ease-rail hover:bg-muted hover:text-foreground lg:hidden"
+          aria-expanded="false"
+          aria-controls="nav-sheet"
+          aria-label="Open the menu"
+        >
+          <svg
+            class="size-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M4 7.5h16M4 12h16M4 16.5h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </Container>
+
+  <div id="nav-sheet" hidden class="lg:hidden">
+    <Container>
+      <nav aria-label="Main" class="mb-gutter-md rounded-xl border border-border bg-card p-2 shadow-float">
+        <ul>
+          {
+            navLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  aria-current={path === link.href ? "page" : undefined}
+                  class="flex min-h-11 items-center rounded-md px-3 text-muted-foreground transition-colors duration-150 ease-rail hover:bg-muted hover:text-foreground aria-[current=page]:text-foreground"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href={loginUrl}
+              class="flex min-h-11 items-center rounded-md px-3 text-muted-foreground transition-colors duration-150 ease-rail hover:bg-muted hover:text-foreground"
+            >
+              Sign in
+            </a>
+          </li>
+        </ul>
+        <a href={signupUrl} class="btn btn-primary btn-wide mt-2">Get started</a>
+      </nav>
+    </Container>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById("site-header");
+  const toggle = document.getElementById("nav-toggle");
+  const sheet = document.getElementById("nav-sheet");
+
+  // The header gains a surface after 48px of scroll, because content moves
+  // beneath it. This is the one place backdrop blur is allowed.
+  if (header) {
+    let queued = false;
+    const sync = () => {
+      queued = false;
+      header.dataset.scrolled = String(window.scrollY > 48);
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(sync);
+      },
+      { passive: true },
+    );
+    sync();
+  }
+
+  if (toggle && sheet) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close the menu" : "Open the menu");
+      sheet.hidden = !open;
+    };
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+</script>

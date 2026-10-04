@@ -1,0 +1,120 @@
+---
+import PageHeader from "~/components/PageHeader.astro";
+import Section from "~/components/Section.astro";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { contactUrl, formatPriceRate } from "~/config/site";
+
+/** Only what exists today. Nothing here is a plan or a promise. */
+const whatYouGet = [
+  {
+    label: "Agents",
+    body: "Build as many agents as you have clients to build them for, each with its own wording, its own number and its own tools.",
+  },
+  {
+    label: "Keys",
+    body: "Point each agent at whichever model, voice and transcriber keys suit that client, including a client's own keys if they have them.",
+  },
+  {
+    label: "Numbers",
+    body: "Bring numbers from Twilio, Telnyx, Plivo, Exotel or Cloudonix, or route your own SIP through Asterisk.",
+  },
+  {
+    label: "Evidence",
+    body: "Recordings, transcripts and run history for every call, so you can show a client what happened on a call they are asking about.",
+  },
+  {
+    label: "Handover",
+    body: "Transfer to a person on the client's team, with a spoken handover first if the call needs one.",
+  },
+  {
+    label: "Price",
+    body: `The same platform fee as everyone else, ${formatPriceRate()}, with your providers billing you directly.`,
+  },
+];
+
+/** Said plainly, so nobody buys on a misunderstanding. */
+const notYet = [
+  {
+    label: "White-label",
+    body: "There is no way to put your own brand on the product. Your clients would see it as it is.",
+  },
+  {
+    label: "Sub-accounts",
+    body: "There are no separate logins or workspaces per client. Everything you run sits in one account.",
+  },
+  {
+    label: "Consolidated billing",
+    body: "There is no per-client billing breakdown and no way to bill a client through us.",
+  },
+  {
+    label: "Reseller terms",
+    body: "There is no reseller programme, no margin share and no partner tier.",
+  },
+];
+---
+
+<BaseLayout
+  title="For agencies"
+  description="For people who run voice agents for clients: what the platform does for you today, and what it does not do yet."
+>
+  <PageHeader
+    label="Agencies"
+    heading="If you run voice agents for other people."
+    lede="You can run every client's agent on one platform today, and you can hear every call. What you cannot do yet is hide us from your clients or bill them through us. Both of those are said plainly below."
+  >
+    <div class="mt-gutter-lg">
+      <a href={contactUrl} class="btn btn-primary">Contact us</a>
+    </div>
+  </PageHeader>
+
+  <Section label="What it does for you">
+    <h2 class="type-headline">Everything you need to run a client's calls.</h2>
+    <p class="type-lede measure mt-gutter-md text-muted-foreground">
+      One account, as many agents as you need, and a record of every call you
+      can put in front of a client.
+    </p>
+
+    <div class="ruled mt-gutter-lg">
+      {
+        whatYouGet.map((item) => (
+          <div class="grid gap-x-gutter-lg gap-y-2 md:grid-cols-[10rem_minmax(0,1fr)]">
+            <p class="type-label text-muted-foreground md:pt-1">{item.label}</p>
+            <p class="type-body measure min-w-0 text-muted-foreground">{item.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section label="What it does not do yet">
+    <h2 class="type-headline">The things agencies ask for that we do not have.</h2>
+    <p class="type-lede measure mt-gutter-md text-muted-foreground">
+      None of these exist. They are not on a dated roadmap either, so please do
+      not plan around them. If one of them is the deciding factor, say so when
+      you write and we will tell you where it stands.
+    </p>
+
+    <div class="ruled mt-gutter-lg">
+      {
+        notYet.map((item) => (
+          <div class="grid gap-x-gutter-lg gap-y-2 md:grid-cols-[10rem_minmax(0,1fr)]">
+            <p class="type-label text-muted-foreground md:pt-1">{item.label}</p>
+            <p class="type-body measure min-w-0 text-muted-foreground">{item.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section label="Talk to us" filled>
+    <h2 class="type-headline">Tell us what you run.</h2>
+    <p class="type-lede measure mt-gutter-md text-muted-foreground">
+      How many clients, what the calls are for, and which of the gaps above
+      matter to you. We will tell you plainly whether the platform suits you
+      today.
+    </p>
+    <div class="mt-gutter-lg">
+      <a href={contactUrl} class="btn btn-primary">Contact us</a>
+    </div>
+  </Section>
+</BaseLayout>

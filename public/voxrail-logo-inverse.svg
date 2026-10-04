@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Placeholder Voxrail wordmark for dark surfaces. Same geometry as
+     voxrail-logo.svg, set in the dark-theme primary ink
+     (#e5e5e5 = oklch(0.922 0 0) in globals.css). -->
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="200" viewBox="0 0 680 200" role="img" aria-label="Voxrail">
+  <text
+    x="340"
+    y="157"
+    text-anchor="middle"
+    textLength="620"
+    lengthAdjust="spacing"
+    font-family="Futura, 'Century Gothic', 'Avenir Next', Avenir, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+    font-size="160"
+    font-weight="600"
+    fill="#e5e5e5"
+  >Voxrail</text>
+</svg>

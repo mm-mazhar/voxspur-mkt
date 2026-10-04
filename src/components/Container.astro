@@ -1,0 +1,17 @@
+---
+/** One centred measure, with the gutters the design calls for. */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "mx-auto w-full max-w-measure px-gutter-sm sm:px-gutter-md lg:px-gutter-lg",
+    className,
+  ]}
+>
+  <slot />
+</div>

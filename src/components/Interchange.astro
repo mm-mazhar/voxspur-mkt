@@ -1,0 +1,131 @@
+---
+import { site } from "~/config/site";
+
+/**
+ * The interchange: where the platform meets another system. Lines converge on
+ * a wider capsule stop, with the outside systems named around it. Names are
+ * set in text; no provider logos are drawn.
+ *
+ * Geometry: straight runs joined by quarter-circle arcs of radius 12. Each
+ * path is written out rather than generated, so the arcs stay honest.
+ */
+const lineTokens = ["var(--line-1)", "var(--line-2)", "var(--line-4)"] as const;
+
+/** What a call brings in. Lines run right and converge on the capsule. */
+const inbound = [
+  {
+    label: "Phone networks",
+    y: 60,
+    d: "M 230 60 H 330 a 12 12 0 0 1 12 12 V 118 a 12 12 0 0 0 12 12 H 362",
+  },
+  {
+    label: "Models and voices",
+    y: 130,
+    d: "M 230 130 H 362",
+  },
+  {
+    label: "Transcribers",
+    y: 200,
+    d: "M 230 200 H 330 a 12 12 0 0 0 12 -12 V 142 a 12 12 0 0 1 12 -12 H 362",
+  },
+] as const;
+
+/** What a call reaches. Lines leave the capsule and fan out. */
+const outbound = [
+  {
+    label: "A person",
+    y: 60,
+    d: "M 538 130 a 12 12 0 0 0 12 -12 V 72 a 12 12 0 0 1 12 -12 H 670",
+  },
+  {
+    label: "Your own tools",
+    y: 130,
+    d: "M 538 130 H 670",
+  },
+  {
+    label: "Your website",
+    y: 200,
+    d: "M 538 130 a 12 12 0 0 1 12 12 V 188 a 12 12 0 0 0 12 12 H 670",
+  },
+] as const;
+
+const title = `${site.name} sits between the phone networks and the model, voice and transcriber providers you bring, and the people and tools a call reaches.`;
+---
+
+<div class="scroll-x">
+  <svg role="img" viewBox="0 0 900 260" class="h-auto w-full min-w-[620px]">
+    <title>{title}</title>
+
+    {
+      inbound.map((line, index) => (
+        <g>
+          <path d={line.d} fill="none" stroke={lineTokens[index]} stroke-width="2" />
+          <circle
+            cx="230"
+            cy={line.y}
+            r="6"
+            fill="var(--background)"
+            stroke={lineTokens[index]}
+            stroke-width="2"
+          />
+          <text
+            x="214"
+            y={line.y + 4}
+            text-anchor="end"
+            fill="var(--muted-foreground)"
+            class="type-label"
+            style="font-size: 11px; letter-spacing: 0.1em;"
+          >
+            {line.label.toUpperCase()}
+          </text>
+        </g>
+      ))
+    }
+
+    {/* The capsule stop: a wider interchange. */}
+    <rect
+      x="362"
+      y="108"
+      width="176"
+      height="44"
+      rx="22"
+      fill="var(--card)"
+      stroke="var(--signal-text)"
+      stroke-width="2"></rect>
+    <text
+      x="450"
+      y="135"
+      text-anchor="middle"
+      fill="var(--foreground)"
+      class="type-label"
+      style="font-size: 12px; letter-spacing: 0.12em;"
+    >
+      {site.name.toUpperCase()}
+    </text>
+
+    {
+      outbound.map((line, index) => (
+        <g>
+          <path d={line.d} fill="none" stroke={lineTokens[index]} stroke-width="2" />
+          <circle
+            cx="670"
+            cy={line.y}
+            r="6"
+            fill="var(--background)"
+            stroke={lineTokens[index]}
+            stroke-width="2"
+          />
+          <text
+            x="686"
+            y={line.y + 4}
+            fill="var(--muted-foreground)"
+            class="type-label"
+            style="font-size: 11px; letter-spacing: 0.1em;"
+          >
+            {line.label.toUpperCase()}
+          </text>
+        </g>
+      ))
+    }
+  </svg>
+</div>

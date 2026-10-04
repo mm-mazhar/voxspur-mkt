@@ -1,0 +1,98 @@
+---
+import Container from "~/components/Container.astro";
+import Footer from "~/components/Footer.astro";
+import Header from "~/components/Header.astro";
+import { site } from "~/config/site";
+import "~/styles/global.css";
+
+interface Props {
+  /** Names the page. The product name is appended from the config. */
+  title: string;
+  /** One sentence. */
+  description: string;
+  /** Required before taking customers, but not for search engines. */
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+
+const pageTitle = `${title} · ${site.name}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    {/* The two display faces are needed for the first paint of every page. */}
+    <link
+      rel="preload"
+      href="/fonts/archivo-latin-wdth.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/geist-latin-wght.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={site.name} />
+    <meta name="twitter:card" content="summary" />
+
+    {/*
+      Applies a remembered theme before the first paint, so the page never
+      flashes the wrong one. With no stored choice the page follows the system,
+      and the stylesheet defaults to dark.
+    */}
+    <script is:inline>
+      (function () {
+        try {
+          var choice = localStorage.getItem("site-theme");
+          if (choice === "light" || choice === "dark") {
+            document.documentElement.setAttribute("data-theme", choice);
+          }
+        } catch (error) {
+          /* Storage blocked. The stylesheet default stands. */
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a
+      href="#main"
+      class="btn btn-primary sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:top-3 focus-visible:left-3 focus-visible:z-60"
+    >
+      Skip to content
+    </a>
+
+    <Header />
+
+    <main id="main">
+      <Container>
+        {/* The line. Decoration: the page reads correctly without it. */}
+        <div class="rail">
+          <div class="rail-line" aria-hidden="true"></div>
+          <slot />
+        </div>
+      </Container>
+    </main>
+
+    <Footer />
+  </body>
+</html>

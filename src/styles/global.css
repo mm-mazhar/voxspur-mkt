@@ -1,0 +1,649 @@
+@import "tailwindcss";
+
+/* ========================================================================== *
+ * Fonts - self-hosted WOFF2. Nothing is fetched from a third party.
+ * Archivo is loaded with its width axis, because the display and headline
+ * styles set font-stretch above 100%.
+ * ========================================================================== */
+
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  src: url("/fonts/archivo-latin-wdth.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  src: url("/fonts/archivo-latin-ext-wdth.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/geist-latin-wght.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/geist-latin-ext-wght.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/geist-mono-latin-wght.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/geist-mono-latin-ext-wght.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ========================================================================== *
+ * Tokens
+ *
+ * Two states. Dark is the default and lives on bare :root. Light lives under
+ * :root[data-theme="light"] and appears only when the visitor chooses it with
+ * the toggle, which remembers the choice; the site does not follow the
+ * operating system setting. Every token is defined on :root, so no colour is
+ * defined solely inside a media or theme block.
+ * ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* Page and surfaces */
+  --background: oklch(0.145 0.006 165); /* night-track */
+  --foreground: oklch(0.985 0 0); /* chalk */
+  --card: oklch(0.205 0.008 165); /* platform */
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0.008 165);
+  --popover-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.27 0.008 165); /* wash-night */
+  --muted-foreground: oklch(0.71 0.012 165); /* ballast-night */
+  --secondary: oklch(0.27 0.008 165);
+  --accent: oklch(0.27 0.008 165);
+  --border: oklch(1 0 0 / 10%); /* rail-night */
+  --input: oklch(1 0 0 / 10%);
+
+  /* Accent */
+  --signal: oklch(0.76 0.19 150); /* signal-green */
+  --signal-foreground: oklch(0.24 0.06 155); /* signal-ink */
+  --signal-text: oklch(0.76 0.19 150); /* bright green reads on night-track */
+  --ring: oklch(0.76 0.19 150);
+
+  /* Status */
+  --caution: oklch(0.8 0.16 75); /* caution-amber */
+  --destructive: oklch(0.704 0.191 22.216); /* stop-red */
+
+  /* Extra route and chart lines. Order is fixed: green, blue, violet, amber. */
+  --line-1: oklch(0.76 0.19 150);
+  --line-2: oklch(0.7 0.13 245); /* line-blue */
+  --line-3: oklch(0.7 0.13 300); /* line-violet */
+  --line-4: oklch(0.8 0.16 75);
+
+  /* Where the first stop of every page sits, so the line can start there. */
+  --page-top: 8rem;
+
+  /* Shows the right wordmark and theme icon before any script runs. */
+  --show-on-dark: block;
+  --show-on-light: none;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-top: 10rem;
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.16 0.008 165);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.008 165);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.008 165);
+  --muted: oklch(0.967 0.003 165);
+  --muted-foreground: oklch(0.5 0.014 165);
+  --secondary: oklch(0.967 0.003 165);
+  --accent: oklch(0.967 0.003 165);
+  --border: oklch(0.92 0.005 165);
+  --input: oklch(0.92 0.005 165);
+
+  --signal: oklch(0.72 0.19 150);
+  --signal-foreground: oklch(0.24 0.06 155);
+  --signal-text: oklch(0.5 0.125 152);
+  --ring: oklch(0.5 0.125 152);
+
+  --caution: oklch(0.55 0.11 72);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --line-1: oklch(0.5 0.125 152);
+  --line-2: oklch(0.52 0.125 250);
+  --line-3: oklch(0.52 0.14 300);
+  --line-4: oklch(0.55 0.11 72);
+
+  --show-on-dark: none;
+  --show-on-light: block;
+}
+
+/* ========================================================================== *
+ * Tailwind theme - every utility resolves to a token above.
+ * `inline` keeps var() references in the generated CSS, so a theme change on
+ * <html> repaints without a rebuild.
+ * ========================================================================== */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-signal: var(--signal);
+  --color-signal-foreground: var(--signal-foreground);
+  --color-signal-text: var(--signal-text);
+  --color-ring: var(--ring);
+  --color-caution: var(--caution);
+  --color-destructive: var(--destructive);
+  --color-line-1: var(--line-1);
+  --color-line-2: var(--line-2);
+  --color-line-3: var(--line-3);
+  --color-line-4: var(--line-4);
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: calc(0.625rem - 4px);
+  --radius-md: calc(0.625rem - 2px);
+  --radius-lg: 0.625rem;
+  --radius-xl: calc(0.625rem + 4px);
+  --radius-stop: 9999px;
+
+  --spacing-gutter-sm: 1rem;
+  --spacing-gutter-md: 1.5rem;
+  --spacing-gutter-lg: 2rem;
+  --spacing-rail: 2px;
+  --spacing-stop: 0.875rem;
+  --spacing-section: 6rem;
+  --spacing-section-lg: 8rem;
+
+  --container-measure: 72rem;
+  --container-prose: 40rem;
+
+  --ease-rail: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --shadow-float: 0 16px 40px -16px
+    color-mix(in oklab, var(--foreground) 35%, transparent);
+}
+
+/* ========================================================================== *
+ * Base
+ * ========================================================================== */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* The fixed header must not cover the target of an in-page link. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* The page body never scrolls sideways. */
+    overflow-x: clip;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--signal) 28%, transparent);
+    color: var(--foreground);
+  }
+
+  :where(th, td) {
+    min-width: 0;
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+/* ========================================================================== *
+ * Type scale
+ * ========================================================================== */
+
+@layer components {
+  .type-display {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 6vw, 5rem);
+    font-weight: 700;
+    font-stretch: 112%;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .type-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 650;
+    font-stretch: 108%;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .type-title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .type-lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  .type-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  /* Labels of four words or fewer. Never a sentence, a button or an error. */
+  .type-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* Any number that lines up with another. */
+  .type-figure {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .measure {
+    max-width: var(--container-prose);
+  }
+}
+
+/* ========================================================================== *
+ * Buttons and links
+ * ========================================================================== */
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color 140ms var(--ease-rail),
+      border-color 140ms var(--ease-rail),
+      color 140ms var(--ease-rail);
+  }
+
+  .btn-primary {
+    background-color: var(--signal);
+    color: var(--signal-foreground);
+  }
+
+  .btn-primary:hover {
+    background-color: color-mix(in oklab, var(--signal) 94%, var(--foreground));
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: var(--foreground);
+    border-color: var(--border);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--muted);
+    border-color: color-mix(in oklab, var(--border) 50%, var(--foreground));
+  }
+
+  .btn-wide {
+    width: 100%;
+  }
+
+  .link {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-decoration-color: var(--signal-text);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-thickness 140ms var(--ease-rail);
+  }
+
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* ========================================================================== *
+ * Motion
+ *
+ * The site has one orchestrated moment: the hero route draws itself once and
+ * then a single dot travels the main line on a slow loop. That motion lives
+ * with the hero visual in src/components/hero/RouteDiagram.astro, so the whole
+ * visual can be replaced in one file. Nothing else on the page moves on its
+ * own, and nothing waits at opacity 0 for a scroll observer.
+ * ========================================================================== */
+
+/* ========================================================================== *
+ * The line
+ *
+ * On screens 1024px and wider a 2px vertical rule runs down the left of the
+ * content column, from the hero to the footer. Each section hangs off it at a
+ * stop marker. Below 1024px the line is dropped and each section keeps its
+ * marker and label above its headline. The line is decoration: it is
+ * aria-hidden and the page reads correctly without it.
+ * ========================================================================== */
+
+@layer components {
+  .rail {
+    position: relative;
+  }
+
+  .rail-line {
+    display: none;
+  }
+
+  /* The first section of every page, so the line can start at its stop. */
+  .page-top {
+    padding-top: var(--page-top);
+  }
+
+  @media (min-width: 1024px) {
+    .rail-line {
+      display: block;
+      position: absolute;
+      /* Starts at the centre of the first stop and runs to the footer rule. */
+      top: calc(var(--page-top) + 0.1rem + 7px);
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .rail-section {
+      padding-left: 2.5rem;
+    }
+  }
+
+  .rail-section {
+    position: relative;
+  }
+
+  /* Stop marker: a 14px circle, 2px Signal Green ring, page-colour centre. */
+  .stop-marker {
+    display: block;
+    flex: none;
+    width: 0.875rem;
+    height: 0.875rem;
+    border: 2px solid var(--signal-text);
+    border-radius: var(--radius-stop);
+    background: var(--background);
+  }
+
+  /* The current step, or the end of a route. */
+  .stop-marker-filled {
+    background: var(--signal);
+    border-color: var(--signal);
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    /* The marker leaves the flow and sits centred on the line, with the
+       section label beside it at the start of the content column. */
+    .rail-section .section-head {
+      position: relative;
+    }
+
+    .rail-section .section-head .stop-marker {
+      position: absolute;
+      top: 0.1rem;
+      left: calc(-2.5rem - 6px);
+    }
+  }
+
+  /* Signal lamp: an 8px filled circle followed by a label word. */
+  .lamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .lamp-dot {
+    display: block;
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-stop);
+  }
+
+  .lamp-clear .lamp-dot {
+    background: var(--signal);
+  }
+  .lamp-clear .lamp-word {
+    color: var(--signal-text);
+  }
+
+  .lamp-caution .lamp-dot,
+  .lamp-caution .lamp-word {
+    color: var(--caution);
+  }
+  .lamp-caution .lamp-dot {
+    background: var(--caution);
+  }
+
+  .lamp-stop .lamp-dot,
+  .lamp-stop .lamp-word {
+    color: var(--destructive);
+  }
+  .lamp-stop .lamp-dot {
+    background: var(--destructive);
+  }
+}
+
+/* ========================================================================== *
+ * Timetable - ruled rows for anything list-like.
+ * border-top and border-left on the container, border-right and border-bottom
+ * on the cells, so rules never double.
+ * ========================================================================== */
+
+@layer components {
+  .timetable {
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .timetable :where(th, td) {
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.875rem 1rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .timetable thead th {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+  }
+
+  .timetable .cell-figure {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* A list-shaped timetable built from divs rather than a table. */
+  .ruled {
+    border-top: 1px solid var(--border);
+  }
+
+  .ruled > * {
+    border-bottom: 1px solid var(--border);
+    padding-block: 1rem;
+  }
+}
+
+/* ========================================================================== *
+ * Cards - used sparingly, for things that are objects.
+ * ========================================================================== */
+
+@layer components {
+  .card {
+    background: var(--card);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+  }
+
+  /* The featured plan is marked by a Signal Green top rule, not a glow. The
+     rule is a line, so on paper it takes Signal Deep. */
+  .card-featured {
+    border-top: 2px solid var(--signal-text);
+    padding-top: calc(1.5rem - 1px);
+  }
+
+  /* Small monospace tag. */
+  .tag {
+    display: inline-block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+}
+
+/* ========================================================================== *
+ * Theme-dependent visibility, resolved before any script runs.
+ * ========================================================================== */
+
+@layer components {
+  .on-dark {
+    display: var(--show-on-dark);
+  }
+
+  .on-light {
+    display: var(--show-on-light);
+  }
+}
+
+/* Only tables, route diagrams and code blocks may be wider than the screen,
+   each inside its own scroll container. */
+@layer components {
+  .scroll-x {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+}

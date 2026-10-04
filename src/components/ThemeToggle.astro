@@ -1,0 +1,76 @@
+---
+/**
+ * The theme toggle. Dark is the default; light is the option.
+ *
+ * Every visitor starts in dark. The choice is remembered in localStorage and
+ * applied by a blocking script in the document head, so the page never paints
+ * the wrong theme. The two icons are swapped by a token, so the correct one
+ * shows before this script runs; the script only keeps the label honest.
+ */
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="inline-flex size-11 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors duration-150 ease-rail hover:bg-muted hover:text-foreground"
+  aria-label="Switch theme"
+>
+  {/* Shown on dark: pressing it moves to the light theme. */}
+  <svg
+    class="on-dark size-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4.25"></circle>
+    <path d="M12 2.75v2M12 19.25v2M2.75 12h2M19.25 12h2"></path>
+    <path d="M5.5 5.5l1.4 1.4M17.1 17.1l1.4 1.4M18.5 5.5l-1.4 1.4M6.9 17.1l-1.4 1.4"
+    ></path>
+  </svg>
+  {/* Shown on light: pressing it moves to the dark theme. */}
+  <svg
+    class="on-light size-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"></path>
+  </svg>
+</button>
+
+<script>
+  const STORAGE_KEY = "site-theme";
+  const root = document.documentElement;
+  const button = document.getElementById("theme-toggle");
+
+  /** Dark unless the visitor has chosen light. The site ignores the OS. */
+  function effectiveTheme(): "dark" | "light" {
+    return root.getAttribute("data-theme") === "light" ? "light" : "dark";
+  }
+
+  function describe(): void {
+    if (!button) return;
+    const next = effectiveTheme() === "dark" ? "light" : "dark";
+    button.setAttribute("aria-label", `Switch to the ${next} theme`);
+  }
+
+  button?.addEventListener("click", () => {
+    const next = effectiveTheme() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      /* Private mode, or storage is blocked. The choice lasts this page only. */
+    }
+    describe();
+  });
+
+  describe();
+</script>

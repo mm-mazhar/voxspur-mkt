@@ -1,0 +1,172 @@
+---
+import PageHeader from "~/components/PageHeader.astro";
+import Section from "~/components/Section.astro";
+import SignalLamp from "~/components/SignalLamp.astro";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import {
+  formatPriceAmount,
+  formatPriceRate,
+  formatPriceUnit,
+  planActionUrl,
+  site,
+} from "~/config/site";
+
+const actionLabel = { signup: "Get started", contact: "Contact us" } as const;
+
+/** What the platform fee does and does not cover. */
+const whatYouPay = [
+  {
+    label: "Platform",
+    body: "The fee above. It covers running the call: the agent, the routing, the recordings and the history.",
+    paidTo: "Us",
+  },
+  {
+    label: "Language model",
+    body: "Whatever your model provider charges, on your own account and your own key.",
+    paidTo: "Your provider",
+  },
+  {
+    label: "Voice",
+    body: "Whatever your voice provider charges, on your own account and your own key.",
+    paidTo: "Your provider",
+  },
+  {
+    label: "Transcriber",
+    body: "Whatever your transcription provider charges, on your own account and your own key.",
+    paidTo: "Your provider",
+  },
+  {
+    label: "Phone number",
+    body: "Whatever your carrier charges for the number and the minutes.",
+    paidTo: "Your carrier",
+  },
+];
+---
+
+<BaseLayout
+  title="Pricing"
+  description={`A platform fee of ${formatPriceRate()}. You pay your own model, voice and phone providers directly.`}
+>
+  <PageHeader
+    label="Pricing"
+    heading="One platform fee. You keep your own provider accounts."
+    lede="The fee below covers the platform and nothing else. Your model, voice, transcriber and phone providers bill you directly, on the accounts and keys you already have."
+  />
+
+  <Section label="Plans" pad="none" class="pb-section md:pb-section-lg">
+    <div class="grid gap-gutter-lg md:grid-cols-2">
+      {
+        site.plans.map((plan) => (
+          <div class:list={["card flex flex-col", plan.featured && "card-featured"]}>
+            <h2 class="type-title">{plan.name}</h2>
+            <p class="type-body mt-2 text-muted-foreground">{plan.summary}</p>
+
+            <div class="mt-gutter-lg border-t border-border pt-gutter-md">
+              {plan.showsPrice ? (
+                <p>
+                  <span class="type-figure text-[2.5rem] leading-none font-medium">
+                    {formatPriceAmount()}
+                  </span>
+                  <span class="type-label ml-2 text-muted-foreground">
+                    {formatPriceUnit()}
+                  </span>
+                </p>
+              ) : (
+                <p class="type-figure text-[2.5rem] leading-none font-medium">
+                  &mdash;
+                </p>
+              )}
+              <p class="type-body mt-3 text-muted-foreground">
+                {plan.showsPrice
+                  ? "Charged on the minutes your agents spend on calls. Your model, voice and phone providers bill you separately, direct."
+                  : "No public price. Tell us what you run for your clients and we will tell you plainly what the platform does today."}
+              </p>
+            </div>
+
+            <div class="mt-gutter-lg grow">
+              <SignalLamp aspect="clear" word="Included" />
+              <ul class="ruled mt-3">
+                {plan.features.map((feature) => (
+                  <li class="type-body text-muted-foreground">{feature}</li>
+                ))}
+              </ul>
+            </div>
+
+            <a
+              href={planActionUrl(plan.action)}
+              class:list={[
+                "btn btn-wide mt-gutter-lg",
+                plan.featured ? "btn-primary" : "btn-outline",
+              ]}
+            >
+              {actionLabel[plan.action]}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section label="What you pay for">
+    <h2 class="type-headline">Who bills you, and for what.</h2>
+    <p class="type-lede measure mt-gutter-md text-muted-foreground">
+      The platform fee is the only line that comes from us. Everything else is a
+      bill from a provider you chose and hold the account with.
+    </p>
+
+    <div class="scroll-x mt-gutter-lg">
+      <table class="timetable min-w-[36rem]">
+        <caption class="sr-only">Who bills you for each part of a call</caption>
+        <thead>
+          <tr>
+            <th scope="col">Part of a call</th>
+            <th scope="col">What it is</th>
+            <th scope="col" class="cell-figure">Billed by</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            whatYouPay.map((row) => (
+              <tr>
+                <th scope="row" class="type-label align-top font-normal">
+                  {row.label}
+                </th>
+                <td class="type-body text-muted-foreground">{row.body}</td>
+                <td class="cell-figure type-label align-top text-muted-foreground">
+                  {row.paidTo}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </Section>
+
+  <Section label="Questions" filled>
+    <h2 class="type-headline">Before you ask.</h2>
+    <div class="ruled measure mt-gutter-lg">
+      <div>
+        <h3 class="type-title">Can I use my own phone numbers?</h3>
+        <p class="type-body mt-2 text-muted-foreground">
+          Yes. Bring a number from Twilio, Telnyx, Plivo, Exotel or Cloudonix,
+          or route your own SIP through Asterisk.
+        </p>
+      </div>
+      <div>
+        <h3 class="type-title">Do you resell models, voices or numbers?</h3>
+        <p class="type-body mt-2 text-muted-foreground">
+          No. You bring your own keys and your own carrier, and they bill you
+          directly.
+        </p>
+      </div>
+      <div>
+        <h3 class="type-title">What does the agency plan cost?</h3>
+        <p class="type-body mt-2 text-muted-foreground">
+          There is no public price. Tell us what you run and we will talk it
+          through.
+        </p>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

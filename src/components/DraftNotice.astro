@@ -1,0 +1,35 @@
+---
+import SignalLamp from "./SignalLamp.astro";
+
+/**
+ * Marks a legal page as a draft that has not been reviewed. Uses the caution
+ * aspect, with its word, because that is exactly what it is: needs attention.
+ */
+interface Props {
+  /** What the owner of the site has to supply before this page can ship. */
+  needed: readonly string[];
+}
+
+const { needed } = Astro.props;
+---
+
+<div
+  role="note"
+  aria-labelledby="draft-notice-heading"
+  class="card mt-gutter-lg border-caution"
+>
+  <SignalLamp aspect="caution" word="Draft" />
+  <h2 id="draft-notice-heading" class="type-title mt-3">
+    This page has not been reviewed by a lawyer.
+  </h2>
+  <p class="type-body measure mt-2 text-muted-foreground">
+    It is a structure with placeholder wording, written so the headings and the
+    order are in place. Nothing on it is a legal commitment, and it must be
+    replaced before the site takes customers.
+  </p>
+
+  <p class="type-label mt-gutter-md text-muted-foreground">Needed to finish it</p>
+  <ul class="ruled mt-3">
+    {needed.map((item) => <li class="type-body text-muted-foreground">{item}</li>)}
+  </ul>
+</div>

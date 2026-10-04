@@ -1,0 +1,105 @@
+---
+import DraftNotice from "~/components/DraftNotice.astro";
+import PageHeader from "~/components/PageHeader.astro";
+import Section from "~/components/Section.astro";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { formatPriceRate } from "~/config/site";
+
+/** What the site owner has to supply before this page can ship. */
+const needed = [
+  "The legal entity name, its registered address and the country whose law governs the agreement.",
+  "Which courts hear a dispute, and whether arbitration is required first.",
+  "The billing terms: when the platform fee is charged, in what currency, by which payment processor, and what happens if a payment fails.",
+  "Whether there is a minimum term, and how either side ends the agreement.",
+  "Your refund position, and whether it differs for consumers in any jurisdiction.",
+  "The acceptable use rules you will actually enforce, including anything about recorded calls, consent and automated dialling.",
+  "Who is responsible for telephony law compliance in each country a customer calls into.",
+  "Your liability cap and the exclusions, and anything that cannot be excluded where you operate.",
+  "Whether you offer any service level or availability commitment. If not, say so in plain words.",
+  "Who owns the agents, prompts and recordings a customer creates.",
+  "How changes to these terms take effect and how customers are told.",
+  "Whether a separate data processing agreement is required, and where it lives.",
+];
+
+const sections = [
+  {
+    heading: "Who you are agreeing with",
+    body: "Placeholder. Names the legal entity, and says that using the product means accepting these terms.",
+  },
+  {
+    heading: "What the product is",
+    body: "Placeholder. A hosted platform for building voice agents that answer and place phone calls. Needs to be clear that the customer brings their own model, voice, transcriber and phone providers.",
+  },
+  {
+    heading: "Your account",
+    body: "Placeholder. Needs eligibility, who may hold an account, and responsibility for keeping credentials safe.",
+  },
+  {
+    heading: "What you pay",
+    body: `Placeholder. The public platform fee is ${formatPriceRate()}, and it covers the platform only. Needs the billing cycle, the processor, the currency, taxes, and what happens when a payment fails.`,
+  },
+  {
+    heading: "Providers you connect",
+    body: "Placeholder. The customer's agreements with their model, voice, transcriber and phone providers are their own. Needs to say who carries what responsibility when one of those providers fails or bills.",
+  },
+  {
+    heading: "Acceptable use",
+    body: "Placeholder. Needs the rules you will enforce, and what happens when they are broken. Only list rules you intend to act on.",
+  },
+  {
+    heading: "Calls, consent and recording",
+    body: "Placeholder. Needs to state who is responsible for the legality of a call and of recording it, in every country the customer calls into.",
+  },
+  {
+    heading: "Who owns what",
+    body: "Placeholder. Needs to cover the agents and prompts a customer writes, the recordings and transcripts a call produces, and anything the platform itself owns.",
+  },
+  {
+    heading: "Availability",
+    body: "Placeholder. Do not claim an uptime figure or a service level unless one is being committed to. If there is none, say that plainly.",
+  },
+  {
+    heading: "Liability",
+    body: "Placeholder. Needs the cap, the exclusions, and what cannot be excluded in the places you operate.",
+  },
+  {
+    heading: "Ending the agreement",
+    body: "Placeholder. Needs how either side ends it, what happens to data afterwards, and anything that survives.",
+  },
+  {
+    heading: "Changes to these terms",
+    body: "Placeholder. Needs how changes are announced and from when they apply.",
+  },
+  {
+    heading: "Governing law",
+    body: "Placeholder. Needs the governing law and the forum for a dispute.",
+  },
+];
+---
+
+<BaseLayout
+  title="Terms"
+  description="The terms for using the hosted product. This page is a draft awaiting review."
+  noindex
+>
+  <PageHeader
+    label="Terms"
+    heading="Terms"
+    lede="The agreement for using the hosted product. Nothing here has been reviewed, and nothing here is in force."
+  >
+    <DraftNotice needed={needed} />
+  </PageHeader>
+
+  <Section label="The terms" filled>
+    <div class="ruled">
+      {
+        sections.map((section) => (
+          <section class="grid gap-x-gutter-lg gap-y-2 md:grid-cols-[14rem_minmax(0,1fr)]">
+            <h2 class="type-title min-w-0">{section.heading}</h2>
+            <p class="type-body measure min-w-0 text-muted-foreground">{section.body}</p>
+          </section>
+        ))
+      }
+    </div>
+  </Section>
+</BaseLayout>

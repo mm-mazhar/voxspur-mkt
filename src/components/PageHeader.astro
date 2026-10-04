@@ -1,0 +1,28 @@
+---
+/**
+ * The first stop on a secondary page: the one h1, a lede, and the section
+ * label beside the marker on the line. Uses the same top offset as the home
+ * hero, so the line starts in the same place on every page.
+ */
+interface Props {
+  /** The stop name. Four words or fewer. */
+  label: string;
+  heading: string;
+  lede?: string;
+}
+
+const { label, heading, lede } = Astro.props;
+---
+
+<section class="rail-section page-top pb-section md:pb-section-lg">
+  <div class="section-head">
+    <span class="stop-marker stop-marker-filled" aria-hidden="true"></span>
+    <p class="type-label text-muted-foreground">{label}</p>
+  </div>
+
+  <h1 class="type-display max-w-[52rem]">{heading}</h1>
+
+  {lede && <p class="type-lede measure mt-gutter-lg text-muted-foreground">{lede}</p>}
+
+  <slot />
+</section>

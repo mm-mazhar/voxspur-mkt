@@ -1,0 +1,35 @@
+---
+import { signupUrl } from "~/config/site";
+
+/**
+ * The hero: copy, the two actions, and a slot for the visual.
+ *
+ * The visual is whatever is passed in, so it can be replaced later (a 3D scene
+ * as an island, for instance) without touching anything here.
+ */
+interface Props {
+  /** The one h1 on the page. */
+  heading: string;
+  lede: string;
+}
+
+const { heading, lede } = Astro.props;
+---
+
+<section class="rail-section page-top pb-section md:pb-section-lg">
+  <div class="section-head">
+    <span class="stop-marker stop-marker-filled" aria-hidden="true"></span>
+    <p class="type-label text-muted-foreground">What it is</p>
+  </div>
+
+  <h1 class="type-display max-w-[52rem]">{heading}</h1>
+
+  <p class="type-lede measure mt-gutter-lg text-muted-foreground">{lede}</p>
+
+  <div class="mt-gutter-lg flex flex-wrap items-center gap-3">
+    <a href={signupUrl} class="btn btn-primary">Get started</a>
+    <a href="/pricing" class="btn btn-outline">See pricing</a>
+  </div>
+
+  <slot />
+</section>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Placeholder Voxrail wordmark for light surfaces. Plain geometric sans set
+     in the light-theme primary ink (#171717 = oklch(0.205 0 0) in globals.css).
+     textLength pins the wordmark's width so the logo keeps its aspect ratio
+     even when the first font in the stack is not installed. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="200" viewBox="0 0 680 200" role="img" aria-label="Voxrail">
+  <text
+    x="340"
+    y="157"
+    text-anchor="middle"
+    textLength="620"
+    lengthAdjust="spacing"
+    font-family="Futura, 'Century Gothic', 'Avenir Next', Avenir, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+    font-size="160"
+    font-weight="600"
+    fill="#171717"
+  >Voxrail</text>
+</svg>

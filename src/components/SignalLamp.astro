@@ -1,0 +1,26 @@
+---
+/**
+ * Signal lamp: an 8px filled circle followed by a label word. Status is never
+ * colour alone, so the word is required and sits beside the lamp.
+ */
+interface Props {
+  /** Railway aspects: clear, caution, stop. */
+  aspect?: "clear" | "caution" | "stop";
+  /** One word, or two at most. */
+  word: string;
+  class?: string;
+}
+
+const { aspect = "clear", word, class: className } = Astro.props;
+
+const aspectClass = {
+  clear: "lamp-clear",
+  caution: "lamp-caution",
+  stop: "lamp-stop",
+}[aspect];
+---
+
+<span class:list={["lamp", aspectClass, className]}>
+  <span class="lamp-dot" aria-hidden="true"></span>
+  <span class="lamp-word type-label">{word}</span>
+</span>
