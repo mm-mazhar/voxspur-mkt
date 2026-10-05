@@ -16,4 +16,11 @@ pnpm-debug.log*
 .DS_Store
 .history/
 docs/prompts
-reference
+reference/
+.impeccable/
+.agents/
+.codex/
+.cursor/
+AGENTS.md
+CLAUDE.md
+impeccable
