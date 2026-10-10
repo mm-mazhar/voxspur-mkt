@@ -2,9 +2,9 @@
 import { site } from "~/config/site";
 
 /**
- * The wordmark. Both files ship; CSS picks the one for the current surface via
- * a token, so the right one is showing before any script runs. The wordmark is
- * never a heading.
+ * The logo: the mark and the wordmark. Both files ship; CSS picks the one for
+ * the current surface via a token, so the right one is showing before any
+ * script runs. The logo is never a heading.
  */
 interface Props {
   class?: string;
@@ -18,16 +18,16 @@ const { class: className } = Astro.props;
     class="on-dark h-full w-auto"
     src={site.logo.dark}
     alt={site.logo.alt}
-    width="680"
-    height="200"
+    width={site.logo.width}
+    height={site.logo.height}
     decoding="async"
   />
   <img
     class="on-light h-full w-auto"
     src={site.logo.light}
     alt={site.logo.alt}
-    width="680"
-    height="200"
+    width={site.logo.width}
+    height={site.logo.height}
     decoding="async"
   />
 </span>

@@ -1,5 +1,5 @@
 ---
-name: Voxrail
+name: Voxspur
 description: Voice agents that stay on track. Calls drawn as lines with stops, status shown as signal lamps; a night control room by default, a printed line map by day.
 colors:
   # Accent
@@ -110,13 +110,13 @@ components:
     rounded: "{rounded.stop}"
 ---
 
-# Design System: Voxrail
+# Design System: Voxspur
 
 ## Overview
 
 **Creative North Star: "The Line"**
 
-Voxrail builds voice agents that answer and place phone calls. The name is the brief: *vox* on a *rail*. A call is a journey along a line. It starts somewhere, passes through stops (greet, qualify, book, transfer), sometimes branches, and ends. The product's own agent editor already draws calls this way: Start, Agent, End, joined by a path. The brand takes that picture and makes it the whole visual language.
+Voxspur builds voice agents that answer and place phone calls. The name is the brief: *vox* on a *spur*. A spur is a branch line that leaves the main line to reach one destination, and a call is a journey along a line. It starts somewhere, passes through stops (greet, qualify, book, transfer), sometimes branches, and ends. The product's own agent editor already draws calls this way: Start, Agent, End, joined by a path. The brand takes that picture and makes it the whole visual language.
 
 So the site looks like a line map and its signalling, not like an AI product. Routes are thin lines with round stop markers. Status is a signal lamp with a word beside it. Lists of facts are timetables: ruled rows with figures in a monospace face. Where two systems meet (a phone carrier, a model provider, a CRM) there is an interchange.
 
@@ -125,8 +125,8 @@ The promise this makes is the one customers care about: calls that are dependabl
 **Two lights.** Dark is the default, a night control room: near-black with a slight green cast, chalk-white type, green signals. Light is the printed line map: white paper, ink, the same lines in a deeper green. Both are first-class. Every screen must be checked in both.
 
 **Two registers.**
-- The **marketing site** (`voxrail.com`) is the expressive layer: large Archivo headlines, the line running down the page, route diagrams, signal lamps, one piece of motion in the hero.
-- The **app** (`app.voxrail.com`) is the operational layer: the same colours and the Geist faces it already uses, standard components, no ornament. The brand appears there as tokens only. See "App mapping".
+- The **marketing site** (`voxspur.com`) is the expressive layer: large Archivo headlines, the line running down the page, route diagrams, signal lamps, one piece of motion in the hero.
+- The **app** (`app.voxspur.com`) is the operational layer: the same colours and the Geist faces it already uses, standard components, no ornament. The brand appears there as tokens only. See "App mapping".
 
 **Key characteristics**
 - One continuous line, with stops, as the organising device on marketing pages
@@ -267,7 +267,7 @@ The picture of a call. Stops joined by 2px lines, left to right on wide screens 
 Ruled rows for anything list-like. Header row in Labels. Figures in Geist Mono, tabular, right-aligned. Rows fill with Wash on hover where they are links. Pricing, feature comparison, supported providers and FAQ all use it. An FAQ row is a disclosure: the heading wraps a button with `aria-expanded` and `aria-controls`.
 
 ### Interchange (signature)
-Where Voxrail meets another system. Two or more lines converge on a wider "capsule" stop, with the outside systems labelled around it. Used for the integrations section. Name only providers the product supports today (see "Voice and claims"). Use each provider's name in text; do not redraw their logos.
+Where Voxspur meets another system. Two or more lines converge on a wider "capsule" stop, with the outside systems labelled around it. Used for the integrations section. Name only providers the product supports today (see "Voice and claims"). Use each provider's name in text; do not redraw their logos.
 
 ## Motion
 
@@ -283,7 +283,7 @@ One orchestrated moment: in the hero, the route draws itself from the first stop
 
 Write the way a knowledgeable person talks. Short sentences. Name things as customers know them: "phone number", "call", "transfer", not "telephony configuration" or "workflow run".
 
-**What Voxrail is.** A platform for building AI voice agents that answer and place phone calls. Customers describe what the agent should do, connect a phone number, and test the call in the browser.
+**What Voxspur is.** A platform for building AI voice agents that answer and place phone calls. Customers describe what the agent should do, connect a phone number, and test the call in the browser.
 
 **What may be said today.** Only what the product does now:
 - Inbound and outbound calls; outbound campaigns
@@ -293,17 +293,18 @@ Write the way a knowledgeable person talks. Short sentences. Name things as cust
 - A widget to put an agent on a website
 - Call recordings, transcripts and run history
 - Tools the agent can call during a conversation
+- A knowledge base: upload documents and the agent looks up answers in them during a call. It reads PDFs with selectable text, Word `.docx` files, plain text, Markdown and JSON. It uses the customer's own embeddings key, like the other bring-your-own-keys services
 
 **What may not be said yet.**
 - Any price other than the one in the site config, and any plan detail the product cannot deliver yet: concurrency limits, credit amounts, free tiers, discounts.
-- A knowledge base or document upload. It is switched off.
+- That the knowledge base reads scanned documents, photos of pages, legacy `.doc` files or password-protected PDFs. It does not. Do not promise a document size or count either; no limit has been measured.
 - Agency features that do not exist yet, such as white-label, client sub-accounts or consolidated billing. The agency plan is offered as "talk to us", with no public price.
-- "Open source". Voxrail is sold as a hosted product.
+- "Open source". Voxspur is sold as a hosted product.
 - Uptime figures, customer counts, testimonials or logos that are not real.
 
 **Pricing.** One public price: a platform fee, currently 1 cent. The amount, the currency and the unit it is charged per are values in the site config and are never typed into a page. Wherever the price appears, say plainly that the customer pays their own model, voice and phone providers directly; the fee covers the platform only. The agency plan shows no price and its action is "Contact us".
 
-**Attribution.** Voxrail is built on Dograh, which is BSD-2-Clause licensed. That credit lives in the product's README and licence file. The marketing site does not use the Dograh name or logo.
+**Attribution.** Voxspur is built on Dograh, which is BSD-2-Clause licensed. That credit lives in the product's README and licence file. The marketing site does not use the Dograh name or logo.
 
 **Privacy line.** The app loads nothing from third parties and sends nothing to them unless the customer connects a provider. The site should be able to say the same about itself: self-hosted fonts, no tracking scripts by default. If analytics are added later, say so on the Privacy page.
 
@@ -313,7 +314,7 @@ A static site. These pages and nothing else:
 
 | Page | Purpose |
 |---|---|
-| `/` | What Voxrail is, the route diagram, how to go live (a real three-step sequence), what it connects to, the primary action |
+| `/` | What Voxspur is, the route diagram, how to go live (a real three-step sequence), what it connects to, the primary action |
 | `/agencies` | The pitch for people who run voice agents for clients. Honest about what exists today. The action is "Contact us" |
 | `/privacy`, `/terms` | Required before taking customers |
 | `/pricing` | Two cards: pay as you go (the platform fee from the site config, action "Get started") and Agency (no price, action "Contact us") |
@@ -335,13 +336,31 @@ No page, component or meta tag contains the product name, a price or one of thes
 
 ## Assets
 
-Placeholder artwork exists in the app repository at `ui/public/`: `voxrail-logo.svg` (wordmark for light surfaces), `voxrail-logo-inverse.svg` (for dark), `voxrail-mark.svg` (a square plate with a "V" drawn as a chevron). Use them until real artwork replaces them, and keep the file names so both projects update together.
+The artwork is final as of 6 Oct 2026. The same files live in the app repository at `ui/public/` and in the site's `public/` folder, under the same names, so both projects update together.
 
-Direction for the real mark, when it is drawn: the "V" as two rails meeting at a stop, on a dark plate, with one green stop marker. It must hold at 16px for the favicon.
+| File | What it is | Where it is used |
+|---|---|---|
+| `voxspur-mark.svg` | The mark on its dark plate, 500 by 500 | App sidebar, anywhere a square mark is wanted, 24px and up |
+| `voxspur-logo.svg` | Mark and wordmark for light surfaces, 906 by 200 | Header and footer in light, the app's login page |
+| `voxspur-logo-inverse.svg` | The same for dark surfaces | Header and footer in dark |
+| `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` (site) and `ui/src/app/favicon.ico` (app) | Small-size drawings of the mark | Browser tabs and home screens |
+
+**The mark.** A main line in chalk runs along the bottom of a dark plate. A spur in Signal Green leaves it through an arc, climbs at 45 degrees and ends at a stop marker. Two arcs spread from the stop: the voice, carried out along the spur. It is the line-map language of the rest of the system, and the only place sound waves appear.
+
+**The wordmark.** "Voxspur" in Archivo, weight 700, width 112, converted to outlines so no font has to load. Chalk on dark, ink on light.
+
+**Small sizes.** Below 48px the mark is redrawn with heavier strokes, a filled stop and one arc. `favicon.svg` and the `.ico` files use that drawing. Do not scale `voxspur-mark.svg` down to 16px.
+
+**Rules.**
+- Use the files as they are. Do not recolour, outline, rotate or add effects.
+- Keep clear space around the logo of at least the height of the letter "x" in the wordmark.
+- The plate's colours are fixed (plate `#141816`, chalk `#fafafa`, Signal Green `#37d16c`), so one mark works on dark and on light.
+- The logo's size on a page comes from the site config (`logo.width`, `logo.height`), not from numbers typed into a component.
+- The icon files are committed artwork. There is no script that regenerates them; a change to the mark means exporting them again.
 
 ## App mapping
 
-How this system reaches the app. The change is confined to `ui/src/app/globals.css` in the Voxrail repository, which is the only file that defines these variables. Applied on the `feat/brand-palette` branch, 4 Oct 2026.
+How this system reaches the app. The change is confined to `ui/src/app/globals.css` in the app repository (its folder is still named `voxrail`), which is the only file that defines these variables. Applied on the `feat/brand-palette` branch, 4 Oct 2026.
 
 | App variable | Light | Dark |
 |---|---|---|
@@ -379,8 +398,8 @@ How this system reaches the app. The change is confined to `ui/src/app/globals.c
 - Put white text on green.
 - Use purple, gradient text, glow, shine borders or frosted glass.
 - Set sentences, buttons or errors in monospace capitals.
-- Add waveform or microphone clip-art. The line is the motif.
+- Add waveform or microphone clip-art. The line is the motif. The two arcs in the mark are the only sound-wave shape in the system; do not repeat them as decoration.
 - Show provider logos, customer logos or testimonials that were not supplied.
-- Mention Dograh, "open source" or the knowledge base on the marketing site.
+- Mention Dograh or "open source" on the marketing site.
 - Type the product name, a price or an app link into a page. They come from the site config.
 - Bring line-map ornament into the app. The app gets tokens, not decoration.

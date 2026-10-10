@@ -9,8 +9,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "sync": "astro sync",
-    "fonts": "node scripts/copy-fonts.mjs",
-    "favicons": "node scripts/make-favicons.mjs"
+    "fonts": "node scripts/copy-fonts.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

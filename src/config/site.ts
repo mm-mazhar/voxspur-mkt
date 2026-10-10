@@ -34,22 +34,25 @@ export interface FooterLink {
 }
 
 export const site = {
-  name: "Voxrail",
+  name: "Voxspur",
   tagline: "Voice agents that stay on track.",
   /** One sentence. Used as the default meta description. */
   description:
     "A platform for building AI voice agents that answer and place phone calls. Describe what the agent should do, connect a phone number, and test the call in your browser.",
 
   logo: {
-    /** Wordmark for light surfaces. */
-    light: "/voxrail-logo.svg",
-    /** Wordmark for dark surfaces. */
-    dark: "/voxrail-logo-inverse.svg",
-    /** Square plate mark. The favicon is generated from this. */
-    mark: "/voxrail-mark.svg",
-    /** Alt text for the wordmark, and for the mark. */
-    alt: "Voxrail",
-    markAlt: "Voxrail mark",
+    /** Mark and wordmark for light surfaces. */
+    light: "/voxspur-logo.svg",
+    /** Mark and wordmark for dark surfaces. */
+    dark: "/voxspur-logo-inverse.svg",
+    /** Intrinsic size of both logo files, in SVG units. */
+    width: 906,
+    height: 200,
+    /** Square plate mark. The favicon files are small-size drawings of it. */
+    mark: "/voxspur-mark.svg",
+    /** Alt text for the logo, and for the mark. */
+    alt: "Voxspur",
+    markAlt: "Voxspur mark",
   },
 
   /**
