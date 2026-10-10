@@ -77,9 +77,10 @@ export const site = {
       summary: "For building and running your own agents.",
       features: [
         "Inbound and outbound calls, including outbound campaigns",
-        "Bring your own keys for the language model, the voice and the transcriber",
+        "Bring your own keys for the language model, the voice, the transcriber and the knowledge base's embeddings",
         "Phone numbers through Twilio, Telnyx, Plivo, Exotel, Cloudonix, or your own SIP via Asterisk",
         "Transfer a call to a person, with an optional spoken handover",
+        "A knowledge base: upload documents and the agent answers from them during a call",
         "A widget to put an agent on a website",
         "Call recordings, transcripts and run history",
         "Tools the agent can call during a conversation",
