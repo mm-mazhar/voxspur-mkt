@@ -54,7 +54,7 @@ Voxspur is a hosted platform for building, testing, and operating AI voice agent
 ## Brand Commitments
 
 - **Product Name:** Voxspur (configured in `src/config/site.ts`). Renamed from Voxrail on 6 Oct 2026; the domain `voxspur.com` is registered. The project folder and package keep the name `voxrail-mkt`.
-- **Logo:** A main line with a green spur that ends at a stop marker, with two arcs spreading from the stop. Final artwork, described under "Assets" in `DESIGN.md`.
+- **Logo:** Inbound chalk rail and Signal Green spur forming a "V" turnout that climbs to an acoustic spur rowel with forward voice flare and central transit bullseye. Final artwork, described under "Assets" in `DESIGN.md`.
 - **Visual Motif:** "The Line" — railway line-map typography, signal lamps, stop markers, ruled timetable grids, and control-room aesthetics.
 - **Color Logic:** Hue-165 neutral base (`night-track` dark, `paper` light), Signal Green (`--signal`) accent for actions/markers, amber caution, red stop aspect. Text on Signal Green must always use Signal Ink (`--signal-foreground`).
 

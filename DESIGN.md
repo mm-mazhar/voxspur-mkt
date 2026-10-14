@@ -345,11 +345,11 @@ The artwork is final as of 6 Oct 2026. The same files live in the app repository
 | `voxspur-logo-inverse.svg` | The same for dark surfaces | Header and footer in dark |
 | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` (site) and `ui/src/app/favicon.ico` (app) | Small-size drawings of the mark | Browser tabs and home screens |
 
-**The mark.** A main line in chalk runs along the bottom of a dark plate. A spur in Signal Green leaves it through an arc, climbs at 45 degrees and ends at a stop marker. Two arcs spread from the stop: the voice, carried out along the spur. It is the line-map language of the rest of the system, and the only place sound waves appear.
+**The mark.** A dark plate; an inbound rail in chalk; a spur turnout in Signal Green forming a "V" for Vox that climbs to an acoustic spur rowel with forward voice flare and central transit bullseye. It is the line-map language of the rest of the system, uniting voice acoustics with transit routing.
 
 **The wordmark.** "Voxspur" in Archivo, weight 700, width 112, converted to outlines so no font has to load. Chalk on dark, ink on light.
 
-**Small sizes.** Below 48px the mark is redrawn with heavier strokes, a filled stop and one arc. `favicon.svg` and the `.ico` files use that drawing. Do not scale `voxspur-mark.svg` down to 16px.
+**Small sizes.** Below 48px the mark is redrawn with heavier strokes (54px) and boosted rowel points. `favicon.svg` and the `.ico` files use that drawing. Do not scale `voxspur-mark.svg` down to 16px.
 
 **Rules.**
 - Use the files as they are. Do not recolour, outline, rotate or add effects.
@@ -398,7 +398,7 @@ How this system reaches the app. The change is confined to `ui/src/app/globals.c
 - Put white text on green.
 - Use purple, gradient text, glow, shine borders or frosted glass.
 - Set sentences, buttons or errors in monospace capitals.
-- Add waveform or microphone clip-art. The line is the motif. The two arcs in the mark are the only sound-wave shape in the system; do not repeat them as decoration.
+- Add waveform or microphone clip-art. The line is the motif. The acoustic spur rowel in the mark is the only sound-wave shape in the system; do not repeat it as decoration.
 - Show provider logos, customer logos or testimonials that were not supplied.
 - Mention Dograh or "open source" on the marketing site.
 - Type the product name, a price or an app link into a page. They come from the site config.
