@@ -298,11 +298,11 @@ Write the way a knowledgeable person talks. Short sentences. Name things as cust
 **What may not be said yet.**
 - Any price other than the one in the site config, and any plan detail the product cannot deliver yet: concurrency limits, credit amounts, free tiers, discounts.
 - That the knowledge base reads scanned documents, photos of pages, legacy `.doc` files or password-protected PDFs. It does not. Do not promise a document size or count either; no limit has been measured.
-- Agency features that do not exist yet, such as white-label, client sub-accounts or consolidated billing. The agency plan is offered as "talk to us", with no public price.
+- Partner features that do not exist yet, such as white-label, client sub-accounts or consolidated billing. The partner program is in early access: say so, and do not promise a payout method, a payout minimum or legal terms beyond the FAQ on `/partners`.
 - "Open source". Voxspur is sold as a hosted product.
 - Uptime figures, customer counts, testimonials or logos that are not real.
 
-**Pricing.** One public price: a platform fee, currently 1 cent. The amount, the currency and the unit it is charged per are values in the site config and are never typed into a page. Wherever the price appears, say plainly that the customer pays their own model, voice and phone providers directly; the fee covers the platform only. The agency plan shows no price and its action is "Contact us".
+**Pricing.** One public price: a platform fee, currently 1 cent. The amount, the currency and the unit it is charged per are values in the site config and are never typed into a page. Wherever the price appears, say plainly that the customer pays their own model, voice and phone providers directly; the fee covers the platform only. The partner program shows the partner share from the site config, and its action is an application by email ("Apply for early access" while in early access).
 
 **Attribution.** Voxspur is built on Dograh, which is BSD-2-Clause licensed. That credit lives in the product's README and licence file. The marketing site does not use the Dograh name or logo.
 
@@ -315,9 +315,9 @@ A static site. These pages and nothing else:
 | Page | Purpose |
 |---|---|
 | `/` | What Voxspur is, the route diagram, how to go live (a real three-step sequence), what it connects to, the primary action |
-| `/agencies` | The pitch for people who run voice agents for clients. Honest about what exists today. The action is "Contact us" |
+| `/partners` | The partner program for people who build voice agents for clients: the share, how it works, a worked example computed from the config, FAQ. The action is an application by email. `/agencies` redirects here |
 | `/privacy`, `/terms` | Required before taking customers |
-| `/pricing` | Two cards: pay as you go (the platform fee from the site config, action "Get started") and Agency (no price, action "Contact us") |
+| `/pricing` | Two cards: pay as you go (the platform fee from the site config, action "Get started") and Partner program (the partner share from the site config, action "Apply for early access") |
 
 Every page has exactly one `<h1>`, a short `<title>` that names the page, and a one-sentence meta description. The wordmark is never a heading.
 
@@ -329,6 +329,7 @@ One file holds everything that names or prices the product, so a rename, a new l
 - Logo and mark file paths, and their alt text
 - The app's address, and the "Get started" and "Sign in" links built from it
 - The "Contact us" link
+- The partner program: share, application email, status (early access or live) and the minutes in the worked example
 - Pricing: amount, currency, the unit it is charged per, and the plan names
 - Footer links (privacy, terms)
 

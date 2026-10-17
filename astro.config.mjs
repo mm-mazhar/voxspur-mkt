@@ -10,6 +10,11 @@ export default defineConfig({
   build: {
     format: "directory",
   },
+  // A static build writes /agencies as a small page that refreshes to
+  // /partners, so old links keep working without host-specific files.
+  redirects: {
+    "/agencies": "/partners",
+  },
   vite: {
     plugins: [tailwindcss()],
   },

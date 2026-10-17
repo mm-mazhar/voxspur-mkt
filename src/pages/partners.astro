@@ -1,0 +1,238 @@
+---
+import PageHeader from "~/components/PageHeader.astro";
+import Section from "~/components/Section.astro";
+import SignalLamp from "~/components/SignalLamp.astro";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import {
+  formatPriceAmount,
+  formatPriceRate,
+  formatPriceUnit,
+  formatSharePercent,
+  partnerActionLabel,
+  partnerApplyUrl,
+  partnerExample,
+  partnerIsEarlyAccess,
+  partnerStepsLabel,
+  site,
+} from "~/config/site";
+
+const share = formatSharePercent();
+const example = partnerExample();
+
+/** The order here is real, so the stops are numbered. */
+const steps = [
+  {
+    order: "01",
+    name: "Your client signs up",
+    body: "Your client creates their own workspace, or signs up with your partner link.",
+  },
+  {
+    order: "02",
+    name: "They add you",
+    body: "They add you to their workspace as their partner and admin, so you can build and look after their agents.",
+  },
+  {
+    order: "03",
+    name: "You earn",
+    body: `Each month you earn ${share} of the platform fees they have paid.`,
+  },
+];
+
+/** The worked example, one line per step of the arithmetic. */
+const sum = [
+  { label: "Minutes a month", figure: example.minutes },
+  { label: "Platform fee", figure: `× ${formatPriceAmount()} ${formatPriceUnit()}` },
+  { label: "Client pays in platform fees", figure: `= ${example.fees}` },
+  { label: "Your share", figure: `× ${share}` },
+  { label: "You earn each month", figure: `= ${example.earnings}` },
+];
+
+/** Stated without naming anyone else's program. */
+const differences = [
+  {
+    label: "Fees",
+    title: "No partner fee",
+    body: "Joining costs nothing. You earn, you don't pay.",
+  },
+  {
+    label: "Plans",
+    title: "No monthly plan",
+    body: "There is nothing to subscribe to. Being a partner costs nothing, and there is no minimum number of clients.",
+  },
+  {
+    label: "Duration",
+    title: "No 12-month cut-off",
+    body: "Your share does not stop after a year. You earn on a client for as long as you manage their workspace.",
+  },
+];
+
+const questions = [
+  {
+    question: "When do I get paid?",
+    answer: "Monthly, once your earnings pass a minimum, on fees your clients have actually paid.",
+  },
+  {
+    question: "Do my clients pay more?",
+    answer: `No. They pay the same platform fee, ${formatPriceRate()}, with or without you.`,
+  },
+  {
+    question: "What if a client removes me?",
+    answer: "Earnings for that client stop from then on.",
+  },
+  {
+    question: "Can I use it for my own agents?",
+    answer: "No. The share is for clients' workspaces you manage, not your own.",
+  },
+  {
+    question: "Is it live?",
+    answer: partnerIsEarlyAccess
+      ? "Not yet. It is in early access: apply and we will be in touch."
+      : "Yes. Apply and we will be in touch.",
+  },
+];
+---
+
+<BaseLayout
+  title="Partners"
+  description={`Build voice agents for clients and earn ${share} of the platform fees they pay, for as long as you manage them.`}
+>
+  <PageHeader
+    label="Partners"
+    heading="Get paid for every minute your agents run."
+    lede={`You build and look after voice agents for your clients. ${site.name} pays you ${share} of their platform fees, for as long as you manage their workspace.`}
+  >
+    <div class="mt-gutter-lg flex flex-wrap items-center gap-x-gutter-md gap-y-3">
+      <a href={partnerApplyUrl} class="btn btn-primary">{partnerActionLabel}</a>
+      {partnerIsEarlyAccess && <SignalLamp aspect="caution" word="Launching soon" />}
+    </div>
+  </PageHeader>
+
+  <Section label={partnerStepsLabel}>
+    <h2 class="type-headline">Three steps from a client to a share.</h2>
+    <p class="type-lede measure mt-gutter-md text-muted-foreground">
+      Your client keeps their own workspace and their own bill. You manage it,
+      and you earn on it.
+    </p>
+
+    <ol class="mt-gutter-lg grid gap-gutter-lg md:grid-cols-3">
+      {
+        steps.map((step, index) => (
+          <li class="relative min-w-0">
+            {/* The run of line between this stop and the next. */}
+            {index < steps.length - 1 && (
+              <span
+                class="absolute top-[6px] left-[1.4rem] hidden h-rail w-[calc(100%+0.6rem)] bg-border md:block"
+                aria-hidden="true"
+              />
+            )}
+            <span
+              class:list={[
+                "stop-marker relative z-10",
+                index === 0 && "stop-marker-filled",
+              ]}
+              aria-hidden="true"
+            />
+            <p class="type-label mt-gutter-md text-muted-foreground">
+              <span class="type-figure text-signal-text">{step.order}</span>
+              <span aria-hidden="true"> · </span>
+              {step.name}
+            </p>
+            <p class="type-body mt-3 text-muted-foreground">{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section label="An example">
+    <h2 class="type-headline">One client, in numbers.</h2>
+    <p class="type-lede measure mt-gutter-md text-muted-foreground">
+      A client running {example.minutes} minutes a month pays {example.fees} in
+      platform fees. You earn {example.earnings} a month, every month you manage
+      them.
+    </p>
+
+    <div class="scroll-x mt-gutter-lg">
+      <table class="timetable min-w-[20rem]">
+        <caption class="sr-only">How the example is worked out</caption>
+        <thead>
+          <tr>
+            <th scope="col">Step</th>
+            <th scope="col" class="cell-figure">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            sum.map((row) => (
+              <tr>
+                <th scope="row" class="type-body text-left font-normal text-muted-foreground">
+                  {row.label}
+                </th>
+                <td class="cell-figure type-figure whitespace-nowrap">{row.figure}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="type-body measure mt-gutter-md text-muted-foreground">
+      The share is worked out on the platform fee only. Your client's model,
+      voice and phone providers bill them directly, and those bills are not
+      part of it.
+    </p>
+  </Section>
+
+  <Section label="Why it's different">
+    <h2 class="type-headline">A share, not a subscription.</h2>
+
+    <div class="ruled mt-gutter-lg">
+      {
+        differences.map((item) => (
+          <div class="grid gap-x-gutter-lg gap-y-2 md:grid-cols-[10rem_minmax(0,1fr)]">
+            <p class="type-label text-muted-foreground md:pt-1">{item.label}</p>
+            <div class="min-w-0">
+              <h3 class="type-title">{item.title}</h3>
+              <p class="type-body measure mt-1 text-muted-foreground">{item.body}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section label="Transparency">
+    <h2 class="type-headline">Nothing hidden from your clients.</h2>
+    <p class="type-lede measure mt-gutter-md text-muted-foreground">
+      Your clients see you're their partner, and their price is the same with or
+      without you. They can remove a partner at any time.
+    </p>
+  </Section>
+
+  <Section label="Questions">
+    <h2 class="type-headline">Before you apply.</h2>
+    <div class="ruled measure mt-gutter-lg">
+      {
+        questions.map((item) => (
+          <div>
+            <h3 class="type-title">{item.question}</h3>
+            <p class="type-body mt-2 text-muted-foreground">{item.answer}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section label="Apply" filled>
+    <h2 class="type-headline">Tell us about your clients.</h2>
+    <p class="type-lede measure mt-gutter-md text-muted-foreground">
+      The button opens an email with three questions: your name, your company or
+      website, and roughly how many clients you build for.
+      {partnerIsEarlyAccess && " We will be in touch as places open."}
+    </p>
+    <div class="mt-gutter-lg flex flex-wrap items-center gap-x-gutter-md gap-y-3">
+      <a href={partnerApplyUrl} class="btn btn-primary">{partnerActionLabel}</a>
+      {partnerIsEarlyAccess && <SignalLamp aspect="caution" word="Launching soon" />}
+    </div>
+  </Section>
+</BaseLayout>

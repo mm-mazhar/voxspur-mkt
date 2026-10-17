@@ -24,7 +24,7 @@ Voxspur is a hosted platform for building, testing, and operating AI voice agent
 
 ## Operating Context
 
-- **Marketing Site (`voxspur.com`):** Static Astro site serving as the expressive, high-trust entry point explaining platform mechanics, pricing, agency capabilities, and legal terms.
+- **Marketing Site (`voxspur.com`):** Static Astro site serving as the expressive, high-trust entry point explaining platform mechanics, pricing, the partner program, and legal terms.
 - **Product Application (`app.voxspur.com`):** Separate application repository where users configure agents, credentials, and call routing.
 - **Future Touchpoints:** Interactive demo widgets or live web call previews planned for the marketing site.
 

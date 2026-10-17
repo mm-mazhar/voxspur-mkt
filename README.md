@@ -40,8 +40,9 @@ While `appUrl` is empty, "Get started" and "Sign in" resolve to `#`. Set
 | Route | What it is |
 | --- | --- |
 | `/` | What the product is, the route diagram, how to go live, what it connects to, the primary action |
-| `/pricing` | Two plans: the platform fee, and Agency with no public price |
-| `/agencies` | For people who run voice agents for clients, including what does not exist yet |
+| `/pricing` | Two plans: the platform fee, and the partner program |
+| `/partners` | The partner program: the share, how it works, a worked example, FAQ, apply by email |
+| `/agencies` | Redirects to `/partners` (set in `astro.config.mjs`) |
 | `/privacy` | Draft. `noindex`. |
 | `/terms` | Draft. `noindex`. |
 
