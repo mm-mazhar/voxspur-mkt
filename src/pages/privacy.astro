@@ -1,107 +1,123 @@
 ---
 import DraftNotice from "~/components/DraftNotice.astro";
+import LegalSection from "~/components/LegalSection.astro";
 import PageHeader from "~/components/PageHeader.astro";
 import Section from "~/components/Section.astro";
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { site } from "~/config/site";
+import { site, supportEmailUrl } from "~/config/site";
+
+const version = "0.1";
+const updated = "2026-10-21";
 
 /** What the site owner has to supply before this page can ship. */
 const needed = [
   "The legal entity name, its registered address and the country it is registered in.",
-  "A contact address for privacy questions, and whether a data protection officer is appointed.",
-  "Which regimes you are claiming to meet: UK GDPR, EU GDPR, CCPA, or others.",
-  "The list of sub-processors you use for the hosted product, with what each one holds and where.",
-  "How long call recordings, transcripts and run history are kept, and what happens when an account is closed.",
-  "Where customer data is stored and processed, and whether it leaves that region.",
-  "Your lawful basis for each kind of processing, and the mechanism for any international transfer.",
-  "Whether the marketing site will ever load analytics; if so, which product and what it collects.",
-  "How a person exercises access, correction, deletion and portability, and how long you take to answer.",
-  "How you notify customers of a breach, and within what time.",
+  "The hosting provider's name, and the regions where data is stored.",
+  "Which privacy laws apply (UK GDPR, EU GDPR, CCPA or others), and the rights and transfer wording they require.",
+  "How long billing records are kept, and any fixed retention period for other data.",
+  "The app can send errors to Sentry and events to PostHog when their keys are set. If either is switched on, it must be listed here first.",
 ];
 
-/**
- * The sections a privacy policy on this product needs. The body text under
- * each is a placeholder that states the intent, not a legal claim.
- */
-const sections = [
-  {
-    heading: "Who we are",
-    body: "Placeholder. Names the legal entity behind the product, its address, and how to reach it about privacy.",
-  },
-  {
-    heading: "What this policy covers",
-    body: "Placeholder. Distinguishes the marketing site from the hosted product, because they handle different things.",
-  },
-  {
-    heading: "What the site collects",
-    body: "The marketing site loads no third-party scripts and sets no analytics or advertising cookies. Fonts are served from the site itself. The only thing stored in your browser is your light or dark choice, which stays on your device and is never sent anywhere. If that ever changes, it will be stated here before the change ships.",
-  },
-  {
-    heading: "What the product collects",
-    body: "Placeholder. Needs to cover account details, the agents a customer builds, the keys they connect, and the recordings, transcripts and run history a call produces.",
-  },
-  {
-    heading: "Call recordings and transcripts",
-    body: "Placeholder. Needs to say who owns them, how long they are kept, who can reach them, and what the customer is responsible for telling the people they call.",
-  },
-  {
-    heading: "Providers you connect",
-    body: "Placeholder. A customer brings their own model, voice, transcriber and phone providers. Needs to say plainly that content reaches those providers under the customer's own agreements with them, not ours.",
-  },
-  {
-    heading: "Sub-processors",
-    body: "Placeholder. Needs the actual list, with what each one holds and where, and how customers are told when it changes.",
-  },
-  {
-    heading: "Where data is held",
-    body: "Placeholder. Needs the regions, and the mechanism for any transfer out of them.",
-  },
-  {
-    heading: "How long we keep it",
-    body: "Placeholder. Needs a retention period per kind of data, and what happens on account closure.",
-  },
-  {
-    heading: "Your rights",
-    body: "Placeholder. Needs the rights that apply under the regimes being claimed, and how to exercise them.",
-  },
-  {
-    heading: "Security",
-    body: "Placeholder. Only describe measures that are actually in place.",
-  },
-  {
-    heading: "Changes to this policy",
-    body: "Placeholder. Needs how changes are announced and from when they apply.",
-  },
-  {
-    heading: "Contact",
-    body: "Placeholder. Needs the address for privacy questions and for rights requests.",
-  },
-];
+const name = site.name;
 ---
 
 <BaseLayout
   title="Privacy"
-  description="How the site and the hosted product handle personal data. This page is a draft awaiting review."
+  description="How the site and the hosted product handle personal data. This page is a first draft awaiting review."
   noindex
 >
   <PageHeader
     label="Privacy"
     heading="Privacy"
-    lede={`How the site and the hosted product handle personal data. ${site.name} is not yet taking customers, and this page is not finished.`}
+    lede="How this website and the hosted product handle personal data."
   >
-    <DraftNotice needed={needed} />
+    <DraftNotice version={version} updated={updated} needed={needed} />
   </PageHeader>
 
   <Section label="The policy" filled>
     <div class="ruled">
-      {
-        sections.map((section) => (
-          <section class="grid gap-x-gutter-lg gap-y-2 md:grid-cols-[14rem_minmax(0,1fr)]">
-            <h2 class="type-title min-w-0">{section.heading}</h2>
-            <p class="type-body measure min-w-0 text-muted-foreground">{section.body}</p>
-          </section>
-        ))
-      }
+      <LegalSection heading="Who we are">
+        <p>
+          {`${name} is a hosted platform for building AI voice agents that answer and place phone calls. This policy covers this website and the product. Questions go to `}<a href={supportEmailUrl} class="link">{site.supportEmail}</a>.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="This website">
+        <p>
+          The website loads no third-party scripts and sets no analytics or
+          advertising cookies. Fonts are served from the site itself. The only
+          thing stored in your browser is your light or dark choice, which
+          stays on your device and is never sent anywhere.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="What we collect">
+        <p>When you use the product we hold:</p>
+        <ul>
+          <li>your account email address and how you sign in;</li>
+          <li>your workspace: its name, members, roles, settings and the provider keys you connect;</li>
+          <li>the agents you build: their instructions, settings and tools;</li>
+          <li>call recordings, transcripts and the history of each call, including the phone numbers involved;</li>
+          <li>files you upload to the knowledge base;</li>
+          <li>billing records: top-ups, charges, refunds and your balance.</li>
+        </ul>
+        <p>Card details stay with Stripe. We never see your full card number.</p>
+      </LegalSection>
+
+      <LegalSection heading="People your agents talk to">
+        <p>
+          Recordings and transcripts are of the people your agents speak with.
+          We hold them for you as part of your workspace. You decide whether
+          calls are recorded, and you are responsible for telling people and
+          getting their consent where the law requires it.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Who processes it">
+        <ul>
+          <li>Stripe takes payments for top-ups.</li>
+          <li>Resend sends account email, such as sign-in and confirmation emails, invitations and billing notices.</li>
+          <li>Google signs you in, if you choose to sign in with Google. We receive your email address from it.</li>
+          <li>Our hosting provider runs the service and stores its data.</li>
+          <li>The AI and telephony providers you pick, with your own keys, receive call audio, transcripts, your agents' instructions and the text of knowledge base files. They handle it under your agreements with them, not ours.</li>
+        </ul>
+      </LegalSection>
+
+      <LegalSection heading="What we don't do">
+        <p>
+          We do not sell your data or anyone else's, and we do not use it for
+          advertising. The website has no tracking.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Keeping and deleting data">
+        <p>
+          We keep your data while your account is open. To have it deleted,
+          email us from your account address. We delete your account, and the
+          workspaces you own with their agents, recordings, transcripts and
+          files. Billing records are kept for as long as tax and accounting law
+          requires.
+        </p>
+        <p>
+          Data already sent to your own providers is held by them. Ask them to
+          delete it.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Changes">
+        <p>
+          When this policy changes, the version and date at the top of this page
+          change with it, and we email account owners about anything that
+          matters.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Contact">
+        <p>
+          For a question, or to ask what we hold about you or to delete it,
+          email <a href={supportEmailUrl} class="link">{site.supportEmail}</a>.
+        </p>
+      </LegalSection>
     </div>
   </Section>
 </BaseLayout>

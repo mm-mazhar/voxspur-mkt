@@ -82,6 +82,9 @@ export const site = {
   /** Every "Contact us" action uses this. */
   contactUrl: "#",
 
+  /** Named on /privacy and /terms for questions, requests and notices. */
+  supportEmail: "support@voxspur.com",
+
   pricing: {
     amount: 0.01,
     currency: "USD",
@@ -143,6 +146,9 @@ export const loginUrl: string = site.appUrl ? `${site.appUrl}/auth/login` : "#";
 
 /** "Contact us". */
 export const contactUrl: string = site.contactUrl;
+
+/** The support address as a link. */
+export const supportEmailUrl: string = `mailto:${site.supportEmail}`;
 
 /** True while the app has no address, so links point nowhere real yet. */
 export const appLinksArePlaceholders: boolean = site.appUrl === "";

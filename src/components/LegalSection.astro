@@ -1,0 +1,25 @@
+---
+/**
+ * One section of a legal page: the heading on the left from md up, the text
+ * beside it. The text goes in the slot, so it can hold links and lists.
+ */
+interface Props {
+  heading: string;
+}
+
+const { heading } = Astro.props;
+---
+
+<section class="grid gap-x-gutter-lg gap-y-2 md:grid-cols-[14rem_minmax(0,1fr)]">
+  <h2 class="type-title min-w-0">{heading}</h2>
+  <div class="legal-body type-body measure flex min-w-0 flex-col gap-3 text-muted-foreground">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .legal-body :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+</style>
