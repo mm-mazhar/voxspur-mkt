@@ -17,5 +17,21 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    // The tool folders in the project root hold about 10,000 files. Watching
+    // them made the first dev request take 30s or more, and past 60s Astro
+    // fails with "transport invoke timed out" and the dev server hangs.
+    server: {
+      watch: {
+        ignored: [
+          "**/impeccable/**",
+          "**/.agents/**",
+          "**/.history/**",
+          "**/.impeccable/**",
+          "**/logo-concepts/**",
+          "**/reference/**",
+          "**/dist/**",
+        ],
+      },
+    },
   },
 });
