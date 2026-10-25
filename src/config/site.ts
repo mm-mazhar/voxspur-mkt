@@ -13,6 +13,8 @@ export interface Pricing {
   readonly currency: string;
   /** What the fee is charged per, singular: "minute". */
   readonly unit: string;
+  /** The balance a new call needs to start, in major units of `currency`. */
+  readonly minimumCallBalance: number;
 }
 
 export interface Partner {
@@ -89,6 +91,7 @@ export const site = {
     amount: 0.01,
     currency: "USD",
     unit: "minute",
+    minimumCallBalance: 0.5,
   } satisfies Pricing as Pricing,
 
   partner,
