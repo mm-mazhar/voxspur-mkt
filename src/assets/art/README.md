@@ -2,8 +2,9 @@
 
 The home page is complete without any of this. Each slot below is optional:
 drop the files in this folder under exactly these names and they appear, with no
-code change. Until then nothing renders in a production build, and the dev
-server shows a labelled outline where each one will go.
+code change. Until then each slot is an empty, invisible box that shows no
+text, in dev or in production. Its name and size are on the box as
+`data-art-slot` and `data-art-size`, for the browser's inspector.
 
 Every slot takes **two files**, one per theme, as AVIF (preferred) or WebP:
 `<slot>-dark.avif` and `<slot>-light.avif`. Draw dark on a **pure black**

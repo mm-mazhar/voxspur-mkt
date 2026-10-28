@@ -26,6 +26,11 @@ export interface Partner {
   readonly status: "early-access" | "live";
   /** Minutes a month used in the worked example on /partners. */
   readonly exampleMinutes: number;
+  /**
+   * Earnings a partner must reach before a payout is made, in major units of
+   * the pricing currency. Payouts are monthly.
+   */
+  readonly payoutMinimum: number;
 }
 
 export interface Plan {
@@ -106,6 +111,7 @@ const partner = {
   email: "partners@voxspur.com",
   status: "early-access",
   exampleMinutes: 10_000,
+  payoutMinimum: 50,
 } satisfies Partner as Partner;
 
 export const site = {
@@ -200,7 +206,7 @@ export const site = {
       summary: `Build voice agents for clients? Earn ${partner.sharePercent}% of their platform fees, for as long as you manage them.`,
       features: [
         "No monthly fee",
-        "No minimum",
+        "No minimum number of clients",
         "Your clients' price stays the same",
         "Add as many clients as you like",
       ],
@@ -549,6 +555,19 @@ export function formatMoney(amount: number, currency: string = site.pricing.curr
 /** The partner share: "20%". */
 export function formatSharePercent(p: Partner = site.partner): string {
   return `${p.sharePercent}%`;
+}
+
+/** What a partner's earnings must reach before a payout: "$50". */
+export function formatPayoutMinimum(
+  p: Partner = site.partner,
+  pricing: Pricing = site.pricing,
+): string {
+  return formatMoney(p.payoutMinimum, pricing.currency);
+}
+
+/** The balance a call needs to start: "$0.50". */
+export function formatMinimumCallBalance(pricing: Pricing = site.pricing): string {
+  return formatMoney(pricing.minimumCallBalance, pricing.currency);
 }
 
 export interface PartnerExample {

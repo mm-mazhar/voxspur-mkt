@@ -10,7 +10,13 @@ import Section from "~/components/Section.astro";
 import UseCaseTabs from "~/components/UseCaseTabs.astro";
 import Hero from "~/components/hero/Hero.astro";
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { formatPriceRate, joinNames, liveTelephonyNames, site } from "~/config/site";
+import {
+  formatMinimumCallBalance,
+  formatPriceRate,
+  joinNames,
+  liveTelephonyNames,
+  site,
+} from "~/config/site";
 
 /** The hero's headline, split for two lines. The closing call to action repeats it. */
 const heading = ["Voice agents that answer", "and place phone calls."] as const;
@@ -45,8 +51,7 @@ const faq = [
   },
   {
     question: "What happens when my credit runs out?",
-    answer:
-      "Turn on automatic top-up and credit is added for you, so calls do not stop for lack of balance. A minimum balance is needed before a call can start.",
+    answer: `Turn on automatic top-up and credit is added for you, so calls do not stop for lack of balance. A call needs a balance of at least ${formatMinimumCallBalance()} to start.`,
   },
   {
     question: "Can I test an agent before it takes real calls?",
@@ -77,7 +82,7 @@ const faq = [
   {
     question: "Do you make outbound calls?",
     answer:
-      "Yes, one at a time or as a campaign from a list. Consent records, calling hours and opt-out handling are coming soon. Until they arrive, follow the rules that apply where you and your callers are.",
+      "Yes, one at a time or as a campaign from a list. You are responsible for getting consent, calling only within permitted hours, and honouring opt-outs. Tools for consent records, calling hours and opt-out handling are coming soon.",
   },
 ];
 ---

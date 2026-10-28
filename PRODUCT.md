@@ -56,6 +56,13 @@ Working in the app as of 28 Oct 2026. The site may describe these.
 - Automatic top-up, and a minimum balance to start a call.
 - No subscription.
 
+**Partner program (early access)**
+- The partner earns a share of a managed client's platform fees (`partner.sharePercent` in the config), for as long as they manage the client. No monthly fee and no minimum number of clients.
+- Payouts are monthly, once earnings reach the payout minimum (`partner.payoutMinimum`, currently $50).
+
+**Outbound calling**
+- The customer is responsible for consent, permitted calling hours and honouring opt-outs. The platform does not yet provide tools for them (see below).
+
 ### Not Yet Available
 
 The site may list these only as "coming soon", and never in the hero or the pricing band. Each has `status: "soon"` in the config, and moving to `"live"` is a config change.

@@ -6,9 +6,10 @@ import type { ExampleLine } from "~/config/site";
  * labelled "Example": the words are generic and invented to show the shape of
  * a call, never a real caller or a real result.
  *
- * With `sequence` the lines appear one after another on a loop. Each line is
- * fully visible at rest, so paused, reduced-motion and print all show the
- * whole conversation. Put the list inside a `motion` wrapper.
+ * With `sequence` the lines build up one after another on a loop that starts
+ * on the finished conversation. Each line is fully visible at rest, so paused,
+ * reduced-motion and print all show the whole of it. Put the list inside a
+ * `motion` wrapper.
  */
 interface Props {
   lines: readonly ExampleLine[];
@@ -73,10 +74,14 @@ const speaker: Record<ExampleLine["who"], string> = {
     color: var(--signal-text);
   }
 
-  /* One loop of 16s. Each line fades in at its own point, holds, and all of
-     them leave together just before the loop restarts. */
+  /* One loop of 20s that begins on the finished frame. All four lines are
+     visible for the first 11s, so a screenshot, a quick look or a slow page
+     load always shows the whole conversation. They then leave together and
+     build up again one by one, ending on the same finished frame, so the loop
+     joins without a jump. With motion off there is no animation at all and the
+     lines simply stay. */
   .seq {
-    animation: 16s var(--ease-rail) infinite both;
+    animation: 20s var(--ease-rail) infinite;
   }
   .seq[style*="--n:1"] {
     animation-name: seq-1;
@@ -93,66 +98,70 @@ const speaker: Record<ExampleLine["who"], string> = {
 
   @keyframes seq-1 {
     0%,
-    2% {
-      opacity: 0;
-      transform: translateY(0.5rem);
-    }
-    7%,
-    92% {
+    55% {
       opacity: 1;
       transform: none;
     }
-    98%,
-    100% {
+    59%,
+    62% {
       opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    67%,
+    100% {
+      opacity: 1;
+      transform: none;
     }
   }
   @keyframes seq-2 {
     0%,
-    20% {
-      opacity: 0;
-      transform: translateY(0.5rem);
-    }
-    25%,
-    92% {
+    55% {
       opacity: 1;
       transform: none;
     }
-    98%,
-    100% {
+    59%,
+    70% {
       opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    75%,
+    100% {
+      opacity: 1;
+      transform: none;
     }
   }
   @keyframes seq-3 {
     0%,
-    40% {
-      opacity: 0;
-      transform: translateY(0.5rem);
-    }
-    45%,
-    92% {
+    55% {
       opacity: 1;
       transform: none;
     }
-    98%,
-    100% {
+    59%,
+    78% {
       opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    83%,
+    100% {
+      opacity: 1;
+      transform: none;
     }
   }
   @keyframes seq-4 {
     0%,
-    60% {
-      opacity: 0;
-      transform: translateY(0.5rem);
-    }
-    65%,
-    92% {
+    55% {
       opacity: 1;
       transform: none;
     }
-    98%,
-    100% {
+    59%,
+    86% {
       opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    91%,
+    100% {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>

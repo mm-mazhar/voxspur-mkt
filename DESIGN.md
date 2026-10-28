@@ -442,7 +442,10 @@ Also new on the home page:
 - **Hero visual.** `RouteDiagram.astro` is no longer used on the home page.
   It stays in the repository as the system's signature route diagram.
 - **Claims.** "What may be said today" above is out of date. `PRODUCT.md`
-  ("Confirmed Capabilities") is the current list.
+  ("Confirmed Capabilities") is the current list. That includes the partner
+  payout minimum, which "What may not be said yet" above forbids: it is now
+  confirmed, and is shown from `partner.payoutMinimum` in the config, never
+  typed into a page.
 - **Self-hosted band.** The enterprise band says Voxspur can run on a
   customer's own infrastructure. That is not offered today, so the band is off
   (`showEnterprise: false`). Switch it on only when it is true.
