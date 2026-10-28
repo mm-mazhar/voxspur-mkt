@@ -4,7 +4,7 @@ import LegalSection from "~/components/LegalSection.astro";
 import PageHeader from "~/components/PageHeader.astro";
 import Section from "~/components/Section.astro";
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { site, supportEmailUrl } from "~/config/site";
+import { bookCallUrl, hasBookCall, site, supportEmailUrl } from "~/config/site";
 
 const version = "0.1";
 const updated = "2026-10-21";
@@ -19,6 +19,12 @@ const needed = [
 ];
 
 const name = site.name;
+
+// The "Booking a call" section names Cal.com. It shows only while the booking
+// link is a Cal.com link: if the link is emptied or moves to another provider,
+// rewrite the section rather than leave a statement that is no longer true.
+const bookingIsCal =
+  hasBookCall && new URL(bookCallUrl).hostname.replace(/^www\./, "") === "cal.com";
 ---
 
 <BaseLayout
@@ -50,6 +56,23 @@ const name = site.name;
           stays on your device and is never sent anywhere.
         </p>
       </LegalSection>
+
+      {
+        bookingIsCal && (
+          <LegalSection heading="Booking a call">
+            <p>
+              If you book a call, you leave our site for Cal.com, which handles
+              the booking under{" "}
+              <a href="https://cal.com/privacy" class="link">
+                its own privacy policy
+              </a>
+              . We receive the name, email address and answers you enter, and
+              use them only to prepare for and hold the call. We delete them on
+              request.
+            </p>
+          </LegalSection>
+        )
+      }
 
       <LegalSection heading="What we collect">
         <p>When you use the product we hold:</p>
