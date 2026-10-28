@@ -88,7 +88,7 @@ fonts are served by the site itself.
 | `bookCallUrl` | Where "Book a call" goes. Empty hides every "Book a call" (header, hero, closing call to action, footer). |
 | `docsUrl` | The documentation. Empty hides the "Docs" links. |
 | `demoAgentEnabled`, `demoAgentScriptUrl`, `demoAgentToken` | The talk button. Off: it opens the booking link, or is hidden if there is none. On: it loads `demoAgentScriptUrl` on click and sets the token as the script's `data-voxspur-context`. Paste both values from the app's Embed dialog once it is hosted. |
-| `showEnterprise` | The "run it on your own infrastructure" band. Not offered today, so it belongs off. It is on only while the band is being designed (see the TODO in the config); set it back to `false` before merging to `main`. |
+| `showEnterprise` | The "run it on your own infrastructure" band. Not offered today, so it stays off until it is true. |
 | `siteUrl` | The address the site is served from. The share address and share image links are built from it. |
 | `ogImage` | The expected size of the share image. The file is `src/assets/og-card.png`; until it exists no image tags are written. |
 | `integrations`, `features`, `useCases` | What the marquee, the feature list and the tabs show. Each entry has `status: "live"` or `"soon"`; "soon" shows a badge, and going live is one word. |

@@ -191,9 +191,7 @@ export const site = {
    * on a customer's own infrastructure, which is not offered today, so it is
    * off by default.
    */
-  // TODO: set back to false before merging to main. It is on for now only so
-  // the band's design and art slot can be reviewed on this branch.
-  showEnterprise: true as boolean,
+  showEnterprise: false as boolean,
 
   /** Named on /privacy and /terms for questions, requests and notices. */
   supportEmail: "support@voxspur.com",
