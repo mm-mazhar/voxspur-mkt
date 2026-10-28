@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Voxspur mark. A dark plate; an inbound rail in chalk; a spur turnout in
-     Signal Green forming an iconic "V" for Vox that climbs to an acoustic
-     spur rowel with forward voice flare and central transit bullseye.
+<!-- Voxspur mark. A dark plate; an inbound line in chalk and an outbound
+     line in Signal Green meet at one rounded turn to form a "V", and the green
+     line ends at a ring stop, the same stop used across the site.
      Fixed colours so one file works on dark and light surfaces:
      plate #141816, chalk #fafafa, Signal Green #37d16c. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500" role="img" aria-label="Voxspur">
   <rect width="500" height="500" rx="110" fill="#141816"/>
-  <path d="M 160 390 L 300 390" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="14" stroke-linecap="round"/>
-  <path d="M 125 115 L 210 365" fill="none" stroke="#fafafa" stroke-width="38" stroke-linecap="round"/>
-  <path d="M 210 365 A 28 28 0 0 0 255 365 L 330.0 185.0" fill="none" stroke="#37d16c" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 377.50 185.00 L 452.87 224.93 L 368.43 212.92 L 389.20 266.47 L 344.68 230.17 L 330.00 302.80 L 315.32 230.17 L 276.39 258.79 L 291.57 212.92 L 257.72 208.48 L 282.50 185.00 L 257.72 161.52 L 291.57 157.08 L 275.28 109.68 L 315.32 139.83 L 330.00 71.00 L 344.68 139.83 L 388.07 105.07 L 368.43 157.08 L 449.26 146.25 Z" fill="#37d16c" stroke="#37d16c" stroke-width="9.5" stroke-linejoin="round"/>
-  <circle cx="330.0" cy="185.0" r="32.3" fill="#141816"/>
-  <circle cx="330.0" cy="185.0" r="22.8" fill="#37d16c"/>
-  <circle cx="330.0" cy="185.0" r="9.5" fill="#fafafa"/>
+  <g transform="translate(-14 13)">
+    <path d="M 135 110 L 228 352" fill="none" stroke="#fafafa" stroke-width="44" stroke-linecap="round"/>
+    <path d="M 228 352 Q 250 400 272 352 L 340 175" fill="none" stroke="#37d16c" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="352" cy="140" r="44" fill="#141816" stroke="#37d16c" stroke-width="38"/>
+  </g>
 </svg>

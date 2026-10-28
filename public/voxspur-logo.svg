@@ -5,13 +5,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="906" height="200" viewBox="0 0 906 200" role="img" aria-label="Voxspur">
   <g transform="scale(0.4)">
     <rect width="500" height="500" rx="110" fill="#141816"/>
-    <path d="M 160 390 L 300 390" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="14" stroke-linecap="round"/>
-    <path d="M 125 115 L 210 365" fill="none" stroke="#fafafa" stroke-width="38" stroke-linecap="round"/>
-    <path d="M 210 365 A 28 28 0 0 0 255 365 L 330.0 185.0" fill="none" stroke="#37d16c" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M 377.50 185.00 L 452.87 224.93 L 368.43 212.92 L 389.20 266.47 L 344.68 230.17 L 330.00 302.80 L 315.32 230.17 L 276.39 258.79 L 291.57 212.92 L 257.72 208.48 L 282.50 185.00 L 257.72 161.52 L 291.57 157.08 L 275.28 109.68 L 315.32 139.83 L 330.00 71.00 L 344.68 139.83 L 388.07 105.07 L 368.43 157.08 L 449.26 146.25 Z" fill="#37d16c" stroke="#37d16c" stroke-width="9.5" stroke-linejoin="round"/>
-    <circle cx="330.0" cy="185.0" r="32.3" fill="#141816"/>
-    <circle cx="330.0" cy="185.0" r="22.8" fill="#37d16c"/>
-    <circle cx="330.0" cy="185.0" r="9.5" fill="#fafafa"/>
+    <g transform="translate(-14 13)">
+      <path d="M 135 110 L 228 352" fill="none" stroke="#fafafa" stroke-width="44" stroke-linecap="round"/>
+      <path d="M 228 352 Q 250 400 272 352 L 340 175" fill="none" stroke="#37d16c" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="352" cy="140" r="44" fill="#141816" stroke="#37d16c" stroke-width="38"/>
+    </g>
   </g>
   <g fill="#0a0e0c">
     <path transform="translate(252.00 151.5) scale(0.15000 -0.15000)" d="M301.07996704533645 0 13.587784535424198 686.8104892294441H190.1026465541039L347.56307737633784 282.8741903327821Q354.8812522772154 266.37865421659734 362.9560735718205 244.58190895887924Q371.0308948664256 222.78516370116114 379.0040393578944 201.88563136276417Q386.97718384936314 180.98609902436723 392.4451002034416 165.24830939843366H399.11992149804666Q404.48347283230066 179.66430687990845 411.90443481385716 199.90294314607604Q419.32539679541367 220.1415794122436 427.69674914242364 241.84356928468378Q436.0681014894336 263.54555915712393 443.5950064299602 282.0916174574165L601.3459264816383 686.8104892294441H769.7598100414297L482.38068963632736 0Z"/>
