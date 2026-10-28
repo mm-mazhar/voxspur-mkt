@@ -1,0 +1,158 @@
+---
+import type { ExampleLine } from "~/config/site";
+
+/**
+ * Sample dialogue, one line per speaker turn. Always shown inside something
+ * labelled "Example": the words are generic and invented to show the shape of
+ * a call, never a real caller or a real result.
+ *
+ * With `sequence` the lines appear one after another on a loop. Each line is
+ * fully visible at rest, so paused, reduced-motion and print all show the
+ * whole conversation. Put the list inside a `motion` wrapper.
+ */
+interface Props {
+  lines: readonly ExampleLine[];
+  sequence?: boolean;
+}
+
+const { lines, sequence = false } = Astro.props;
+
+const speaker: Record<ExampleLine["who"], string> = {
+  agent: "Agent",
+  caller: "Caller",
+  tool: "Tool",
+};
+---
+
+<ol class="lines">
+  {
+    lines.map((line, index) => (
+      <li class:list={["line", sequence && "seq"]} data-who={line.who} style={`--n:${index + 1}`}>
+        <span class="who type-label">{speaker[line.who]}</span>
+        <span class="text">{line.text}</span>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .lines {
+    display: grid;
+    gap: 0.875rem;
+  }
+
+  .line {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: baseline;
+  }
+
+  .who {
+    color: var(--muted-foreground);
+  }
+
+  .text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--foreground);
+  }
+
+  .line[data-who="caller"] .text {
+    color: var(--muted-foreground);
+  }
+
+  /* A tool call is a thing the agent does, not something it says. */
+  .line[data-who="tool"] .text {
+    justify-self: start;
+    padding: 0.25rem 0.625rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--signal-text);
+  }
+
+  /* One loop of 16s. Each line fades in at its own point, holds, and all of
+     them leave together just before the loop restarts. */
+  .seq {
+    animation: 16s var(--ease-rail) infinite both;
+  }
+  .seq[style*="--n:1"] {
+    animation-name: seq-1;
+  }
+  .seq[style*="--n:2"] {
+    animation-name: seq-2;
+  }
+  .seq[style*="--n:3"] {
+    animation-name: seq-3;
+  }
+  .seq[style*="--n:4"] {
+    animation-name: seq-4;
+  }
+
+  @keyframes seq-1 {
+    0%,
+    2% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    7%,
+    92% {
+      opacity: 1;
+      transform: none;
+    }
+    98%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes seq-2 {
+    0%,
+    20% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    25%,
+    92% {
+      opacity: 1;
+      transform: none;
+    }
+    98%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes seq-3 {
+    0%,
+    40% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    45%,
+    92% {
+      opacity: 1;
+      transform: none;
+    }
+    98%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes seq-4 {
+    0%,
+    60% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    65%,
+    92% {
+      opacity: 1;
+      transform: none;
+    }
+    98%,
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

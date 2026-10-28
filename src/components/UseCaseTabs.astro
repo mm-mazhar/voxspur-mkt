@@ -1,0 +1,177 @@
+---
+import ExampleLines from "./ExampleLines.astro";
+import { site } from "~/config/site";
+
+/**
+ * Use cases as tabs. Arrow keys, Home and End move between them, and only the
+ * selected tab is in the tab order. Without scripts every panel is shown in a
+ * stack and the tab list is hidden (see the noscript rule below), so nothing
+ * is lost.
+ */
+const useCases = site.useCases;
+---
+
+<div class="tabs" data-tabs>
+  <div class="tablist" role="tablist" aria-label="Use cases">
+    {
+      useCases.map((useCase, index) => (
+        <button
+          type="button"
+          role="tab"
+          class="tab"
+          id={`tab-${useCase.id}`}
+          aria-controls={`panel-${useCase.id}`}
+          aria-selected={index === 0 ? "true" : "false"}
+          tabindex={index === 0 ? 0 : -1}
+        >
+          {useCase.label}
+          {useCase.status === "soon" && <span class="tag">Soon</span>}
+        </button>
+      ))
+    }
+  </div>
+
+  {
+    useCases.map((useCase, index) => (
+      <div
+        role="tabpanel"
+        class="panel"
+        id={`panel-${useCase.id}`}
+        aria-labelledby={`tab-${useCase.id}`}
+        tabindex="0"
+        hidden={index !== 0}
+      >
+        <div class="min-w-0">
+          <h3 class="type-title">
+            {useCase.title}
+            {useCase.status === "soon" && <span class="tag ml-2 align-middle">Coming soon</span>}
+          </h3>
+          <p class="type-body mt-3 text-muted-foreground">{useCase.description}</p>
+        </div>
+        <div class="card min-w-0">
+          <p class="mb-gutter-md">
+            <span class="tag">Example</span>
+          </p>
+          <ExampleLines lines={useCase.example} />
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<noscript>
+  <style is:inline>
+    .tabs .tablist {
+      display: none;
+    }
+    .tabs .panel[hidden] {
+      display: grid;
+    }
+  </style>
+</noscript>
+
+<style>
+  .tablist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--muted-foreground);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color 140ms var(--ease-rail),
+      border-color 140ms var(--ease-rail),
+      color 140ms var(--ease-rail);
+  }
+
+  /* A stop before the label: a ring, filled on the tab that is selected. */
+  .tab::before {
+    content: "";
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 1.5px solid currentColor;
+    border-radius: var(--radius-stop);
+  }
+
+  .tab:hover {
+    background: var(--muted);
+    color: var(--foreground);
+  }
+
+  .tab[aria-selected="true"] {
+    background: var(--muted);
+    border-color: color-mix(in oklab, var(--border) 40%, var(--foreground));
+    color: var(--foreground);
+  }
+
+  .tab[aria-selected="true"]::before {
+    background: var(--signal);
+    border-color: var(--signal);
+  }
+
+  .panel {
+    display: grid;
+    gap: var(--spacing-gutter-lg);
+    margin-top: var(--spacing-gutter-lg);
+  }
+
+  .panel[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .panel {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+
+    function select(index: number, focus = false): void {
+      tabs.forEach((tab, i) => {
+        tab.setAttribute("aria-selected", String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+      });
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== index;
+      });
+      if (focus) tabs[index]?.focus();
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        const last = tabs.length - 1;
+        let next = -1;
+        if (event.key === "ArrowRight") next = index === last ? 0 : index + 1;
+        if (event.key === "ArrowLeft") next = index === 0 ? last : index - 1;
+        if (event.key === "Home") next = 0;
+        if (event.key === "End") next = last;
+        if (next >= 0) {
+          event.preventDefault();
+          select(next, true);
+        }
+      });
+    });
+  });
+</script>

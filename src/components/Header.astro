@@ -1,17 +1,27 @@
 ---
 import Container from "./Container.astro";
+import MotionToggle from "./MotionToggle.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import Wordmark from "./Wordmark.astro";
-import { loginUrl, signupUrl } from "~/config/site";
+import { bookCallUrl, docsUrl, hasBookCall, hasDocs, loginUrl, signupUrl } from "~/config/site";
 
 /**
  * Fixed header. Transparent at the top of the page, gaining a surface and a
  * bottom rule after 48px of scroll. "Sign in" is always a real link to the
- * app's login, never a script.
+ * app's login, never a script. "Docs" and "Book a call" appear only once the
+ * config has an address for them.
  */
+interface Props {
+  /** True on a page with decorative motion, so the pause control shows. */
+  motion?: boolean;
+}
+
+const { motion = false } = Astro.props;
+
 const navLinks = [
   { label: "Pricing", href: "/pricing" },
   { label: "Partners", href: "/partners" },
+  ...(hasDocs ? [{ label: "Docs", href: docsUrl }] : []),
 ];
 
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
@@ -51,7 +61,18 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
       </nav>
 
       <div class="flex items-center gap-2">
+        {motion && <MotionToggle />}
         <ThemeToggle />
+        {
+          hasBookCall && (
+            <a
+              href={bookCallUrl}
+              class="hidden h-11 items-center rounded-md px-3 text-[0.9375rem] text-muted-foreground transition-colors duration-150 ease-rail hover:text-foreground lg:inline-flex"
+            >
+              Book a call
+            </a>
+          )
+        }
         <a href={loginUrl} class="btn btn-outline hidden lg:inline-flex">
           Sign in
         </a>
@@ -99,6 +120,18 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
                 </a>
               </li>
             ))
+          }
+          {
+            hasBookCall && (
+              <li>
+                <a
+                  href={bookCallUrl}
+                  class="flex min-h-11 items-center rounded-md px-3 text-muted-foreground transition-colors duration-150 ease-rail hover:bg-muted hover:text-foreground"
+                >
+                  Book a call
+                </a>
+              </li>
+            )
           }
           <li>
             <a

@@ -1,35 +1,53 @@
 ---
-import { signupUrl } from "~/config/site";
+import Backdrop from "~/components/Backdrop.astro";
+import TalkButton from "~/components/TalkButton.astro";
+import VoiceWaves from "~/components/VoiceWaves.astro";
+import { bookCallUrl, hasBookCall, signupUrl, site, talkMode } from "~/config/site";
 
 /**
- * The hero: copy, the two actions, and a slot for the visual.
- *
- * The visual is whatever is passed in, so it can be replaced later (a 3D scene
- * as an island, for instance) without touching anything here.
+ * The hero: a pill badge, the headline on two lines, one line of copy, the two
+ * actions, and the voice waves with the talk button over them.
  */
 interface Props {
-  /** The one h1 on the page. */
-  heading: string;
+  /** The one h1 on the page. Two lines on wide screens. */
+  heading: readonly [string, string];
+  /** One line. */
   lede: string;
 }
 
 const { heading, lede } = Astro.props;
 ---
 
-<section class="rail-section page-top pb-section md:pb-section-lg">
+<section class="rail-section page-top pb-section">
+  <Backdrop corner="top-right" eager />
+
   <div class="section-head">
     <span class="stop-marker stop-marker-filled" aria-hidden="true"></span>
-    <p class="type-label text-muted-foreground">What it is</p>
+    <p class="pill type-label">Meet {site.name}</p>
   </div>
 
-  <h1 class="type-display max-w-[52rem]">{heading}</h1>
+  <h1 class="type-display hero-title">
+    {heading[0]}<br class="max-md:hidden" />{" "}{heading[1]}
+  </h1>
 
-  <p class="type-lede measure mt-gutter-lg text-muted-foreground">{lede}</p>
+  <p class="type-lede mt-gutter-md max-w-[48rem] text-muted-foreground">{lede}</p>
 
   <div class="mt-gutter-lg flex flex-wrap items-center gap-3">
     <a href={signupUrl} class="btn btn-primary">Get started</a>
-    <a href="/pricing" class="btn btn-outline">See pricing</a>
+    {hasBookCall && <a href={bookCallUrl} class="btn btn-outline">Book a call</a>}
   </div>
 
-  <slot />
+  <div class="mt-16">
+    <VoiceWaves plate={talkMode !== "none"}>
+      <TalkButton />
+    </VoiceWaves>
+  </div>
 </section>
+
+<style>
+  /* The display style, held to two lines: at the full display size the first
+     line alone is wider than the column. */
+  .hero-title {
+    font-size: clamp(2.5rem, 5.4vw, 4.25rem);
+  }
+</style>

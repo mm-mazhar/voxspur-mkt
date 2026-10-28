@@ -117,6 +117,11 @@
   --line-3: oklch(0.7 0.13 300); /* line-violet */
   --line-4: oklch(0.8 0.16 75);
 
+  /* Ambient backdrop: the dotted grid and the one soft corner glow. Both are
+     mixes of tokens, so a theme change repaints them. */
+  --dot: color-mix(in oklab, var(--foreground) 17%, transparent);
+  --glow: color-mix(in oklab, var(--signal) 17%, transparent);
+
   /* Where the first stop of every page sits, so the line can start there. */
   --page-top: 8rem;
 
@@ -159,6 +164,9 @@
   --line-2: oklch(0.52 0.125 250);
   --line-3: oklch(0.52 0.14 300);
   --line-4: oklch(0.55 0.11 72);
+
+  /* On paper the wash needs more green to read at all. */
+  --glow: color-mix(in oklab, var(--signal) 24%, transparent);
 
   --show-on-dark: none;
   --show-on-light: block;
@@ -237,6 +245,10 @@
     scroll-behavior: smooth;
     /* The fixed header must not cover the target of an in-page link. */
     scroll-padding-top: 5.5rem;
+    /* Browser surfaces take the palette too. */
+    scrollbar-color: color-mix(in oklab, var(--foreground) 24%, transparent) transparent;
+    accent-color: var(--signal);
+    caret-color: var(--signal-text);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -411,12 +423,102 @@
 /* ========================================================================== *
  * Motion
  *
- * The site has one orchestrated moment: the hero route draws itself once and
- * then a single dot travels the main line on a slow loop. That motion lives
- * with the hero visual in src/components/hero/RouteDiagram.astro, so the whole
- * visual can be replaced in one file. Nothing else on the page moves on its
- * own, and nothing waits at opacity 0 for a scroll observer.
+ * Decorative loops (the hero's voice waves, the integrations marquee, the call
+ * card) opt in with the `motion` class on their wrapper. Two things stop them:
+ * the visitor's "Pause motion" control in the header, which sets
+ * data-motion="paused" on <html>, and prefers-reduced-motion. Everything is
+ * drawn complete at rest: an element that animates in is fully visible when
+ * its animation is removed, and nothing waits at opacity 0 for a scroll
+ * observer. Each component keeps its own keyframes beside its markup.
  * ========================================================================== */
+
+@layer components {
+  /* !important because a component's own `animation` shorthand is unlayered
+     and would otherwise reset the play state; for important declarations a
+     layer outranks unlayered styles. */
+  :root[data-motion="paused"] :is(.motion, .motion *) {
+    animation-play-state: paused !important;
+  }
+
+  /* An element that appears in sequence is shown whole while paused. */
+  :root[data-motion="paused"] .seq {
+    animation: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :is(.motion, .motion *) {
+      animation: none !important;
+    }
+  }
+}
+
+/* ========================================================================== *
+ * Ambient backdrop - a dotted grid and one soft glow in a corner.
+ * Placed inside a section that is `relative`, it runs the full width of the
+ * window behind the content. Token mixes only; no raw colour.
+ * ========================================================================== */
+
+@layer components {
+  .backdrop {
+    position: absolute;
+    inset-block: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .backdrop::before,
+  .backdrop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .backdrop::before {
+    background-image: radial-gradient(circle, var(--dot) 1px, transparent 1.5px);
+    background-size: 24px 24px;
+    /* The mask only reads alpha, so the opaque token is a fade stop. */
+    mask-image: linear-gradient(to bottom, var(--foreground) 30%, transparent 95%);
+  }
+
+  /* A glow in a bottom corner pairs with dots that gather at the bottom. */
+  .backdrop[data-corner^="bottom"]::before {
+    mask-image: linear-gradient(to top, var(--foreground) 30%, transparent 95%);
+  }
+
+  .backdrop::after {
+    background: radial-gradient(
+      ellipse 55% 85% at var(--glow-x, 100%) var(--glow-y, 0%),
+      var(--glow),
+      transparent 72%
+    );
+  }
+
+  .backdrop[data-corner="bottom-right"] {
+    --glow-y: 100%;
+  }
+
+  .backdrop[data-corner="bottom-left"] {
+    --glow-x: 0%;
+    --glow-y: 100%;
+  }
+
+  /* A badge above a heading: outlined, fully rounded, small capitals. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2rem;
+    padding: 0 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-stop);
+    background: var(--background);
+    color: var(--muted-foreground);
+  }
+}
 
 /* ========================================================================== *
  * The line

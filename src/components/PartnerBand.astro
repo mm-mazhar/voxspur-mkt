@@ -1,0 +1,27 @@
+---
+import Section from "./Section.astro";
+import { formatSharePercent, partnerIsEarlyAccess, site } from "~/config/site";
+
+/**
+ * The partner program, in one band that links to /partners. The share comes
+ * from the config, and so does the early-access state.
+ */
+---
+
+<Section label="Partner program" pad="snug">
+  <div class="flex flex-col gap-gutter-lg md:flex-row md:items-center md:justify-between">
+    <div class="min-w-0">
+      <h2 class="type-headline max-w-[44rem]">
+        Build voice agents for clients? Earn {formatSharePercent()} of their platform fees.
+      </h2>
+      <p class="type-lede measure mt-gutter-md text-muted-foreground">
+        For as long as you manage them, with no monthly fee and no minimum. Your clients' price
+        stays the same.
+        {partnerIsEarlyAccess && <span class="tag ml-1 align-middle">Early access</span>}
+      </p>
+    </div>
+    <a href="/partners" class="btn btn-outline shrink-0">
+      The {site.name} partner program
+    </a>
+  </div>
+</Section>

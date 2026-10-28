@@ -404,3 +404,45 @@ How this system reaches the app. The change is confined to `ui/src/app/globals.c
 - Mention Dograh or "open source" on the marketing site.
 - Type the product name, a price or an app link into a page. They come from the site config.
 - Bring line-map ornament into the app. The app gets tokens, not decoration.
+
+## 2026-10 redesign
+
+Added 28 Oct 2026, with the home page redesign (`03-home-page-redesign-01`).
+Layout ideas came from a commercial template: section rhythm, a dotted grid,
+a corner glow, pill badges, outlined cards, restrained motion. None of its
+text, artwork or components were used. Everything above this section is
+unchanged. Where it disagrees with what follows, this section wins for the
+home page, and the rest of the site follows it as pages are redone.
+
+| Rule above | Now | Where |
+|---|---|---|
+| "No glow" | One soft green wash in a corner, behind the hero (top right) and the closing call to action (bottom right). Built from `--glow`, a mix of `--signal`. Never on text, buttons, borders or cards. | `.backdrop` in `global.css`, `Backdrop.astro` |
+| (new) | A dotted grid in `--dot`, full width, fading out away from the glow. | same |
+| "No waveform clip-art" | Animated voice waves are allowed in two places: the hero's three rows of rounded bars, and the call card in the core features. Drawn in `--line-1`. No microphone icon anywhere, and the rowel in the logo stays the only sound-wave shape in the mark. | `Bars.astro`, `VoiceWaves.astro` |
+| "One piece of motion; nothing else moves on its own" | Three decorative loops: the waves, the integrations marquee (two rows, opposite directions, paused on hover or focus), and the call card (transcript lines appear in turn). Each has the `motion` class. One shared **Pause motion** control sits in the header on pages that have them, and every loop stops under `prefers-reduced-motion`. Everything is drawn complete at rest. The bars animate `height` inside a `contain: layout paint` box instead of `transform`, so their ends stay round. | Motion block in `global.css`, `MotionToggle.astro` |
+| "Don't show provider logos"; "name providers in text" | The "Works with" marquee shows a monochrome logo where a licensed one exists, drawn in the text colour, and otherwise the name as a wordmark behind a stop marker. Logos are CC0 artwork from Simple Icons; trademarks stay with their owners (see `src/assets/logos/README.md`). The section is never called "Partners" or "Trusted by". Only providers in the app are listed. | `IntegrationsMarquee.astro`, `site.integrations` |
+| Display size 2.75rem to 5rem | The hero and closing headlines use 2.5rem to 4.25rem (`clamp(2.5rem, 5.4vw, 4.25rem)`) so the headline holds two lines from 768px. `.type-display` itself is unchanged. | `Hero.astro`, `FinalCta.astro` |
+| Labels sit beside a stop marker | The hero's label is a pill: outlined, fully rounded, set in the label style, beside its stop. Other sections keep the plain stop and label. No kicker above any other heading. | `.pill` in `global.css` |
+| FAQ row is a button with `aria-expanded` | Native `<details>` and `<summary>`: the same keyboard and screen-reader behaviour, no script. | `Faq.astro` |
+| Four small scripts | Six: theme, header, mobile menu, the pause control, use-case tabs (arrow keys, Home, End; without scripts all panels show stacked), and the talk button. The talk button loads the widget from our own app domain on click and not before, and is off by default (`demoAgentEnabled`). | `UseCaseTabs.astro`, `TalkButton.astro` |
+
+Also new on the home page:
+
+- **Coming soon.** A feature, integration or use case with `status: "soon"`
+  carries a "Coming soon" or "Soon" badge, a grey stop, and never appears in
+  the hero or the pricing band. Flipping it to `"live"` is a config change.
+- **Example.** Sample dialogue is always inside something tagged "Example". It
+  is generic, invented to show the shape of a call, and is not a screenshot.
+- **Cards.** Reserved for objects: the call card and the use-case example. The
+  pricing band is ruled rows, like the rest of the system.
+- **Section rhythm.** `Section` takes `pad="snug"` (3.5rem, 5rem from 768px)
+  for a long page of many sections. The default is unchanged.
+- **Art slots.** Optional generated artwork, blended into the page and listed
+  with prompts in `src/assets/art/README.md`. The page is complete without it.
+- **Hero visual.** `RouteDiagram.astro` is no longer used on the home page.
+  It stays in the repository as the system's signature route diagram.
+- **Claims.** "What may be said today" above is out of date. `PRODUCT.md`
+  ("Confirmed Capabilities") is the current list.
+- **Self-hosted band.** The enterprise band says Voxspur can run on a
+  customer's own infrastructure. That is not offered today, so the band is off
+  (`showEnterprise: false`). Switch it on only when it is true.

@@ -1,0 +1,60 @@
+---
+import Bars from "./Bars.astro";
+import ExampleLines from "./ExampleLines.astro";
+import { site } from "~/config/site";
+
+/**
+ * Our own illustration for the core features: an example call, with a waveform
+ * that moves and the transcript building up line by line. It is drawn in the
+ * site's tokens and is not a screenshot of the app, so it carries an
+ * "Example" tag. The words come from the first use case in the config.
+ */
+const example = site.useCases.find((useCase) => useCase.id === "receptionist")?.example ?? [];
+---
+
+<figure
+  class="card call-card motion"
+  role="img"
+  aria-label="An example call: a waveform that moves while the transcript appears line by line."
+>
+  <div aria-hidden="true">
+    <div class="head">
+      <span class="tag">Example</span>
+      <span class="type-label text-muted-foreground">Inbound call</span>
+    </div>
+
+    <div class="wave">
+      <Bars count={34} seed={5} />
+    </div>
+
+    <ExampleLines lines={example} sequence />
+  </div>
+</figure>
+
+<style>
+  .call-card {
+    display: block;
+    padding: 1.5rem;
+    margin: 0;
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .wave {
+    height: 3.5rem;
+    margin-block: 1.25rem 1.5rem;
+    --bar-gap: 0.25rem;
+  }
+
+  /* Four lines of dialogue always take the same room, so nothing shifts as
+     they come and go. */
+  .call-card :global(.lines) {
+    min-height: 13rem;
+    align-content: start;
+  }
+</style>

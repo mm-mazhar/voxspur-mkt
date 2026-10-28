@@ -1,0 +1,67 @@
+---
+import { barStyles } from "~/lib/waves";
+
+/**
+ * One row of rounded bars that rise and fall like live audio. Pure CSS: each
+ * bar loops its own height between two values. The row is decorative, so it is
+ * hidden from assistive technology, and it stops under `prefers-reduced-motion`
+ * or the header's "Pause motion" control (see the Motion block in global.css),
+ * resting at each bar's middle height.
+ *
+ * Put it inside a wrapper that has the `motion` class and a definite height.
+ */
+interface Props {
+  count: number;
+  /** Any number; the same seed draws the same row. */
+  seed: number;
+  /** 0 to 1: how tall the tallest bar may get. */
+  peak?: number;
+  /** Drops every second bar below 640px, so the bars stay readable. */
+  halve?: boolean;
+}
+
+const { count, seed, peak = 1, halve = false } = Astro.props;
+const bars = barStyles(count, seed, peak);
+---
+
+<div class="bars" data-halve={halve ? "" : undefined} aria-hidden="true">
+  {bars.map((style) => <span class="bar" style={style} />)}
+</div>
+
+<style>
+  .bars {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: var(--bar-gap, 0.5rem);
+    height: 100%;
+    /* The bars change height inside this box and nothing outside it. */
+    contain: layout paint;
+  }
+
+  .bar {
+    align-self: center;
+    height: calc(var(--mid) * 100%);
+    border-radius: var(--radius-stop);
+    background: var(--line-1);
+    animation: wave var(--d) ease-in-out var(--delay) infinite alternate;
+  }
+
+  @keyframes wave {
+    from {
+      height: calc(var(--lo) * 100%);
+    }
+    to {
+      height: calc(var(--hi) * 100%);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .bars {
+      --bar-gap: 0.25rem;
+    }
+    .bars[data-halve] .bar:nth-child(even) {
+      display: none;
+    }
+  }
+</style>

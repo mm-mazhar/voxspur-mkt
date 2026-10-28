@@ -1,0 +1,96 @@
+---
+import { Image } from "astro:assets";
+
+/**
+ * A place for generated artwork. The page is complete without it.
+ *
+ * Drop `<name>-dark.avif` and `<name>-light.avif` (or `.webp`) into
+ * `src/assets/art/` and they appear here; until then nothing renders in a
+ * production build, and a labelled outline shows in the dev server so the slot
+ * is easy to find. Each file is drawn on a plain background, black for dark and
+ * white for light, and blended into the page, so its background disappears.
+ * `src/assets/art/README.md` lists every slot with its size and a prompt.
+ */
+interface Props {
+  name: string;
+  /** Size to ask the generator for, shown on the dev placeholder. */
+  size: string;
+  /** True above the fold. Everything else loads lazily. */
+  eager?: boolean;
+}
+
+const { name, size, eager = false } = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/art/*.{avif,webp}",
+  { eager: true },
+);
+
+function find(theme: "dark" | "light"): ImageMetadata | undefined {
+  const entry = Object.entries(files).find(([path]) => path.includes(`/${name}-${theme}.`));
+  return entry?.[1].default;
+}
+
+const dark = find("dark");
+const light = find("light");
+const showPlaceholder = import.meta.env.DEV && !dark && !light;
+---
+
+{
+  dark && (
+    <Image
+      src={dark}
+      alt=""
+      class="art art-dark on-dark"
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+    />
+  )
+}
+{
+  light && (
+    <Image
+      src={light}
+      alt=""
+      class="art art-light on-light"
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+    />
+  )
+}
+{
+  showPlaceholder && (
+    <p class="art-missing type-label">
+      Art slot: {name}-dark, {name}-light ({size})
+    </p>
+  )
+}
+
+<style>
+  .art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+  }
+
+  .art-dark {
+    mix-blend-mode: screen;
+  }
+
+  .art-light {
+    mix-blend-mode: multiply;
+  }
+
+  .art-missing {
+    position: absolute;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--muted-foreground);
+  }
+</style>

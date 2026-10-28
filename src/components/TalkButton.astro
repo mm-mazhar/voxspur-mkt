@@ -1,0 +1,121 @@
+---
+import { bookCallUrl, site, talkMode } from "~/config/site";
+
+/**
+ * "Talk to our AI agent". What it does comes from the site config:
+ *
+ * - widget: loads the Voxspur web widget from our own app domain when it is
+ *   clicked, and not before. Nothing is requested while the page loads.
+ * - book: a plain link to the booking page.
+ * - none: not rendered.
+ *
+ * The widget is the app's `/embed/voxspur-widget.js`, which defines the global
+ * `VoxspurWidget` and reads the token from `data-voxspur-context`. The script
+ * below opens it with `VoxspurWidget.open()` after loading; check that call
+ * against the snippet in the app's Embed dialog when the demo is switched on.
+ */
+const label = "Talk to our AI agent";
+---
+
+{
+  talkMode === "widget" && (
+    <div class="talk">
+      <button
+        type="button"
+        class="btn btn-outline talk-button"
+        data-talk-widget
+        data-src={site.demoAgentScriptUrl}
+        data-token={site.demoAgentToken || undefined}
+      >
+        {label}
+      </button>
+      <p class="talk-status type-body text-muted-foreground" data-talk-status role="status" />
+    </div>
+  )
+}
+
+{
+  talkMode === "book" && (
+    <a href={bookCallUrl} class="btn btn-outline talk-button">
+      {label}
+    </a>
+  )
+}
+
+<style>
+  .talk {
+    display: grid;
+    justify-items: center;
+    gap: 0.5rem;
+  }
+
+  .talk-button {
+    min-height: 3rem;
+    padding-inline: 2rem;
+    font-size: 1rem;
+    background-color: var(--background);
+  }
+
+  .talk-button:hover {
+    background-color: var(--muted);
+  }
+
+  .talk-status {
+    max-width: 18rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  .talk-status:empty {
+    display: none;
+  }
+</style>
+
+<script>
+  type Widget = { open?: () => void };
+  const win = window as unknown as { VoxspurWidget?: Widget };
+
+  const button = document.querySelector<HTMLButtonElement>("[data-talk-widget]");
+  const status = document.querySelector<HTMLElement>("[data-talk-status]");
+
+  if (button && status) {
+    let loading = false;
+
+    button.addEventListener("click", () => {
+      // Already loaded: open it again.
+      if (win.VoxspurWidget?.open) {
+        win.VoxspurWidget.open();
+        return;
+      }
+      if (loading) return;
+
+      const src = button.dataset.src;
+      if (!src) return;
+
+      loading = true;
+      button.setAttribute("aria-disabled", "true");
+      status.textContent = "Loading the agent…";
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = true;
+      if (button.dataset.token) script.dataset.voxspurContext = button.dataset.token;
+
+      script.addEventListener("load", () => {
+        loading = false;
+        button.removeAttribute("aria-disabled");
+        status.textContent = "";
+        win.VoxspurWidget?.open?.();
+      });
+
+      script.addEventListener("error", () => {
+        script.remove();
+        loading = false;
+        button.removeAttribute("aria-disabled");
+        status.textContent = "The agent could not be loaded. Please try again.";
+      });
+
+      document.head.append(script);
+    });
+  }
+</script>

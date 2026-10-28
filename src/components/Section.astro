@@ -15,8 +15,12 @@ interface Props {
   filled?: boolean;
   id?: string;
   class?: string;
-  /** Vertical rhythm. "none" lets a page handle its own padding. */
-  pad?: "default" | "tight" | "none";
+  /**
+   * Vertical rhythm. "snug" is for a long page of many sections, where the
+   * default would leave too much air between them. "none" lets a page handle
+   * its own padding.
+   */
+  pad?: "default" | "tight" | "snug" | "none";
 }
 
 const {
@@ -31,6 +35,7 @@ const {
 const padClass = {
   default: "py-section md:py-section-lg",
   tight: "py-section",
+  snug: "py-14 md:py-20",
   none: "",
 }[pad];
 ---
