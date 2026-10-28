@@ -439,6 +439,13 @@ Also new on the home page:
   for a long page of many sections. The default is unchanged.
 - **Art slots.** Optional generated artwork, blended into the page and listed
   with prompts in `src/assets/art/README.md`. The page is complete without it.
+  The backdrop art sits in a corner box (about half the window, at most 760px)
+  that starts below the header, so it is never behind the header and never
+  under a headline; the enterprise art has the right half of its card from
+  768px and is hidden below that. The blend works only because the backdrop
+  layers carry their own negative `z-index` instead of forming a stacking
+  context: a wrapper with a transform or a z-index would trap the art's blend
+  inside itself and draw a black rectangle.
 - **Hero visual.** `RouteDiagram.astro` is no longer used on the home page.
   It stays in the repository as the system's signature route diagram.
 - **Claims.** "What may be said today" above is out of date. `PRODUCT.md`

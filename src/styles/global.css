@@ -122,6 +122,10 @@
   --dot: color-mix(in oklab, var(--foreground) 17%, transparent);
   --glow: color-mix(in oklab, var(--signal) 17%, transparent);
 
+  /* The fixed header's height. The header sets its own height from this, and
+     the hero art fades in below it, so the two cannot drift apart. */
+  --header-height: 4.5rem;
+
   /* Where the first stop of every page sits, so the line can start there. */
   --page-top: 8rem;
 
@@ -464,10 +468,38 @@
     inset-block: 0;
     left: 50%;
     width: 100vw;
-    transform: translateX(-50%);
-    z-index: -1;
+    margin-left: -50vw;
     overflow: hidden;
     pointer-events: none;
+
+    /* Deliberately not a stacking context: no transform and no z-index here.
+       Its layers carry their own negative z-index, so they sit behind the
+       page's content yet in the page's own stacking context, which lets the
+       art blend into the page instead of into a box of its own. */
+    --art-z: -1;
+
+    /* The art sits in a 16:9 box in the corner, not across the whole section,
+       so the line cluster in the top right of the picture lands to the right
+       of the headline, never under it. The box is about half the width of the
+       window and never wider than 760px, and it starts at the bottom of the
+       header, so no part of the picture is ever behind the header. On a phone
+       the headline takes the whole width, so the box is 85% of the screen and
+       the cluster sits above the headline. */
+    --art-inset: var(--header-height) 0 auto auto;
+    --art-width: min(52%, 760px);
+    --art-aspect: 16 / 9;
+
+    /* The art: faint, anchored top right, and masked twice. The box begins
+       below the header, so nothing shows behind the header, the theme switch
+       or "Sign in"; the art then fades in over its first 160px. It is also
+       invisible across the left 35% of the box and fully there by 65%, so it
+       eases in from the headline side. */
+    --art-opacity-dark: 0.45;
+    --art-opacity-light: 0.5;
+    --art-position: right top;
+    --art-mask:
+      linear-gradient(to bottom, transparent, var(--foreground) 160px),
+      linear-gradient(to right, transparent 35%, var(--foreground) 65%);
   }
 
   .backdrop::before,
@@ -475,6 +507,7 @@
     content: "";
     position: absolute;
     inset: 0;
+    z-index: -1;
   }
 
   .backdrop::before {
@@ -482,11 +515,6 @@
     background-size: 24px 24px;
     /* The mask only reads alpha, so the opaque token is a fade stop. */
     mask-image: linear-gradient(to bottom, var(--foreground) 30%, transparent 95%);
-  }
-
-  /* A glow in a bottom corner pairs with dots that gather at the bottom. */
-  .backdrop[data-corner^="bottom"]::before {
-    mask-image: linear-gradient(to top, var(--foreground) 30%, transparent 95%);
   }
 
   .backdrop::after {
@@ -497,13 +525,40 @@
     );
   }
 
-  .backdrop[data-corner="bottom-right"] {
+  /* A bottom corner (the closing call to action): the glow, the dots and the
+     art all gather at the bottom. The art is turned over, so the line cluster
+     that sits at the top right of the picture sits at the bottom right of the
+     section. The fades are on the slot, which is not turned, so they stay put:
+     it is clear across the top edge and ends its fade by 40% of the height,
+     and clear across the left 35% as before. The turned image keeps
+     `object-position: right top`, because that is the part of the picture the
+     turn carries to the bottom. */
+  .backdrop[data-corner^="bottom"] {
     --glow-y: 100%;
+    --art-inset: auto 0 0 auto;
+    --art-transform: scaleY(-1);
+    --art-mask:
+      linear-gradient(to bottom, transparent, var(--foreground) 40%),
+      linear-gradient(to right, transparent 35%, var(--foreground) 65%);
+  }
+
+  .backdrop[data-corner^="bottom"]::before {
+    mask-image: linear-gradient(to top, var(--foreground) 30%, transparent 95%);
+  }
+
+  @media (max-width: 767px) {
+    .backdrop {
+      --art-width: 85%;
+    }
   }
 
   .backdrop[data-corner="bottom-left"] {
     --glow-x: 0%;
-    --glow-y: 100%;
+    --art-inset: auto auto 0 0;
+    --art-transform: scale(-1, -1);
+    --art-mask:
+      linear-gradient(to bottom, transparent, var(--foreground) 40%),
+      linear-gradient(to left, transparent 35%, var(--foreground) 65%);
   }
 
   /* A badge above a heading: outlined, fully rounded, small capitals. */

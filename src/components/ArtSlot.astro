@@ -16,6 +16,25 @@ import { Image } from "astro:assets";
  *
  * Slots in use: ambient-backdrop (hero, closing call to action) and
  * enterprise-band.
+ *
+ * The slot has no rules of its own about where or how strongly the art
+ * shows. Whoever places it sets that, either on an ancestor or through the
+ * `class` prop, with these custom properties (all optional):
+ *
+ *   --art-inset           inset of the slot in its box        (0, fills it)
+ *   --art-width           width of the slot                   (auto)
+ *   --art-aspect          aspect-ratio of the slot            (auto)
+ *   --art-fit             object-fit of the picture           (cover)
+ *   --art-position        object-position                     (center)
+ *   --art-opacity         strength                            (0.7)
+ *   --art-opacity-dark    strength on dark, over --art-opacity
+ *   --art-opacity-light   strength on light, over --art-opacity
+ *   --art-mask            mask-image for the whole slot       (none)
+ *   --art-transform       transform for the picture only      (none)
+ *   --art-z               z-index of the slot                 (auto)
+ *
+ * The mask is on the slot and the transform on the picture, so a flipped
+ * picture keeps its fades where they were drawn.
  */
 interface Props {
   name: string;
@@ -23,9 +42,11 @@ interface Props {
   size: string;
   /** True above the fold. Everything else loads lazily. */
   eager?: boolean;
+  /** For placing the slot: set the `--art-*` properties, or its box. */
+  class?: string;
 }
 
-const { name, size, eager = false } = Astro.props;
+const { name, size, eager = false, class: className } = Astro.props;
 
 const files = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/art/*.{avif,webp}",
@@ -41,7 +62,12 @@ const dark = find("dark");
 const light = find("light");
 ---
 
-<div class="art-slot" data-art-slot={name} data-art-size={size} aria-hidden="true">
+<div
+  class:list={["art-slot", className]}
+  data-art-slot={name}
+  data-art-size={size}
+  aria-hidden="true"
+>
   {
     dark && (
       <Image
@@ -67,11 +93,25 @@ const light = find("light");
 </div>
 
 <style>
-  /* Fills whatever positioned box it sits in, and takes no clicks. */
+  /* Fills whatever positioned box it sits in, and takes no clicks. The blend
+     is on the slot, so the whole masked picture blends into the page: the
+     picture's plain background (black on dark, white on light) drops out. */
   .art-slot {
     position: absolute;
-    inset: 0;
+    inset: var(--art-inset, 0);
+    width: var(--art-width, auto);
+    aspect-ratio: var(--art-aspect, auto);
+    z-index: var(--art-z, auto);
     pointer-events: none;
+    mix-blend-mode: screen;
+    -webkit-mask-image: var(--art-mask, none);
+    mask-image: var(--art-mask, none);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  :global(:root[data-theme="light"]) .art-slot {
+    mix-blend-mode: multiply;
   }
 
   .art {
@@ -79,15 +119,16 @@ const light = find("light");
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.7;
+    object-fit: var(--art-fit, cover);
+    object-position: var(--art-position, center);
+    transform: var(--art-transform, none);
   }
 
   .art-dark {
-    mix-blend-mode: screen;
+    opacity: var(--art-opacity-dark, var(--art-opacity, 0.7));
   }
 
   .art-light {
-    mix-blend-mode: multiply;
+    opacity: var(--art-opacity-light, var(--art-opacity, 0.7));
   }
 </style>
