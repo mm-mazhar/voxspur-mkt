@@ -169,7 +169,7 @@ export const site = {
    * Where "Book a call" goes. While it is empty every "Book a call" is hidden,
    * and so is the enterprise band's link.
    */
-  bookCallUrl: "",
+  bookCallUrl: "https://cal.com/mazhar-voxspur/voxspur-intro-call",
 
   /** The documentation. The "Docs" link is hidden while this is empty. */
   docsUrl: "",
