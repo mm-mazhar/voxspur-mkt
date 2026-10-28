@@ -85,7 +85,7 @@ The site may list these only as "coming soon", and never in the hero or the pric
 ## Brand Commitments
 
 - **Product Name:** Voxspur (configured in `src/config/site.ts`). Renamed from Voxrail on 6 Oct 2026; the domain `voxspur.com` is registered. The project folder and package keep the name `voxrail-mkt`.
-- **Logo:** Inbound chalk rail and Signal Green spur forming a "V" turnout that climbs to an acoustic spur rowel with forward voice flare and central transit bullseye. Final artwork, described under "Assets" in `DESIGN.md`.
+- **Logo:** A dark plate. An inbound line in chalk and an outbound line in Signal Green meet at one rounded turn to form a "V", and the green line ends in a ring stop, the same stop marker the site uses. Final artwork (redrawn 28 Oct 2026), described under "Assets" in `DESIGN.md`.
 - **Visual Motif:** "The Line" — railway line-map typography, signal lamps, stop markers, ruled timetable grids, and control-room aesthetics.
 - **Color Logic:** Hue-165 neutral base (`night-track` dark, `paper` light), Signal Green (`--signal`) accent for actions/markers, amber caution, red stop aspect. Text on Signal Green must always use Signal Ink (`--signal-foreground`).
 

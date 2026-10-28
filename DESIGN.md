@@ -337,7 +337,7 @@ No page, component or meta tag contains the product name, a price or one of thes
 
 ## Assets
 
-The artwork is final as of 6 Oct 2026. The same files live in the app repository at `ui/public/` and in the site's `public/` folder, under the same names, so both projects update together.
+The artwork is final as of 28 Oct 2026, when the mark was redrawn; the file names and sizes are the same as the 6 Oct 2026 set. The same files live in the app repository at `ui/public/` and in the site's `public/` folder, under the same names, so both projects update together.
 
 | File | What it is | Where it is used |
 |---|---|---|
@@ -346,11 +346,11 @@ The artwork is final as of 6 Oct 2026. The same files live in the app repository
 | `voxspur-logo-inverse.svg` | The same for dark surfaces | Header and footer in dark |
 | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` (site) and `ui/src/app/favicon.ico` (app) | Small-size drawings of the mark | Browser tabs and home screens |
 
-**The mark.** A dark plate; an inbound rail in chalk; a spur turnout in Signal Green forming a "V" for Vox that climbs to an acoustic spur rowel with forward voice flare and central transit bullseye. It is the line-map language of the rest of the system, uniting voice acoustics with transit routing.
+**The mark.** A dark plate. An inbound line in chalk and an outbound line in Signal Green meet at one rounded turn and form a "V" for Vox. The green line ends in a ring stop, the same stop marker the site uses on its line. Nothing else is drawn: no sound-wave shape, no base rule. It is the line-map language of the rest of the system in one gesture: a route arrives, turns, and goes on to its stop.
 
 **The wordmark.** "Voxspur" in Archivo, weight 700, width 112, converted to outlines so no font has to load. Chalk on dark, ink on light.
 
-**Small sizes.** Below 48px the mark is redrawn with heavier strokes (54px) and boosted rowel points. `favicon.svg` and the `.ico` files use that drawing. Do not scale `voxspur-mark.svg` down to 16px.
+**Small sizes.** Below 48px the mark is redrawn with heavier strokes (56 units against 44, and 50 against 38 on the ring), the same drawing otherwise. `favicon.svg` and the `.ico` files use that drawing. Do not scale `voxspur-mark.svg` down to 16px.
 
 **Rules.**
 - Use the files as they are. Do not recolour, outline, rotate or add effects.
@@ -399,7 +399,7 @@ How this system reaches the app. The change is confined to `ui/src/app/globals.c
 - Put white text on green.
 - Use purple, gradient text, glow, shine borders or frosted glass.
 - Set sentences, buttons or errors in monospace capitals.
-- Add waveform or microphone clip-art. The line is the motif. The acoustic spur rowel in the mark is the only sound-wave shape in the system; do not repeat it as decoration.
+- Add waveform or microphone clip-art. The line is the motif. The mark has no sound-wave shape, and nothing else should borrow one as decoration (the animated voice waves in the 2026-10 redesign section below are the one exception).
 - Show provider logos, customer logos or testimonials that were not supplied.
 - Mention Dograh or "open source" on the marketing site.
 - Type the product name, a price or an app link into a page. They come from the site config.
@@ -418,7 +418,7 @@ home page, and the rest of the site follows it as pages are redone.
 |---|---|---|
 | "No glow" | One soft green wash in a corner, behind the hero (top right) and the closing call to action (bottom right). Built from `--glow`, a mix of `--signal`. Never on text, buttons, borders or cards. | `.backdrop` in `global.css`, `Backdrop.astro` |
 | (new) | A dotted grid in `--dot`, full width, fading out away from the glow. | same |
-| "No waveform clip-art" | Animated voice waves are allowed in two places: the hero's three rows of rounded bars, and the call card in the core features. Drawn in `--line-1`. No microphone icon anywhere, and the rowel in the logo stays the only sound-wave shape in the mark. | `Bars.astro`, `VoiceWaves.astro` |
+| "No waveform clip-art" | Animated voice waves are allowed in two places: the hero's three rows of rounded bars, and the call card in the core features. Drawn in `--line-1`. No microphone icon anywhere. The mark itself has no sound-wave shape. | `Bars.astro`, `VoiceWaves.astro` |
 | "One piece of motion; nothing else moves on its own" | Three decorative loops: the waves, the integrations marquee (two rows, opposite directions, paused on hover or focus), and the call card (transcript lines appear in turn). Each has the `motion` class. One shared **Pause motion** control sits in the header on pages that have them, and every loop stops under `prefers-reduced-motion`. Everything is drawn complete at rest. The bars animate `height` inside a `contain: layout paint` box instead of `transform`, so their ends stay round. | Motion block in `global.css`, `MotionToggle.astro` |
 | "Don't show provider logos"; "name providers in text" | The "Works with" marquee shows a monochrome logo where a licensed one exists, drawn in the text colour, and otherwise the name as a wordmark behind a stop marker. Logos are CC0 artwork from Simple Icons; trademarks stay with their owners (see `src/assets/logos/README.md`). The section is never called "Partners" or "Trusted by". Only providers in the app are listed. | `IntegrationsMarquee.astro`, `site.integrations` |
 | Display size 2.75rem to 5rem | The hero and closing headlines use 2.5rem to 4.25rem (`clamp(2.5rem, 5.4vw, 4.25rem)`) so the headline holds two lines from 768px. `.type-display` itself is unchanged. | `Hero.astro`, `FinalCta.astro` |
@@ -446,6 +446,11 @@ Also new on the home page:
   layers carry their own negative `z-index` instead of forming a stacking
   context: a wrapper with a transform or a z-index would trap the art's blend
   inside itself and draw a black rectangle.
+- **Logo.** The mark was redrawn on 28 Oct 2026 (a chalk line and a Signal
+  Green line meeting at one turn to form a "V", the green line ending in a ring
+  stop). Names and sizes are unchanged, so no page or config changed; the
+  description is under "Assets" above. The app repository's copies of the six
+  files need the same update.
 - **Hero visual.** `RouteDiagram.astro` is no longer used on the home page.
   It stays in the repository as the system's signature route diagram.
 - **Claims.** "What may be said today" above is out of date. `PRODUCT.md`
