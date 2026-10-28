@@ -62,9 +62,13 @@ Light file: as above on pure white, in deep green (#12773d) and near-black.
 
 ## Not wired up yet
 
-- **Social card**, `og-card.png`, 1200 x 630. The site has no absolute address
-  in its config yet, and a social card needs one. Same line-map style, with
-  the logo placed on top afterwards rather than generated.
+- **Social card.** Wired up, waiting for its file: `src/assets/og-card.png`
+  (or `.jpg`), exactly 1200 x 630, one file for both themes. Not WebP or AVIF,
+  which social sites do not read reliably. Until it exists the page writes no
+  image tags; the next build after it is added writes them, with absolute
+  links built from `siteUrl` in the config, and warns if the size is wrong.
+  Same line-map style on the dark background, with the logo placed on top
+  afterwards rather than generated.
 - **Video.** The page uses none. The waves are CSS. If a looping background is
   wanted later: 1920 x 1080, 6 seconds at 24 fps (144 frames), seamless loop,
   H.264 and WebM, muted, under 2 MB, with a still poster of the first frame.

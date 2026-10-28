@@ -6,6 +6,7 @@ import BaseLayout from "~/layouts/BaseLayout.astro";
 import {
   formatPriceAmount,
   formatPriceRate,
+  formatPayoutMinimum,
   formatPriceUnit,
   formatSharePercent,
   partnerActionLabel,
@@ -69,7 +70,7 @@ const differences = [
 const questions = [
   {
     question: "When do I get paid?",
-    answer: "Monthly, once your earnings pass a minimum, on fees your clients have actually paid.",
+    answer: `Monthly, once your earnings reach ${formatPayoutMinimum()}, on fees your clients have actually paid.`,
   },
   {
     question: "Do my clients pay more?",

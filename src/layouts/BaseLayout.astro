@@ -19,6 +19,22 @@ interface Props {
 const { title, description, noindex = false, motion = false } = Astro.props;
 
 const pageTitle = `${title} · ${site.name}`;
+
+// Share address and share image, as absolute links. The image tags are written
+// only once the file is in src/assets, so a preview never points at a 404.
+const pageUrl = new URL(Astro.url.pathname, site.siteUrl).toString();
+const ogFiles = import.meta.glob<{ default: ImageMetadata }>("/src/assets/og-card.{png,jpg}", {
+  eager: true,
+});
+const ogImage = Object.values(ogFiles)[0]?.default;
+const ogImageUrl = ogImage ? new URL(ogImage.src, site.siteUrl).toString() : undefined;
+const ogImageAlt = `${site.name}: ${site.tagline}`;
+
+if (ogImage && (ogImage.width !== site.ogImage.width || ogImage.height !== site.ogImage.height)) {
+  console.warn(
+    `og-card is ${ogImage.width} x ${ogImage.height}; link previews expect ${site.ogImage.width} x ${site.ogImage.height}.`,
+  );
+}
 ---
 
 <!doctype html>
@@ -54,7 +70,19 @@ const pageTitle = `${title} · ${site.name}`;
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={site.name} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:url" content={pageUrl} />
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    {
+      ogImage && (
+        <>
+          <meta property="og:image" content={ogImageUrl} />
+          <meta property="og:image:width" content={String(ogImage.width)} />
+          <meta property="og:image:height" content={String(ogImage.height)} />
+          <meta property="og:image:alt" content={ogImageAlt} />
+          <meta name="twitter:image" content={ogImageUrl} />
+        </>
+      )
+    }
 
     {/*
       Applies a remembered theme before the first paint, so the page never

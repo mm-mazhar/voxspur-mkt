@@ -117,6 +117,26 @@ const partner = {
 export const site = {
   name: "Voxspur",
   tagline: "Voice agents that stay on track.",
+  /**
+   * The address the site is served from, with no trailing slash. Every
+   * absolute link in the page head (the share address, the share image) is
+   * built from it.
+   */
+  siteUrl: "https://voxspur.com",
+
+  /**
+   * The size of the picture shown when a link to the site is shared. The file
+   * is `src/assets/og-card.png` (or `.jpg`), at exactly this size: social
+   * sites do not read WebP or AVIF reliably. Until the file exists the page
+   * writes no image tags, so a preview never points at a missing file; they
+   * appear on the next build after it is added, and the build warns if the
+   * size is wrong.
+   */
+  ogImage: {
+    width: 1200,
+    height: 630,
+  },
+
   /** One sentence. Used as the default meta description. */
   description:
     "A platform for building AI voice agents that answer and place phone calls. Describe what the agent should do, connect a phone number, and test the call in your browser.",
@@ -166,8 +186,14 @@ export const site = {
   demoAgentScriptUrl: "",
   demoAgentToken: "",
 
-  /** The "run it on your own infrastructure" band. Off by default. */
-  showEnterprise: false as boolean,
+  /**
+   * The "run it on your own infrastructure" band. It says Voxspur can be run
+   * on a customer's own infrastructure, which is not offered today, so it is
+   * off by default.
+   */
+  // TODO: set back to false before merging to main. It is on for now only so
+  // the band's design and art slot can be reviewed on this branch.
+  showEnterprise: true as boolean,
 
   /** Named on /privacy and /terms for questions, requests and notices. */
   supportEmail: "support@voxspur.com",
