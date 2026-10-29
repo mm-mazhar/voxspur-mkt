@@ -58,6 +58,7 @@ Working in the app as of 28 Oct 2026. The site may describe these.
 
 **Partner program (early access)**
 - The partner earns a share of a managed client's platform fees (`partner.sharePercent` in the config), for as long as they manage the client. No monthly fee and no minimum number of clients.
+- Partner referral links. A partner shares a link ending in `?ref=<code>`, and a client who signs up through it is attached to that partner. The /partners page may describe signing up "with your partner link".
 - Payouts are monthly, once earnings reach the payout minimum (`partner.payoutMinimum`, currently $50).
 
 **Outbound calling**
