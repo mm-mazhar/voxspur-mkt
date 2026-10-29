@@ -138,10 +138,21 @@ if (ogImage && (ogImage.width !== site.ogImage.width || ogImage.height !== site.
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         markers.forEach((marker) => marker?.classList.add("is-arrived"));
       } else {
+        // Positions are measured once and again when the page changes size,
+        // so a scroll frame only compares numbers and touches the DOM when a
+        // marker actually changes.
+        let tops: number[] = [];
+        const measure = () => {
+          const y = window.scrollY;
+          tops = heads.map((head) => head.getBoundingClientRect().top + y);
+        };
         const sync = () => {
-          const line = window.innerHeight * 0.45;
-          heads.forEach((head, i) => {
-            markers[i]?.classList.toggle("is-arrived", head.getBoundingClientRect().top <= line);
+          const line = window.scrollY + window.innerHeight * 0.45;
+          markers.forEach((marker, i) => {
+            const arrived = (tops[i] ?? Infinity) <= line;
+            if (marker && marker.classList.contains("is-arrived") !== arrived) {
+              marker.classList.toggle("is-arrived", arrived);
+            }
           });
         };
         let queued = false;
@@ -157,8 +168,12 @@ if (ogImage && (ogImage.width !== site.ogImage.width || ogImage.height !== site.
           },
           { passive: true },
         );
-        window.addEventListener("resize", sync);
-        sync();
+        const remeasure = () => {
+          measure();
+          sync();
+        };
+        new ResizeObserver(remeasure).observe(document.body);
+        remeasure();
       }
     </script>
 
