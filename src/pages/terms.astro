@@ -15,12 +15,11 @@ import {
 const version = "0.2";
 const updated = "2026-10-25";
 
-/** What the site owner has to supply before this page can ship. */
-const needed = [
-  "The legal entity name, its registered address, the country whose law governs these terms and the courts that hear a dispute.",
-  "The liability cap. This draft uses the fees paid in the 12 months before a claim.",
-  "Whether tax is added to top-ups, and whether refunds work differently for consumers anywhere.",
-];
+// Before this page ships, the site owner still has to supply (kept here, not
+// shown on the page):
+//  - The legal entity name, its registered address, the country whose law governs these terms and the courts that hear a dispute.
+//  - The liability cap. This draft uses the fees paid in the 12 months before a claim.
+//  - Whether tax is added to top-ups, and whether refunds work differently for consumers anywhere.
 
 const name = site.name;
 const minimumCallBalance = formatMoney(site.pricing.minimumCallBalance);
@@ -36,7 +35,7 @@ const minimumCallBalance = formatMoney(site.pricing.minimumCallBalance);
     heading="Terms"
     lede={`The agreement between you and ${name} for using the hosted product.`}
   >
-    <DraftNotice version={version} updated={updated} needed={needed} />
+    <DraftNotice version={version} updated={updated} />
   </PageHeader>
 
   <Section label="The terms" filled>
