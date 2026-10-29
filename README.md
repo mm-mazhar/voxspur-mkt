@@ -86,6 +86,7 @@ fonts are served by the site itself.
 | Field | What it does |
 | --- | --- |
 | `bookCallUrl` | Where "Book a call" goes. Empty hides every "Book a call" (header, hero, closing call to action, footer). |
+| `bookCallProvider`, `bookCallProviderPrivacyUrl` | Who is behind the booking link, and their privacy policy. The Privacy page's "Booking a call" section shows only while the provider is `"cal.com"` and `bookCallUrl` is set, whatever the link's address; any other value hides it. For another provider, rewrite the section first. |
 | `docsUrl` | The documentation. Empty hides the "Docs" links. |
 | `demoAgentEnabled`, `demoAgentScriptUrl`, `demoAgentToken` | The talk button. Off: it opens the booking link, or is hidden if there is none. On: it loads `demoAgentScriptUrl` on click and sets the token as the script's `data-voxspur-context`. Paste both values from the app's Embed dialog once it is hosted. |
 | `showEnterprise` | The "run it on your own infrastructure" band. Not offered today, so it stays off until it is true. |

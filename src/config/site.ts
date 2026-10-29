@@ -171,6 +171,20 @@ export const site = {
    */
   bookCallUrl: "https://cal.com/mazhar-voxspur/voxspur-intro-call",
 
+  /**
+   * Who runs the booking page behind `bookCallUrl`. The Privacy page has a
+   * "Booking a call" section written for one provider, "cal.com", and shows it
+   * only while this is exactly "cal.com" and `bookCallUrl` is set; any other
+   * value, or an empty one, hides it. The link may sit on our own address (a
+   * redirect to Cal.com, say): this field says who is behind it, the address
+   * does not. For another provider, rewrite that section in
+   * `src/pages/privacy.astro` before changing this value.
+   */
+  bookCallProvider: "cal.com" as string,
+
+  /** The booking provider's privacy policy, linked from that section. */
+  bookCallProviderPrivacyUrl: "https://cal.com/privacy",
+
   /** The documentation. The "Docs" link is hidden while this is empty. */
   docsUrl: "",
 
