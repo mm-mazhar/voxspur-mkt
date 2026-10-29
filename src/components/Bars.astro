@@ -8,6 +8,12 @@ import { barStyles } from "~/lib/waves";
  * or the header's "Pause motion" control (see the Motion block in global.css),
  * resting at each bar's middle height.
  *
+ * The height change is a `transform: scaleY()`, which the browser can animate
+ * without recalculating layout. (It used to animate `height`, which forced a
+ * layout of the page about 60 times a second.) Scaling would squash the rounded
+ * ends, so each bar's end radius is worked out from its width and its resting
+ * scale, which keeps the ends round at rest and nearly round in motion.
+ *
  * Put it inside a wrapper that has the `motion` class and a definite height.
  */
 interface Props {
@@ -24,7 +30,12 @@ const { count, seed, peak = 1, halve = false } = Astro.props;
 const bars = barStyles(count, seed, peak);
 ---
 
-<div class="bars" data-halve={halve ? "" : undefined} aria-hidden="true">
+<div
+  class="bars"
+  data-halve={halve ? "" : undefined}
+  style={`--count:${count}`}
+  aria-hidden="true"
+>
   {bars.map((style) => <span class="bar" style={style} />)}
 </div>
 
@@ -35,30 +46,286 @@ const bars = barStyles(count, seed, peak);
     grid-auto-columns: minmax(0, 1fr);
     gap: var(--bar-gap, 0.5rem);
     height: 100%;
-    /* The bars change height inside this box and nothing outside it. */
-    contain: layout paint;
+    /* Makes the row's own width available as 100cqw, so each bar can know its
+       width and round its ends to match. */
+    container-type: inline-size;
+    --n: var(--count);
+    --w: calc((100cqw - (var(--n) - 1) * var(--bar-gap, 0.5rem)) / var(--n));
   }
 
   .bar {
-    align-self: center;
-    height: calc(var(--mid) * 100%);
-    border-radius: var(--radius-stop);
     background: var(--line-1);
-    animation: wave var(--d) ease-in-out var(--delay) infinite alternate;
+    /* The bar is the full height of the row and is scaled down from its
+       middle. --mid is its resting scale; the keyframe name is set inline. */
+    transform: scaleY(var(--mid));
+    border-radius: 9999px;
+    animation-duration: var(--d);
+    animation-delay: var(--delay);
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
   }
 
-  @keyframes wave {
+  /* Round ends that survive the squash: horizontally half the bar's width,
+     vertically that much divided by the scale, so after scaling the end is a
+     half circle. Never more than half the bar's own height. */
+  @supports (width: 1cqw) {
+    .bar {
+      border-radius: calc(var(--w) / 2) / min(calc(var(--w) / 2 / var(--mid)), 50%);
+    }
+  }
+
+  /* 30 loops, named wave-<tenths of the row>-<dip ratio index>. The values are
+     literal on purpose: keyframes that read var() animate more slowly. They
+     are generated from WAVE_RATIOS in src/lib/waves.ts: top = tenths / 10 and
+     bottom = max(0.06, top x ratio). */
+  @keyframes wave-1-0 {
     from {
-      height: calc(var(--lo) * 100%);
+      transform: scaleY(0.06);
     }
     to {
-      height: calc(var(--hi) * 100%);
+      transform: scaleY(0.1);
+    }
+  }
+  @keyframes wave-1-1 {
+    from {
+      transform: scaleY(0.06);
+    }
+    to {
+      transform: scaleY(0.1);
+    }
+  }
+  @keyframes wave-1-2 {
+    from {
+      transform: scaleY(0.06);
+    }
+    to {
+      transform: scaleY(0.1);
+    }
+  }
+  @keyframes wave-2-0 {
+    from {
+      transform: scaleY(0.06);
+    }
+    to {
+      transform: scaleY(0.2);
+    }
+  }
+  @keyframes wave-2-1 {
+    from {
+      transform: scaleY(0.06);
+    }
+    to {
+      transform: scaleY(0.2);
+    }
+  }
+  @keyframes wave-2-2 {
+    from {
+      transform: scaleY(0.08);
+    }
+    to {
+      transform: scaleY(0.2);
+    }
+  }
+  @keyframes wave-3-0 {
+    from {
+      transform: scaleY(0.06);
+    }
+    to {
+      transform: scaleY(0.3);
+    }
+  }
+  @keyframes wave-3-1 {
+    from {
+      transform: scaleY(0.09);
+    }
+    to {
+      transform: scaleY(0.3);
+    }
+  }
+  @keyframes wave-3-2 {
+    from {
+      transform: scaleY(0.12);
+    }
+    to {
+      transform: scaleY(0.3);
+    }
+  }
+  @keyframes wave-4-0 {
+    from {
+      transform: scaleY(0.08);
+    }
+    to {
+      transform: scaleY(0.4);
+    }
+  }
+  @keyframes wave-4-1 {
+    from {
+      transform: scaleY(0.12);
+    }
+    to {
+      transform: scaleY(0.4);
+    }
+  }
+  @keyframes wave-4-2 {
+    from {
+      transform: scaleY(0.16);
+    }
+    to {
+      transform: scaleY(0.4);
+    }
+  }
+  @keyframes wave-5-0 {
+    from {
+      transform: scaleY(0.1);
+    }
+    to {
+      transform: scaleY(0.5);
+    }
+  }
+  @keyframes wave-5-1 {
+    from {
+      transform: scaleY(0.15);
+    }
+    to {
+      transform: scaleY(0.5);
+    }
+  }
+  @keyframes wave-5-2 {
+    from {
+      transform: scaleY(0.2);
+    }
+    to {
+      transform: scaleY(0.5);
+    }
+  }
+  @keyframes wave-6-0 {
+    from {
+      transform: scaleY(0.12);
+    }
+    to {
+      transform: scaleY(0.6);
+    }
+  }
+  @keyframes wave-6-1 {
+    from {
+      transform: scaleY(0.18);
+    }
+    to {
+      transform: scaleY(0.6);
+    }
+  }
+  @keyframes wave-6-2 {
+    from {
+      transform: scaleY(0.24);
+    }
+    to {
+      transform: scaleY(0.6);
+    }
+  }
+  @keyframes wave-7-0 {
+    from {
+      transform: scaleY(0.14);
+    }
+    to {
+      transform: scaleY(0.7);
+    }
+  }
+  @keyframes wave-7-1 {
+    from {
+      transform: scaleY(0.21);
+    }
+    to {
+      transform: scaleY(0.7);
+    }
+  }
+  @keyframes wave-7-2 {
+    from {
+      transform: scaleY(0.28);
+    }
+    to {
+      transform: scaleY(0.7);
+    }
+  }
+  @keyframes wave-8-0 {
+    from {
+      transform: scaleY(0.16);
+    }
+    to {
+      transform: scaleY(0.8);
+    }
+  }
+  @keyframes wave-8-1 {
+    from {
+      transform: scaleY(0.24);
+    }
+    to {
+      transform: scaleY(0.8);
+    }
+  }
+  @keyframes wave-8-2 {
+    from {
+      transform: scaleY(0.32);
+    }
+    to {
+      transform: scaleY(0.8);
+    }
+  }
+  @keyframes wave-9-0 {
+    from {
+      transform: scaleY(0.18);
+    }
+    to {
+      transform: scaleY(0.9);
+    }
+  }
+  @keyframes wave-9-1 {
+    from {
+      transform: scaleY(0.27);
+    }
+    to {
+      transform: scaleY(0.9);
+    }
+  }
+  @keyframes wave-9-2 {
+    from {
+      transform: scaleY(0.36);
+    }
+    to {
+      transform: scaleY(0.9);
+    }
+  }
+  @keyframes wave-10-0 {
+    from {
+      transform: scaleY(0.2);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+  @keyframes wave-10-1 {
+    from {
+      transform: scaleY(0.3);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+  @keyframes wave-10-2 {
+    from {
+      transform: scaleY(0.4);
+    }
+    to {
+      transform: scaleY(1);
     }
   }
 
   @media (max-width: 639px) {
     .bars {
       --bar-gap: 0.25rem;
+    }
+    .bars[data-halve] {
+      --n: calc(var(--count) / 2);
     }
     .bars[data-halve] .bar:nth-child(even) {
       display: none;
