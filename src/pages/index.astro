@@ -1,156 +1,128 @@
 ---
-import Interchange from "~/components/Interchange.astro";
+import CoreFeatures from "~/components/CoreFeatures.astro";
+import EnterpriseBand from "~/components/EnterpriseBand.astro";
+import Faq from "~/components/Faq.astro";
+import FinalCta from "~/components/FinalCta.astro";
+import IntegrationsMarquee from "~/components/IntegrationsMarquee.astro";
+import PartnerBand from "~/components/PartnerBand.astro";
+import PricingBand from "~/components/PricingBand.astro";
 import Section from "~/components/Section.astro";
+import UseCaseTabs from "~/components/UseCaseTabs.astro";
 import Hero from "~/components/hero/Hero.astro";
-import RouteDiagram from "~/components/hero/RouteDiagram.astro";
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { signupUrl, site } from "~/config/site";
+import {
+  formatMinimumCallBalance,
+  formatPriceRate,
+  joinNames,
+  liveTelephonyNames,
+  site,
+} from "~/config/site";
 
-/** What the product does today. Nothing here is a plan. */
-const capabilities = [
-  {
-    label: "Calls",
-    title: "Inbound and outbound",
-    body: "Answer calls that come in, place calls that go out, and run outbound campaigns from a list.",
-  },
-  {
-    label: "Handover",
-    title: "Transfer to a person",
-    body: "The agent can hand a call to someone on your team, with a spoken handover first if you want one.",
-  },
-  {
-    label: "Tools",
-    title: "Act during the call",
-    body: "Give the agent tools it can call mid-conversation, so it can look something up or write something down while the caller is still on the line.",
-  },
-  {
-    label: "Knowledge",
-    title: "A knowledge base",
-    body: "Upload documents and the agent answers from them during a call.",
-  },
-  {
-    label: "Web",
-    title: "A widget for your site",
-    body: "Put the same agent on a web page, so visitors can talk to it without dialling.",
-  },
-  {
-    label: "Records",
-    title: "Recordings and transcripts",
-    body: "Every run is kept with its recording, its transcript and its history, so you can hear what happened.",
-  },
-  {
-    label: "Keys",
-    title: "Bring your own",
-    body: "Use your own accounts for the language model, the voice and the transcriber, and your own embeddings key for the knowledge base. You keep the relationship and the bill.",
-  },
-];
+/** The hero's headline, split for two lines. The closing call to action repeats it. */
+const heading = ["Voice agents that answer", "and place phone calls."] as const;
 
 /** The order here is real, so the stops are numbered. */
 const steps = [
   {
     order: "01",
-    name: "Describe the agent",
-    body: "Write what the agent should do, in plain language: how it opens, what it needs to find out, when it should book and when it should hand over.",
+    name: "Build the agent",
+    body: "Lay the call out in the visual builder: how it opens, what it asks, when it books and when it hands over to a person.",
   },
   {
     order: "02",
-    name: "Connect a number",
-    body: "Bring a number from Twilio, Telnyx, Plivo, Exotel or Cloudonix, or point your own SIP at it through Asterisk.",
+    name: "Connect your number",
+    body: `Connect a phone number through ${joinNames(liveTelephonyNames())}.`,
   },
   {
     order: "03",
-    name: "Test the call",
-    body: "Talk to the agent yourself before anyone else does. Change the wording, run it again, and listen to the recording.",
+    name: "Go live and review every call",
+    body: "Test the call in your browser, then switch it on. Every call is recorded and transcribed, so you can listen back and read what was said.",
   },
 ];
 
-const connections = [
+const faq = [
   {
-    label: "Phone numbers",
-    body: "Twilio, Telnyx, Plivo, Exotel and Cloudonix. Or your own SIP, through Asterisk.",
+    question: "What does it cost?",
+    answer: `${formatPriceRate()} for the platform, charged by the second against prepaid credit. You pay your own model, voice and phone providers directly. There is no subscription.`,
   },
   {
-    label: "Language models",
-    body: "Your own key, your own account, your own choice of model.",
+    question: "What do I need to bring?",
+    answer: `Your own accounts: a language model, a voice and a transcriber, plus an embeddings key if you use the knowledge base. For phone calls you connect a number through ${joinNames(liveTelephonyNames())}.`,
   },
   {
-    label: "Voices",
-    body: "Your own key for the voice you want the agent to speak in.",
+    question: "What happens when my credit runs out?",
+    answer: `Turn on automatic top-up and credit is added for you, so calls do not stop for lack of balance. A call needs a balance of at least ${formatMinimumCallBalance()} to start.`,
   },
   {
-    label: "Transcribers",
-    body: "Your own key for the service that turns the caller into text.",
+    question: "Can I test an agent before it takes real calls?",
+    answer: "Yes. Call it from your browser as many times as you like before you connect a number.",
   },
   {
-    label: "People",
-    body: "A transfer to a person on the phone, with an optional spoken handover.",
+    question: "Can the agent hand a call to a person?",
+    answer:
+      "Yes. It can transfer the call to someone on your team, with a spoken handover first if you want one.",
   },
   {
-    label: "Websites",
-    body: "A widget that puts an agent on a page of your site.",
+    question: "What can the knowledge base read?",
+    answer:
+      "PDFs with selectable text, Word .docx files, plain text, Markdown and JSON. It does not read scanned documents, photos of pages, legacy .doc files or password-protected PDFs.",
   },
   {
-    label: "Your tools",
-    body: "Tools you define, which the agent can call during a conversation.",
+    question: "Can I see what happened on a call?",
+    answer: "Every call has its recording, its transcript and its run history.",
+  },
+  {
+    question: "Can my team share one account?",
+    answer: "Yes. Workspaces have owner, admin and member roles.",
+  },
+  {
+    question: "Can I put an agent on my website?",
+    answer: "Yes. A widget puts the same agent on a page of your site, so visitors can talk to it without dialling.",
+  },
+  {
+    question: "Do you make outbound calls?",
+    answer:
+      "Yes, one at a time or as a campaign from a list. You are responsible for getting consent, calling only within permitted hours, and honouring opt-outs. Tools for consent records, calling hours and opt-out handling are coming soon.",
   },
 ];
 ---
 
-<BaseLayout title="Voice agents for phone calls" description={site.description}>
+<BaseLayout title="Voice agents for phone calls" description={site.description} motion>
   <Hero
-    heading="Voice agents that answer and place phone calls."
-    lede="Describe what the agent should do, connect a phone number, and test the call in your browser. Bring your own model, voice and transcriber keys, and keep the accounts you already have."
-  >
-    <RouteDiagram />
-  </Hero>
+    heading={heading}
+    lede="Describe the agent, connect a phone number, and test the call in your browser."
+  />
 
-  <Section label="What it does">
-    <h2 class="type-headline">Everything a call needs, and nothing it does not.</h2>
+  <Section label="Works with" pad="snug">
+    <h2 class="type-headline">Bring the providers you already use.</h2>
     <p class="type-lede measure mt-gutter-md text-muted-foreground">
-      This is the whole of what the platform does today. If something is not
-      listed here, it is not built yet.
+      {`Connect your own accounts for models, voices, transcription and phone numbers. ${site.name} runs the call between them.`}
     </p>
-
-    <div class="ruled mt-gutter-lg">
-      {
-        capabilities.map((item) => (
-          <div class="grid gap-x-gutter-lg gap-y-2 md:grid-cols-[10rem_minmax(0,1fr)]">
-            <p class="type-label text-muted-foreground md:pt-1">{item.label}</p>
-            <div class="min-w-0">
-              <h3 class="type-title">{item.title}</h3>
-              <p class="type-body measure mt-1 text-muted-foreground">{item.body}</p>
-            </div>
-          </div>
-        ))
-      }
+    <div class="mt-gutter-lg">
+      <IntegrationsMarquee />
     </div>
   </Section>
 
-  <Section label="How to go live">
-    <h2 class="type-headline">Three steps to a working agent.</h2>
-    <p class="type-lede measure mt-gutter-md text-muted-foreground">
-      In that order. You can hear the agent before you give anyone the number.
+  <Section label="Core features" pad="snug">
+    <h2 class="type-headline">Everything a call needs, and nothing it does not.</h2>
+    <p class="type-lede measure mt-gutter-md mb-gutter-lg text-muted-foreground">
+      What works today is listed first. What is on the way is marked.
     </p>
+    <CoreFeatures />
+  </Section>
 
-    <ol class="mt-gutter-lg grid gap-gutter-lg md:grid-cols-3">
+  <Section label="How it works" pad="snug">
+    <h2 class="type-headline">Three steps to a working agent.</h2>
+
+    <ol class="steps mt-gutter-lg">
       {
         steps.map((step, index) => (
-          <li class="relative min-w-0">
-            {/* The run of line between this stop and the next. */}
-            {index < steps.length - 1 && (
-              <span
-                class="absolute top-[6px] left-[1.4rem] hidden h-rail w-[calc(100%+0.6rem)] bg-border md:block"
-                aria-hidden="true"
-              />
-            )}
+          <li class="step">
             <span
-              class:list={[
-                "stop-marker relative z-10",
-                index === 0 && "stop-marker-filled",
-              ]}
+              class:list={["stop-marker", index === 0 && "stop-marker-filled"]}
               aria-hidden="true"
             />
-            <p class="type-label mt-gutter-md text-muted-foreground">
+            <p class="type-label step-name text-muted-foreground">
               <span class="type-figure text-signal-text">{step.order}</span>
               <span aria-hidden="true"> · </span>
               {step.name}
@@ -162,51 +134,91 @@ const connections = [
     </ol>
   </Section>
 
-  <Section label="What it connects to">
-    <h2 class="type-headline">It sits between the phone and the providers you bring.</h2>
-    <p class="type-lede measure mt-gutter-md text-muted-foreground">
-      The platform does not resell models, voices or numbers. You connect the
-      accounts you already have, and it runs the call between them.
-    </p>
-
+  <Section label="Use cases" pad="snug">
+    <h2 class="type-headline">Common jobs for a voice agent.</h2>
     <div class="mt-gutter-lg">
-      <Interchange />
-    </div>
-
-    <div class="scroll-x mt-gutter-lg">
-      <table class="timetable min-w-[32rem]">
-        <caption class="sr-only">What the platform connects to today</caption>
-        <thead>
-          <tr>
-            <th scope="col">Connects to</th>
-            <th scope="col">What that means</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            connections.map((row) => (
-              <tr>
-                <th scope="row" class="type-label align-top font-normal">
-                  {row.label}
-                </th>
-                <td class="type-body text-muted-foreground">{row.body}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      <UseCaseTabs />
     </div>
   </Section>
 
-  <Section label="Next stop" filled>
-    <h2 class="type-headline">Build the first agent.</h2>
-    <p class="type-lede measure mt-gutter-md text-muted-foreground">
-      Describe it, give it a number, and call it yourself. You pay the platform
-      fee and your own providers, and nothing else.
-    </p>
-    <div class="mt-gutter-lg flex flex-wrap items-center gap-3">
-      <a href={signupUrl} class="btn btn-primary">Get started</a>
-      <a href="/pricing" class="btn btn-outline">See pricing</a>
+  <PricingBand />
+  <PartnerBand />
+  <EnterpriseBand />
+
+  <Section label="FAQ" pad="snug">
+    <h2 class="type-headline">Common questions.</h2>
+    <div class="mt-gutter-lg">
+      <Faq items={faq} />
     </div>
   </Section>
+
+  <FinalCta heading={heading} />
 </BaseLayout>
+
+<style>
+  /* One line joins the three stops: down the side on a narrow screen, across
+     the top from 768px. Either way the line is decoration. */
+  .steps {
+    display: grid;
+    gap: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .step {
+    position: relative;
+    min-width: 0;
+    padding-left: 2.25rem;
+    padding-bottom: 2rem;
+  }
+
+  .step:last-child {
+    padding-bottom: 0;
+  }
+
+  .step .stop-marker {
+    position: absolute;
+    left: 0;
+    top: 0.125rem;
+    z-index: 1;
+  }
+
+  .step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 1.25rem;
+    bottom: -0.125rem;
+    width: var(--spacing-rail);
+    background: var(--border);
+  }
+
+  @media (min-width: 768px) {
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--spacing-gutter-lg);
+    }
+
+    .step {
+      padding: 0;
+    }
+
+    .step .stop-marker {
+      position: relative;
+      top: 0;
+    }
+
+    /* The run of line from this stop to the next. */
+    .step:not(:last-child)::before {
+      left: 1.4rem;
+      top: 6px;
+      bottom: auto;
+      width: calc(100% + 0.6rem);
+      height: var(--spacing-rail);
+    }
+
+    .step-name {
+      margin-top: var(--spacing-gutter-md);
+    }
+  }
+</style>

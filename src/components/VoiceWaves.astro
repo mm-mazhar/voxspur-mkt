@@ -1,0 +1,91 @@
+---
+import Bars from "./Bars.astro";
+
+/**
+ * The hero's voice waves: three rows of bars across the width, the middle one
+ * tallest, with an action sitting over the middle row when there is one.
+ *
+ * The rows are decorative. The action in the slot is real content and stays in
+ * the reading order; a plate in the page colour keeps the bars from running
+ * under it.
+ */
+interface Props {
+  /** Render the plate and the slot. False when there is no action to show. */
+  plate?: boolean;
+}
+
+const { plate = false } = Astro.props;
+
+const rows = [
+  { seed: 23, peak: 0.7, size: "2.5rem", opacity: 0.5 },
+  { seed: 11, peak: 1, size: "4rem", opacity: 1 },
+  { seed: 37, peak: 0.7, size: "2.5rem", opacity: 0.5 },
+];
+---
+
+<div class="stage">
+  <div class="waves motion" aria-hidden="true">
+    {
+      rows.map((row) => (
+        <div class="row" style={`--row-h:${row.size};--row-o:${row.opacity}`}>
+          <Bars count={72} seed={row.seed} peak={row.peak} halve />
+        </div>
+      ))
+    }
+  </div>
+  {
+    plate && (
+      <div class="plate">
+        <slot />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .stage {
+    display: grid;
+    place-items: center;
+  }
+
+  .stage > * {
+    grid-area: 1 / 1;
+  }
+
+  .waves {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    /* The ends fade out instead of stopping at the edge of the column. */
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      var(--foreground) 14%,
+      var(--foreground) 86%,
+      transparent
+    );
+  }
+
+  .row {
+    height: var(--row-h);
+    opacity: var(--row-o);
+  }
+
+  .plate {
+    position: relative;
+    z-index: 1;
+    padding: 0.75rem;
+    border-radius: var(--radius-xl);
+    background: var(--background);
+  }
+
+  @media (max-width: 639px) {
+    .waves {
+      gap: 0.5rem;
+    }
+    .row {
+      height: calc(var(--row-h) * 0.7);
+    }
+  }
+</style>

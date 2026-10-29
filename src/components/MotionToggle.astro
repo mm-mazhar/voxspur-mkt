@@ -1,0 +1,78 @@
+---
+/**
+ * "Pause motion": the one control that stops every decorative loop on the page
+ * (the voice waves, the integrations marquee, the call card). It sets
+ * data-motion="paused" on <html>; the rules that act on it are in the Motion
+ * block of global.css. The visitor's operating-system setting is respected
+ * without it, so with reduced motion on there is nothing to pause and the
+ * button is hidden.
+ */
+---
+
+<button
+  type="button"
+  id="motion-toggle"
+  class="motion-toggle size-11 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors duration-150 ease-rail hover:bg-muted hover:text-foreground"
+  aria-pressed="false"
+  aria-label="Pause motion"
+  title="Pause motion"
+>
+  <svg
+    class="icon-pause size-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <path d="M9 6.5v11M15 6.5v11"></path>
+  </svg>
+  <svg
+    class="icon-play size-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M8.5 6.25v11.5L17.5 12 8.5 6.25Z"></path>
+  </svg>
+</button>
+
+<style>
+  .motion-toggle {
+    display: inline-flex;
+  }
+
+  .icon-play,
+  .motion-toggle[aria-pressed="true"] .icon-pause {
+    display: none;
+  }
+
+  .motion-toggle[aria-pressed="true"] .icon-play {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-toggle {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const button = document.getElementById("motion-toggle");
+  const root = document.documentElement;
+
+  button?.addEventListener("click", () => {
+    const pause = root.dataset.motion !== "paused";
+    root.dataset.motion = pause ? "paused" : "running";
+    button.setAttribute("aria-pressed", String(pause));
+    const label = pause ? "Play motion" : "Pause motion";
+    button.setAttribute("aria-label", label);
+    button.setAttribute("title", label);
+  });
+</script>

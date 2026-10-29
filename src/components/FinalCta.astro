@@ -1,0 +1,33 @@
+---
+import Backdrop from "./Backdrop.astro";
+import Section from "./Section.astro";
+import { bookCallUrl, hasBookCall, signupUrl } from "~/config/site";
+
+/**
+ * The closing call to action. It repeats the hero's headline, with the same
+ * two actions, over the same dotted grid and soft glow.
+ */
+interface Props {
+  heading: readonly [string, string];
+}
+
+const { heading } = Astro.props;
+---
+
+<Section label="Next stop" filled pad="none" class="pt-section pb-section md:pt-section-lg md:pb-section-lg">
+  <Backdrop corner="bottom-right" />
+  <h2 class="type-display final-title">
+    {heading[0]}<br class="max-md:hidden" />{" "}{heading[1]}
+  </h2>
+  <div class="mt-gutter-lg flex flex-wrap items-center gap-3">
+    <a href={signupUrl} class="btn btn-primary">Get started</a>
+    {hasBookCall && <a href={bookCallUrl} class="btn btn-outline">Book a call</a>}
+  </div>
+</Section>
+
+<style>
+  /* The hero's headline at the hero's size, so the page ends where it began. */
+  .final-title {
+    font-size: clamp(2.5rem, 5.4vw, 4.25rem);
+  }
+</style>

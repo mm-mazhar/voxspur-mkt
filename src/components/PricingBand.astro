@@ -1,0 +1,49 @@
+---
+import Section from "./Section.astro";
+import { billingFacts, formatPriceRate, signupUrl, site } from "~/config/site";
+
+/**
+ * The pricing band: the platform fee and what it buys, as ruled rows. Every
+ * figure and every billing fact is computed from the config. The line about
+ * the customer's own providers is always present: it is part of the price.
+ */
+const rows = [
+  { label: "Platform fee", lines: [formatPriceRate()] },
+  { label: "Billing", lines: billingFacts() },
+  {
+    label: "Your providers",
+    lines: [
+      "Models, voices and phone numbers are paid for on your own accounts. The fee covers the platform only.",
+    ],
+  },
+];
+---
+
+<Section label="Pricing" id="pricing" pad="snug">
+  <h2 class="type-headline">One fee, {formatPriceRate()}.</h2>
+  <p class="type-lede measure mt-gutter-md text-muted-foreground">
+    {site.name} charges for the platform and nothing else. You top up credit, calls draw it down,
+    and the providers you bring bill you directly.
+  </p>
+
+  <div class="ruled mt-gutter-lg">
+    {
+      rows.map((row, index) => (
+        <div class="grid gap-x-gutter-lg gap-y-2 md:grid-cols-[10rem_minmax(0,1fr)]">
+          <p class="type-label text-muted-foreground md:pt-1">{row.label}</p>
+          <div class="min-w-0">
+            {row.lines.map((line) => (
+              // The fee is the one line a reader came for, so it is set larger.
+              <p class:list={[index === 0 ? "type-title" : "type-body"]}>{line}</p>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="mt-gutter-lg flex flex-wrap items-center gap-3">
+    <a href={signupUrl} class="btn btn-primary">Get started</a>
+    <a href="/pricing" class="btn btn-outline">See pricing</a>
+  </div>
+</Section>

@@ -4,10 +4,10 @@ import LegalSection from "~/components/LegalSection.astro";
 import PageHeader from "~/components/PageHeader.astro";
 import Section from "~/components/Section.astro";
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { site, supportEmailUrl } from "~/config/site";
+import { hasBookCall, site, supportEmailUrl } from "~/config/site";
 
-const version = "0.1";
-const updated = "2026-10-21";
+const version = "0.2";
+const updated = "2026-10-29";
 
 /** What the site owner has to supply before this page can ship. */
 const needed = [
@@ -19,6 +19,13 @@ const needed = [
 ];
 
 const name = site.name;
+
+// The "Booking a call" section is written for one provider, Cal.com, and shows
+// only while the config says Cal.com is behind the booking link. It does not
+// look at the link's address, which may be our own (a redirect to Cal.com). For
+// any other provider, or none, it is hidden: rewrite the section for that
+// provider first, then change `bookCallProvider` in the config.
+const showBookingSection = hasBookCall && site.bookCallProvider === "cal.com";
 ---
 
 <BaseLayout
@@ -50,6 +57,23 @@ const name = site.name;
           stays on your device and is never sent anywhere.
         </p>
       </LegalSection>
+
+      {
+        showBookingSection && (
+          <LegalSection heading="Booking a call">
+            <p>
+              If you book a call, you leave our site for Cal.com, which handles
+              the booking under{" "}
+              <a href={site.bookCallProviderPrivacyUrl} class="link">
+                its own privacy policy
+              </a>
+              . We receive the name, email address and answers you enter, and
+              use them only to prepare for and hold the call. We delete them on
+              request.
+            </p>
+          </LegalSection>
+        )
+      }
 
       <LegalSection heading="What we collect">
         <p>When you use the product we hold:</p>

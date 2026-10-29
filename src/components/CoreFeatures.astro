@@ -1,0 +1,93 @@
+---
+import CallCard from "./CallCard.astro";
+import { site } from "~/config/site";
+
+/**
+ * The feature list as a vertical timeline, with the call card beside it. Each
+ * feature is a stop with its title and one line. Features that are not built
+ * yet sit in their own group below, each with a "Coming soon" badge and a
+ * grey stop, so the difference is carried by the badge and the group label,
+ * not by colour alone.
+ */
+const live = site.features.filter((feature) => feature.status === "live");
+const soon = site.features.filter((feature) => feature.status === "soon");
+---
+
+<div class="grid items-start gap-gutter-lg lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:gap-16">
+  <div class="min-w-0">
+    <ol class="timeline">
+      {
+        live.map((feature) => (
+          <li>
+            <span class="stop-marker" aria-hidden="true" />
+            <h3 class="type-title">{feature.title}</h3>
+            <p class="type-body mt-1 text-muted-foreground">{feature.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    {
+      soon.length > 0 && (
+        <>
+          <p class="type-label mt-gutter-lg mb-gutter-md text-muted-foreground">On the way</p>
+          <ol class="timeline timeline-soon">
+            {soon.map((feature) => (
+              <li>
+                <span class="stop-marker" aria-hidden="true" />
+                <h3 class="type-title">
+                  {feature.title} <span class="tag align-middle">Coming soon</span>
+                </h3>
+                <p class="type-body mt-1 text-muted-foreground">{feature.description}</p>
+              </li>
+            ))}
+          </ol>
+        </>
+      )
+    }
+  </div>
+
+  <div class="min-w-0 lg:sticky lg:top-28">
+    <CallCard />
+  </div>
+</div>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .timeline li {
+    position: relative;
+    padding-left: 2.25rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .timeline li:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline .stop-marker {
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+  }
+
+  /* The run of line down to the next stop. */
+  .timeline li:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 1.375rem;
+    bottom: -0.25rem;
+    width: var(--spacing-rail);
+    background: var(--border);
+  }
+
+  /* Not built yet: a quiet ring, and the "Coming soon" badge says why. */
+  .timeline-soon .stop-marker {
+    border-color: var(--muted-foreground);
+  }
+</style>

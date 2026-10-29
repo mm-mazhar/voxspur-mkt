@@ -1,0 +1,55 @@
+---
+import ArtSlot from "./ArtSlot.astro";
+import Section from "./Section.astro";
+import { enterpriseUrl, site } from "~/config/site";
+
+/**
+ * "Run it on your own infrastructure": rendered only when `showEnterprise` is
+ * true in the config. The link goes to the booking page, or to the support
+ * address while there is no booking page.
+ *
+ * From 768px the text and the button sit in a column on the left, at most 55%
+ * of the card, and the art has the right half to itself, so the two never
+ * overlap. Below 768px the art is not shown and the band is text and a button.
+ */
+---
+
+{
+  site.showEnterprise && (
+    <Section label="Enterprise" pad="snug">
+      <div class="enterprise relative overflow-hidden rounded-xl border border-border md:flex md:min-h-72 md:items-center">
+        <ArtSlot name="enterprise-band" size="1600 x 900" class="enterprise-art" />
+        <div class="relative p-gutter-lg md:w-[55%] md:p-8 lg:p-12">
+          <h2 class="type-headline">
+            Run {site.name} on your own infrastructure. Talk to us.
+          </h2>
+          <a href={enterpriseUrl} class="btn btn-outline mt-gutter-lg">
+            Talk to us
+          </a>
+        </div>
+      </div>
+    </Section>
+  )
+}
+
+<style>
+  /* An illustration, not a backdrop: all of it is shown, none of it cropped,
+     and a little stronger than the backdrop art. */
+  .enterprise :global(.enterprise-art) {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .enterprise :global(.enterprise-art) {
+      display: block;
+      --art-inset: 0 0 0 auto;
+      --art-width: 50%;
+      --art-fit: contain;
+      --art-position: right center;
+      --art-opacity: 0.9;
+      /* The line comes in from the text side: clear at the slot's left edge,
+         fully drawn by a quarter of the way across. */
+      --art-mask: linear-gradient(to right, transparent, var(--foreground) 25%);
+    }
+  }
+</style>

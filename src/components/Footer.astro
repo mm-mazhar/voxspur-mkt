@@ -1,11 +1,21 @@
 ---
 import Container from "./Container.astro";
 import Wordmark from "./Wordmark.astro";
-import { loginUrl, signupUrl, site } from "~/config/site";
+import {
+  bookCallUrl,
+  docsUrl,
+  hasBookCall,
+  hasDocs,
+  loginUrl,
+  signupUrl,
+  site,
+  supportEmailUrl,
+} from "~/config/site";
 
 /**
  * The end of the line: a terminus marker where the vertical rule meets the
- * footer, then a ruled index of links, then the legal line.
+ * footer, then a ruled index of links, then the legal line. "Docs" and
+ * "Book a call" are listed only once the config has an address for them.
  */
 const indexGroups = [
   {
@@ -14,6 +24,7 @@ const indexGroups = [
       { label: "Home", href: "/" },
       { label: "Pricing", href: "/pricing" },
       { label: "Partners", href: "/partners" },
+      ...(hasDocs ? [{ label: "Docs", href: docsUrl }] : []),
     ],
   },
   {
@@ -21,11 +32,15 @@ const indexGroups = [
     links: [
       { label: "Get started", href: signupUrl },
       { label: "Sign in", href: loginUrl },
+      ...(hasBookCall ? [{ label: "Book a call", href: bookCallUrl }] : []),
     ],
   },
   {
     label: "Legal",
-    links: site.footerLinks.map((link) => ({ ...link })),
+    links: [
+      ...site.footerLinks.map((link) => ({ ...link })),
+      { label: "Contact", href: supportEmailUrl },
+    ],
   },
 ];
 

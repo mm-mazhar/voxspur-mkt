@@ -1,0 +1,167 @@
+---
+import type { ExampleLine } from "~/config/site";
+
+/**
+ * Sample dialogue, one line per speaker turn. Always shown inside something
+ * labelled "Example": the words are generic and invented to show the shape of
+ * a call, never a real caller or a real result.
+ *
+ * With `sequence` the lines build up one after another on a loop that starts
+ * on the finished conversation. Each line is fully visible at rest, so paused,
+ * reduced-motion and print all show the whole of it. Put the list inside a
+ * `motion` wrapper.
+ */
+interface Props {
+  lines: readonly ExampleLine[];
+  sequence?: boolean;
+}
+
+const { lines, sequence = false } = Astro.props;
+
+const speaker: Record<ExampleLine["who"], string> = {
+  agent: "Agent",
+  caller: "Caller",
+  tool: "Tool",
+};
+---
+
+<ol class="lines">
+  {
+    lines.map((line, index) => (
+      <li class:list={["line", sequence && "seq"]} data-who={line.who} style={`--n:${index + 1}`}>
+        <span class="who type-label">{speaker[line.who]}</span>
+        <span class="text">{line.text}</span>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .lines {
+    display: grid;
+    gap: 0.875rem;
+  }
+
+  .line {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: baseline;
+  }
+
+  .who {
+    color: var(--muted-foreground);
+  }
+
+  .text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--foreground);
+  }
+
+  .line[data-who="caller"] .text {
+    color: var(--muted-foreground);
+  }
+
+  /* A tool call is a thing the agent does, not something it says. */
+  .line[data-who="tool"] .text {
+    justify-self: start;
+    padding: 0.25rem 0.625rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--signal-text);
+  }
+
+  /* One loop of 20s that begins on the finished frame. All four lines are
+     visible for the first 11s, so a screenshot, a quick look or a slow page
+     load always shows the whole conversation. They then leave together and
+     build up again one by one, ending on the same finished frame, so the loop
+     joins without a jump. With motion off there is no animation at all and the
+     lines simply stay. */
+  .seq {
+    animation: 20s var(--ease-rail) infinite;
+  }
+  .seq[style*="--n:1"] {
+    animation-name: seq-1;
+  }
+  .seq[style*="--n:2"] {
+    animation-name: seq-2;
+  }
+  .seq[style*="--n:3"] {
+    animation-name: seq-3;
+  }
+  .seq[style*="--n:4"] {
+    animation-name: seq-4;
+  }
+
+  @keyframes seq-1 {
+    0%,
+    55% {
+      opacity: 1;
+      transform: none;
+    }
+    59%,
+    62% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    67%,
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes seq-2 {
+    0%,
+    55% {
+      opacity: 1;
+      transform: none;
+    }
+    59%,
+    70% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    75%,
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes seq-3 {
+    0%,
+    55% {
+      opacity: 1;
+      transform: none;
+    }
+    59%,
+    78% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    83%,
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes seq-4 {
+    0%,
+    55% {
+      opacity: 1;
+      transform: none;
+    }
+    59%,
+    86% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    91%,
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

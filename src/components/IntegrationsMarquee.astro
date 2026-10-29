@@ -1,0 +1,172 @@
+---
+import { integrationRows, site, type Integration } from "~/config/site";
+
+/**
+ * "Works with": every provider in the config on two rows that drift in
+ * opposite directions. Each row pauses on hover or keyboard focus, and the
+ * header's "Pause motion" control stops both. With reduced motion the rows stop
+ * and wrap into a static list.
+ *
+ * The moving rows are decorative and hidden from assistive technology; a plain
+ * list for them carries the same names. Logos are monochrome SVGs in
+ * `src/assets/logos/`, drawn in the text colour. A name without a logo gets a
+ * stop marker, so every entry has a mark.
+ */
+const logos = import.meta.glob<string>("/src/assets/logos/*.svg", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+function logoSvg(stem: string): string {
+  const svg = logos[`/src/assets/logos/${stem}.svg`];
+  if (svg === undefined) {
+    throw new Error(`Integration logo "${stem}" is not in src/assets/logos/.`);
+  }
+  return svg;
+}
+
+const rows = integrationRows();
+
+// Three copies per row: the track slides by one copy and starts again, and the
+// other two copies keep the visible window full on any screen.
+const COPIES = 3;
+const copies = Array.from({ length: COPIES }, (_, index) => index);
+
+const categoryName: Record<Integration["category"], string> = {
+  models: "language model",
+  voices: "voice or speech",
+  telephony: "telephony",
+};
+---
+
+<div class="marquee-block">
+  <ul class="sr-only">
+    {
+      site.integrations.map((item) => (
+        <li>
+          {item.name}, {categoryName[item.category]}
+          {item.status === "soon" ? ", coming soon" : ""}
+        </li>
+      ))
+    }
+  </ul>
+
+  {
+    rows.map((row, rowIndex) => (
+      <div class="marquee motion" data-reverse={rowIndex % 2 === 1 ? "" : undefined} aria-hidden="true">
+        <div class="track" style={`--duration:${rowIndex % 2 === 0 ? 90 : 105}s`}>
+          {copies.map((copy) => (
+            <ul class="copy" data-copy={copy}>
+              {row.map((item) => (
+                <li class="item">
+                  {item.logo ? (
+                    <span class="logo" set:html={logoSvg(item.logo)} />
+                  ) : (
+                    <span class="stop-marker" />
+                  )}
+                  <span class="type-label">{item.name}</span>
+                  {item.status === "soon" && <span class="tag">Soon</span>}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .marquee-block {
+    border-top: 1px solid var(--border);
+  }
+
+  .marquee {
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      var(--foreground) 10%,
+      var(--foreground) 90%,
+      transparent
+    );
+  }
+
+  .track {
+    display: flex;
+    width: max-content;
+    animation: drift var(--duration) linear infinite;
+  }
+
+  .marquee[data-reverse] .track {
+    animation-direction: reverse;
+  }
+
+  .marquee:hover .track,
+  .marquee:focus-within .track {
+    animation-play-state: paused;
+  }
+
+  .copy {
+    display: flex;
+    flex: none;
+  }
+
+  .item {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 0.75rem;
+    height: 3.5rem;
+    padding-inline: 1.75rem;
+    border-right: 1px solid var(--border);
+    color: var(--muted-foreground);
+    white-space: nowrap;
+  }
+
+  .logo {
+    display: block;
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .logo :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .item .stop-marker {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-width: 1.5px;
+    border-color: currentColor;
+    opacity: 0.7;
+  }
+
+  @keyframes drift {
+    to {
+      transform: translateX(calc(-100% / 3));
+    }
+  }
+
+  /* No motion: one copy of each row, wrapped and centred. */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      mask-image: none;
+    }
+    .track {
+      width: auto;
+      justify-content: center;
+    }
+    .copy {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .copy:not([data-copy="0"]) {
+      display: none;
+    }
+  }
+</style>

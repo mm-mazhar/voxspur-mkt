@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Voxspur mark, small-size drawing for favicons (16 to 48 px): the same
-     plate, inbound rail and green spur turnout as voxspur-mark.svg with
-     reinforced strokes and boosted star rowel points for crisp micro-scale rendering. -->
+     drawing as voxspur-mark.svg with heavier strokes so it stays crisp. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500" role="img" aria-label="Voxspur">
   <rect width="500" height="500" rx="110" fill="#141816"/>
-  <path d="M 125 115 L 210 365" fill="none" stroke="#fafafa" stroke-width="54" stroke-linecap="round"/>
-  <path d="M 210 365 A 28 28 0 0 0 255 365 L 330.0 185.0" fill="none" stroke="#37d16c" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 379.00 185.00 L 456.75 226.19 L 369.64 213.80 L 391.06 269.04 L 345.14 231.60 L 330.00 306.52 L 314.86 231.60 L 274.70 261.12 L 290.36 213.80 L 255.44 209.23 L 281.00 185.00 L 255.44 160.77 L 290.36 156.20 L 273.55 107.31 L 314.86 138.40 L 330.00 67.40 L 345.14 138.40 L 389.91 102.54 L 369.64 156.20 L 453.03 145.03 Z" fill="#37d16c" stroke="#37d16c" stroke-width="22" stroke-linejoin="round"/>
-  <circle cx="330.0" cy="185.0" r="40" fill="#141816"/>
-  <circle cx="330.0" cy="185.0" r="26" fill="#37d16c"/>
-  <circle cx="330.0" cy="185.0" r="12" fill="#fafafa"/>
+  <g transform="translate(-14 13)">
+    <path d="M 135 110 L 228 352" fill="none" stroke="#fafafa" stroke-width="56" stroke-linecap="round"/>
+    <path d="M 228 352 Q 250 400 272 352 L 340 175" fill="none" stroke="#37d16c" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="352" cy="140" r="44" fill="#141816" stroke="#37d16c" stroke-width="50"/>
+  </g>
 </svg>
