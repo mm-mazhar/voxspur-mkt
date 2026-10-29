@@ -638,9 +638,29 @@
   }
 
   /* The current step, or the end of a route. */
-  .stop-marker-filled {
+  .stop-marker-filled,
+  .stop-marker.is-arrived {
     background: var(--signal);
     border-color: var(--signal);
+  }
+
+  /* A marker fills in as its section arrives (see the script in
+     BaseLayout). Under reduced motion or "Pause motion" it still fills, but
+     with no transition. */
+  .stop-marker {
+    transition:
+      background-color 240ms var(--ease-rail),
+      border-color 240ms var(--ease-rail);
+  }
+
+  :root[data-motion="paused"] .stop-marker {
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stop-marker {
+      transition: none;
+    }
   }
 
   .section-head {
