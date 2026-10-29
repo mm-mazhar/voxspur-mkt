@@ -260,14 +260,8 @@ A 14px circle: 2px Signal Green ring, page-colour centre. It sits on the line. A
 ### Signal lamp (signature)
 An 8px filled circle followed by a Label word. Green "Live", amber "Ringing", red "Failed". Used in the hero diagram, in status lines, in the pricing table for what is included. A lamp may pulse once on entry; it does not blink.
 
-### Route diagram (signature)
-The picture of a call. Stops joined by 2px lines, left to right on wide screens and top to bottom on narrow ones. Branches leave at 45° through a 12px arc and run parallel. The main route is green; a branch (for example "transfer to a person") takes the next line colour. Each stop has a Label beneath it and, where useful, a figure ("0:04"). Drawn as inline SVG with every shape given an explicit `fill` or `stroke` from the tokens, a `<title>`, and `role="img"`. The hero diagram shows one real call path, for example: caller rings, agent greets, agent qualifies, then either books or transfers, call ends.
-
 ### Timetable (signature)
 Ruled rows for anything list-like. Header row in Labels. Figures in Geist Mono, tabular, right-aligned. Rows fill with Wash on hover where they are links. Pricing, feature comparison, supported providers and FAQ all use it. An FAQ row is a disclosure: the heading wraps a button with `aria-expanded` and `aria-controls`.
-
-### Interchange (signature)
-Where Voxspur meets another system. Two or more lines converge on a wider "capsule" stop, with the outside systems labelled around it. Used for the integrations section. Name only providers the product supports today (see "Voice and claims"). Use each provider's name in text; do not redraw their logos.
 
 ## Motion
 
@@ -314,7 +308,7 @@ A static site. These pages and nothing else:
 
 | Page | Purpose |
 |---|---|
-| `/` | What Voxspur is, the route diagram, how to go live (a real three-step sequence), what it connects to, the primary action |
+| `/` | What Voxspur is, how to go live (a real three-step sequence), what it connects to, the primary action |
 | `/partners` | The partner program for people who build voice agents for clients: the share, how it works, a worked example computed from the config, FAQ. The action is an application by email. `/agencies` redirects here |
 | `/privacy`, `/terms` | Required before taking customers |
 | `/pricing` | Two cards: pay as you go (the platform fee from the site config, action "Get started") and Partner program (the partner share from the site config, action "Apply for early access") |
@@ -419,7 +413,7 @@ home page, and the rest of the site follows it as pages are redone.
 | "No glow" | One soft green wash in a corner, behind the hero (top right) and the closing call to action (bottom right). Built from `--glow`, a mix of `--signal`. Never on text, buttons, borders or cards. | `.backdrop` in `global.css`, `Backdrop.astro` |
 | (new) | A dotted grid in `--dot`, full width, fading out away from the glow. | same |
 | "No waveform clip-art" | Animated voice waves are allowed in two places: the hero's three rows of rounded bars, and the call card in the core features. Drawn in `--line-1`. No microphone icon anywhere. The mark itself has no sound-wave shape. | `Bars.astro`, `VoiceWaves.astro` |
-| "One piece of motion; nothing else moves on its own" | Three decorative loops: the waves, the integrations marquee (two rows, opposite directions, paused on hover or focus), and the call card (transcript lines appear in turn). Each has the `motion` class. One shared **Pause motion** control sits in the header on pages that have them, and every loop stops under `prefers-reduced-motion`. Everything is drawn complete at rest. The bars animate `height` inside a `contain: layout paint` box instead of `transform`, so their ends stay round. | Motion block in `global.css`, `MotionToggle.astro` |
+| "One piece of motion; nothing else moves on its own" | Three decorative loops: the waves, the integrations marquee (two rows, opposite directions, paused on hover or focus), and the call card (transcript lines appear in turn). Each has the `motion` class. One shared **Pause** control floats at the bottom left of the window on pages that have them, and every loop stops under `prefers-reduced-motion`. Everything is drawn complete at rest. The bars animate `transform: scaleY` (never `height`), with each bar's corner radius worked out from its width and resting scale so the ends stay round. | Motion block in `global.css`, `MotionToggle.astro` |
 | "Don't show provider logos"; "name providers in text" | The "Works with" marquee shows a monochrome logo where a licensed one exists, drawn in the text colour, and otherwise the name as a wordmark behind a stop marker. Logos are CC0 artwork from Simple Icons; trademarks stay with their owners (see `src/assets/logos/README.md`). The section is never called "Partners" or "Trusted by". Only providers in the app are listed. | `IntegrationsMarquee.astro`, `site.integrations` |
 | Display size 2.75rem to 5rem | The hero and closing headlines use 2.5rem to 4.25rem (`clamp(2.5rem, 5.4vw, 4.25rem)`) so the headline holds two lines from 768px. `.type-display` itself is unchanged. | `Hero.astro`, `FinalCta.astro` |
 | Labels sit beside a stop marker | The hero's label is a pill: outlined, fully rounded, set in the label style, beside its stop. Other sections keep the plain stop and label. No kicker above any other heading. | `.pill` in `global.css` |
@@ -451,8 +445,9 @@ Also new on the home page:
   stop). Names and sizes are unchanged, so no page or config changed; the
   description is under "Assets" above. The app repository's copies of the six
   files need the same update.
-- **Hero visual.** `RouteDiagram.astro` is no longer used on the home page.
-  It stays in the repository as the system's signature route diagram.
+- **Hero visual.** `RouteDiagram.astro` and `Interchange.astro` are no longer
+  used on any page and were deleted (2026-10, second round), along with their
+  entries under Components.
 - **Claims.** "What may be said today" above is out of date. `PRODUCT.md`
   ("Confirmed Capabilities") is the current list. That includes the partner
   payout minimum, which "What may not be said yet" above forbids: it is now

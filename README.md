@@ -39,7 +39,7 @@ While `appUrl` is empty, "Get started" and "Sign in" resolve to `#`. Set
 
 | Route | What it is |
 | --- | --- |
-| `/` | What the product is, the route diagram, how to go live, what it connects to, the primary action |
+| `/` | What the product is, how to go live, what it connects to, the primary action |
 | `/pricing` | Two plans: the platform fee, and the partner program |
 | `/partners` | The partner program: the share, how it works, a worked example, FAQ, apply by email |
 | `/agencies` | Redirects to `/partners` (set in `astro.config.mjs`) |
@@ -111,8 +111,7 @@ the Motion block of `src/styles/global.css`.
 The hero's visual is `src/components/VoiceWaves.astro`, three rows of CSS bars
 (`Bars.astro`) with the talk button on a plate over the middle row. The bars are
 drawn from a seeded generator in `src/lib/waves.ts`, so a build always draws the
-same waves. `src/components/hero/RouteDiagram.astro`, the earlier hero visual, is
-no longer used on the home page and is kept as the system's route diagram.
+same waves.
 
 ## Assets
 

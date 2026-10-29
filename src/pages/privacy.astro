@@ -9,14 +9,13 @@ import { hasBookCall, site, supportEmailUrl } from "~/config/site";
 const version = "0.2";
 const updated = "2026-10-29";
 
-/** What the site owner has to supply before this page can ship. */
-const needed = [
-  "The legal entity name, its registered address and the country it is registered in.",
-  "The hosting provider's name, and the regions where data is stored.",
-  "Which privacy laws apply (UK GDPR, EU GDPR, CCPA or others), and the rights and transfer wording they require.",
-  "How long billing records are kept, and any fixed retention period for other data.",
-  "The app can send errors to Sentry and events to PostHog when their keys are set. If either is switched on, it must be listed here first.",
-];
+// Before this page ships, the site owner still has to supply (kept here, not
+// shown on the page):
+//  - The legal entity name, its registered address and the country it is registered in.
+//  - The hosting provider's name, and the regions where data is stored.
+//  - Which privacy laws apply (UK GDPR, EU GDPR, CCPA or others), and the rights and transfer wording they require.
+//  - How long billing records are kept, and any fixed retention period for other data.
+//  - The app can send errors to Sentry and events to PostHog when their keys are set. If either is switched on, it must be listed here first.
 
 const name = site.name;
 
@@ -38,7 +37,7 @@ const showBookingSection = hasBookCall && site.bookCallProvider === "cal.com";
     heading="Privacy"
     lede="How this website and the hosted product handle personal data."
   >
-    <DraftNotice version={version} updated={updated} needed={needed} />
+    <DraftNotice version={version} updated={updated} />
   </PageHeader>
 
   <Section label="The policy" filled>

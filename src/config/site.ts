@@ -163,7 +163,7 @@ export const site = {
   appUrl: "",
 
   /** Every "Contact us" action uses this. */
-  contactUrl: "#",
+  contactUrl: "mailto:inquiry@voxspur.com",
 
   /**
    * Where "Book a call" goes. While it is empty every "Book a call" is hidden,

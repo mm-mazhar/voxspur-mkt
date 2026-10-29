@@ -1,4 +1,5 @@
 ---
+import FinalCta from "~/components/FinalCta.astro";
 import PageHeader from "~/components/PageHeader.astro";
 import Section from "~/components/Section.astro";
 import SignalLamp from "~/components/SignalLamp.astro";
@@ -57,7 +58,7 @@ const whatYouPay = [
   />
 
   <Section label="Plans" pad="none" class="pb-section md:pb-section-lg">
-    <div class="grid gap-gutter-lg md:grid-cols-2">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-gutter-lg md:grid-cols-2">
       {
         site.plans.map((plan) => (
           <div class:list={["card flex flex-col", plan.featured && "card-featured"]}>
@@ -126,8 +127,13 @@ const whatYouPay = [
       bill from a provider you chose and hold the account with.
     </p>
 
-    <div class="scroll-x mt-gutter-lg">
-      <table class="timetable min-w-[36rem]">
+    <div
+      class="scroll-x mt-gutter-lg"
+      tabindex="0"
+      role="region"
+      aria-label="Who bills you for each part of a call"
+    >
+      <table class="timetable timetable-stack sm:min-w-[36rem]">
         <caption class="sr-only">Who bills you for each part of a call</caption>
         <thead>
           <tr>
@@ -144,7 +150,7 @@ const whatYouPay = [
                   {row.label}
                 </th>
                 <td class="type-body text-muted-foreground">{row.body}</td>
-                <td class="cell-figure type-label align-top text-muted-foreground">
+                <td class="cell-figure type-label align-top text-muted-foreground" data-label="Billed by">
                   {row.paidTo}
                 </td>
               </tr>
@@ -155,7 +161,7 @@ const whatYouPay = [
     </div>
   </Section>
 
-  <Section label="Questions" filled>
+  <Section label="Questions">
     <h2 class="type-headline">Before you ask.</h2>
     <div class="ruled measure mt-gutter-lg">
       <div>
@@ -181,4 +187,6 @@ const whatYouPay = [
       </div>
     </div>
   </Section>
+
+  <FinalCta heading={["Voice agents that answer", "and place phone calls."]} />
 </BaseLayout>

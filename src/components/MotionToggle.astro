@@ -1,7 +1,9 @@
 ---
 /**
  * "Pause motion": the one control that stops every decorative loop on the page
- * (the voice waves, the integrations marquee, the call card). It sets
+ * (the voice waves, the integrations marquee, the call card). It floats at the
+ * bottom left of the window, not in the header. The icon is
+ * paired with a visible word, so it reads without a hover. It sets
  * data-motion="paused" on <html>; the rules that act on it are in the Motion
  * block of global.css. The visitor's operating-system setting is respected
  * without it, so with reduced motion on there is nothing to pause and the
@@ -12,7 +14,7 @@
 <button
   type="button"
   id="motion-toggle"
-  class="motion-toggle size-11 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors duration-150 ease-rail hover:bg-muted hover:text-foreground"
+  class="motion-toggle fixed bottom-4 left-4 z-40 h-11 items-center justify-center gap-2 rounded-md border border-border bg-background px-3 text-[0.875rem] text-muted-foreground shadow-float transition-colors duration-150 ease-rail hover:bg-muted hover:text-foreground"
   aria-pressed="false"
   aria-label="Pause motion"
   title="Pause motion"
@@ -40,6 +42,7 @@
   >
     <path d="M8.5 6.25v11.5L17.5 12 8.5 6.25Z"></path>
   </svg>
+  <span class="motion-toggle-label">Pause</span>
 </button>
 
 <style>
@@ -74,5 +77,7 @@
     const label = pause ? "Play motion" : "Pause motion";
     button.setAttribute("aria-label", label);
     button.setAttribute("title", label);
+    const text = button.querySelector(".motion-toggle-label");
+    if (text) text.textContent = pause ? "Play" : "Pause";
   });
 </script>
