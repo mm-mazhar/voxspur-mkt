@@ -1,6 +1,5 @@
 ---
 import Container from "./Container.astro";
-import MotionToggle from "./MotionToggle.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import Wordmark from "./Wordmark.astro";
 import { bookCallUrl, docsUrl, hasBookCall, hasDocs, loginUrl, signupUrl } from "~/config/site";
@@ -11,12 +10,6 @@ import { bookCallUrl, docsUrl, hasBookCall, hasDocs, loginUrl, signupUrl } from 
  * app's login, never a script. "Docs" and "Book a call" appear only once the
  * config has an address for them.
  */
-interface Props {
-  /** True on a page with decorative motion, so the pause control shows. */
-  motion?: boolean;
-}
-
-const { motion = false } = Astro.props;
 
 const navLinks = [
   { label: "Pricing", href: "/pricing" },
@@ -61,13 +54,12 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
       </nav>
 
       <div class="flex items-center gap-2">
-        {motion && <MotionToggle />}
         <ThemeToggle />
         {
           hasBookCall && (
             <a
               href={bookCallUrl}
-              class="hidden h-11 items-center rounded-md px-3 text-[0.9375rem] text-muted-foreground transition-colors duration-150 ease-rail hover:text-foreground lg:inline-flex"
+              class="btn btn-outline hidden lg:inline-flex"
             >
               Book a call
             </a>
