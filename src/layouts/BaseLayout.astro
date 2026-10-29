@@ -125,6 +125,9 @@ if (ogImage && (ogImage.width !== site.ogImage.width || ogImage.height !== site.
       </Container>
     </main>
 
-    <Footer />
+    {/* Room under the footer so the fixed pause control never covers its last line. */}
+    <div class={motion ? "pb-[4.5rem]" : undefined}>
+      <Footer />
+    </div>
   </body>
 </html>
