@@ -125,6 +125,58 @@ if (ogImage && (ogImage.width !== site.ogImage.width || ogImage.height !== site.
       </Container>
     </main>
 
+    <script>
+      // Each section's stop marker fills in once the section's heading has
+      // reached the upper part of the window, and empties again if the reader
+      // scrolls back above it. It follows the scroll position itself rather
+      // than watching for crossings, so a jump (End key, a link, a flick)
+      // still lands every marker in the right state. With reduced motion
+      // there is nothing to follow: the markers show their final, filled state.
+      const heads = Array.from(document.querySelectorAll<HTMLElement>(".rail-section > .section-head"));
+      const markers = heads.map((head) => head.querySelector<HTMLElement>(":scope > .stop-marker"));
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        markers.forEach((marker) => marker?.classList.add("is-arrived"));
+      } else {
+        // Positions are measured once and again when the page changes size,
+        // so a scroll frame only compares numbers and touches the DOM when a
+        // marker actually changes.
+        let tops: number[] = [];
+        const measure = () => {
+          const y = window.scrollY;
+          tops = heads.map((head) => head.getBoundingClientRect().top + y);
+        };
+        const sync = () => {
+          const line = window.scrollY + window.innerHeight * 0.45;
+          markers.forEach((marker, i) => {
+            const arrived = (tops[i] ?? Infinity) <= line;
+            if (marker && marker.classList.contains("is-arrived") !== arrived) {
+              marker.classList.toggle("is-arrived", arrived);
+            }
+          });
+        };
+        let queued = false;
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(() => {
+              queued = false;
+              sync();
+            });
+          },
+          { passive: true },
+        );
+        const remeasure = () => {
+          measure();
+          sync();
+        };
+        new ResizeObserver(remeasure).observe(document.body);
+        remeasure();
+      }
+    </script>
+
     {/* Room under the footer so the fixed pause control never covers its last line. */}
     <div class={motion ? "pb-[4.5rem]" : undefined}>
       <Footer />
