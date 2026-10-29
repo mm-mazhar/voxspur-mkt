@@ -244,6 +244,12 @@
     border-color: var(--border);
   }
 
+  /* At large text sizes a long word or address must wrap, not push the page
+     sideways. */
+  :where(h1, h2, h3, h4, p, li, a, dd, figcaption) {
+    overflow-wrap: break-word;
+  }
+
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;

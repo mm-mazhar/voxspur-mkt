@@ -57,7 +57,7 @@ const whatYouPay = [
   />
 
   <Section label="Plans" pad="none" class="pb-section md:pb-section-lg">
-    <div class="grid gap-gutter-lg md:grid-cols-2">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-gutter-lg md:grid-cols-2">
       {
         site.plans.map((plan) => (
           <div class:list={["card flex flex-col", plan.featured && "card-featured"]}>

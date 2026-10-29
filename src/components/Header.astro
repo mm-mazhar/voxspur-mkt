@@ -184,6 +184,14 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
       setOpen(toggle.getAttribute("aria-expanded") !== "true");
     });
 
+    // A tap anywhere outside the menu and its button closes it.
+    document.addEventListener("pointerdown", (event) => {
+      if (toggle.getAttribute("aria-expanded") !== "true") return;
+      const target = event.target as Node;
+      if (sheet.querySelector("nav")?.contains(target) || toggle.contains(target)) return;
+      setOpen(false);
+    });
+
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
         setOpen(false);

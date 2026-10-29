@@ -66,6 +66,8 @@ const speaker: Record<ExampleLine["who"], string> = {
   /* A tool call is a thing the agent does, not something it says. */
   .line[data-who="tool"] .text {
     justify-self: start;
+    max-width: 100%;
+    overflow-wrap: anywhere;
     padding: 0.25rem 0.625rem;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
