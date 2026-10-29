@@ -260,14 +260,8 @@ A 14px circle: 2px Signal Green ring, page-colour centre. It sits on the line. A
 ### Signal lamp (signature)
 An 8px filled circle followed by a Label word. Green "Live", amber "Ringing", red "Failed". Used in the hero diagram, in status lines, in the pricing table for what is included. A lamp may pulse once on entry; it does not blink.
 
-### Route diagram (signature)
-The picture of a call. Stops joined by 2px lines, left to right on wide screens and top to bottom on narrow ones. Branches leave at 45° through a 12px arc and run parallel. The main route is green; a branch (for example "transfer to a person") takes the next line colour. Each stop has a Label beneath it and, where useful, a figure ("0:04"). Drawn as inline SVG with every shape given an explicit `fill` or `stroke` from the tokens, a `<title>`, and `role="img"`. The hero diagram shows one real call path, for example: caller rings, agent greets, agent qualifies, then either books or transfers, call ends.
-
 ### Timetable (signature)
 Ruled rows for anything list-like. Header row in Labels. Figures in Geist Mono, tabular, right-aligned. Rows fill with Wash on hover where they are links. Pricing, feature comparison, supported providers and FAQ all use it. An FAQ row is a disclosure: the heading wraps a button with `aria-expanded` and `aria-controls`.
-
-### Interchange (signature)
-Where Voxspur meets another system. Two or more lines converge on a wider "capsule" stop, with the outside systems labelled around it. Used for the integrations section. Name only providers the product supports today (see "Voice and claims"). Use each provider's name in text; do not redraw their logos.
 
 ## Motion
 
@@ -314,7 +308,7 @@ A static site. These pages and nothing else:
 
 | Page | Purpose |
 |---|---|
-| `/` | What Voxspur is, the route diagram, how to go live (a real three-step sequence), what it connects to, the primary action |
+| `/` | What Voxspur is, how to go live (a real three-step sequence), what it connects to, the primary action |
 | `/partners` | The partner program for people who build voice agents for clients: the share, how it works, a worked example computed from the config, FAQ. The action is an application by email. `/agencies` redirects here |
 | `/privacy`, `/terms` | Required before taking customers |
 | `/pricing` | Two cards: pay as you go (the platform fee from the site config, action "Get started") and Partner program (the partner share from the site config, action "Apply for early access") |
@@ -451,8 +445,9 @@ Also new on the home page:
   stop). Names and sizes are unchanged, so no page or config changed; the
   description is under "Assets" above. The app repository's copies of the six
   files need the same update.
-- **Hero visual.** `RouteDiagram.astro` is no longer used on the home page.
-  It stays in the repository as the system's signature route diagram.
+- **Hero visual.** `RouteDiagram.astro` and `Interchange.astro` are no longer
+  used on any page and were deleted (2026-10, second round), along with their
+  entries under Components.
 - **Claims.** "What may be said today" above is out of date. `PRODUCT.md`
   ("Confirmed Capabilities") is the current list. That includes the partner
   payout minimum, which "What may not be said yet" above forbids: it is now
